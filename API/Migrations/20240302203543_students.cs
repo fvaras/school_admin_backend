@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace school_admin_api.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class students : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,21 +16,22 @@ namespace school_admin_api.Migrations
                 name: "public");
 
             migrationBuilder.CreateTable(
-                name: "MyEntities",
+                name: "Students",
                 schema: "public",
                 columns: table => new
                 {
-                    IdMyEntity = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Rut = table.Column<string>(type: "text", nullable: false),
-                    Codigo = table.Column<short>(type: "smallint", nullable: false),
-                    Cuenta = table.Column<string>(type: "text", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    IdCurso = table.Column<int>(type: "integer", nullable: true),
+                    IdEstado = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MyEntities", x => x.IdMyEntity);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
         }
 
@@ -38,7 +39,7 @@ namespace school_admin_api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "MyEntities",
+                name: "Students",
                 schema: "public");
         }
     }

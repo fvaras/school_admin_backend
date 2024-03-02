@@ -22,12 +22,12 @@ namespace school_admin_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("school_admin_api.Model.Alumno", b =>
+            modelBuilder.Entity("school_admin_api.Model.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IdAlumno");
+                        .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -53,38 +53,7 @@ namespace school_admin_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Alumnos", "public");
-                });
-
-            modelBuilder.Entity("school_admin_api.Model.MyEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("IdMyEntity");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<short>("Codigo")
-                        .HasColumnType("smallint");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Cuenta")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Rut")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MyEntities", "public");
+                    b.ToTable("Students", "public");
                 });
 #pragma warning restore 612, 618
         }

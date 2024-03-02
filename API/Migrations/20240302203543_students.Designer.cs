@@ -12,8 +12,8 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240302195322_Initial")]
-    partial class Initial
+    [Migration("20240302203543_students")]
+    partial class students
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,22 +25,25 @@ namespace school_admin_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("school_admin_api.Model.MyEntity", b =>
+            modelBuilder.Entity("school_admin_api.Model.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("IdMyEntity");
+                        .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<short>("Codigo")
-                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("Cuenta")
+                    b.Property<int?>("IdCurso")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdEstado")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Nombre")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -53,7 +56,7 @@ namespace school_admin_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MyEntities", "public");
+                    b.ToTable("Students", "public");
                 });
 #pragma warning restore 612, 618
         }

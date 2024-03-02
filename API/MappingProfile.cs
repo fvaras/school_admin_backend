@@ -8,14 +8,9 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        CreateMap<MyEntityForCreationDTO, MyEntity>();
-        CreateMap<MyEntityForUpdateDTO, MyEntity>();
-        CreateMap<MyEntity, MyEntityDTO>()
-            .ForMember(p => p.IdMyEntity, opt => opt.MapFrom(x => x.Id));
-
-        CreateMap<AlumnoForCreationDTO, Alumno>();
-        CreateMap<AlumnoForUpdateDTO, Alumno>();
-        CreateMap<Alumno, AlumnoDTO>()
-            .ForMember(p => p.IdAlumno, opt => opt.MapFrom(x => x.Id));
+        CreateMap<StudentForCreationDTO, Student>();
+        CreateMap<StudentForUpdateDTO, Student>();
+        CreateMap<Student, StudentDTO>()
+            .ForMember(p => p.StudentId, opt => opt.MapFrom(x => x.Id));
     }
 }

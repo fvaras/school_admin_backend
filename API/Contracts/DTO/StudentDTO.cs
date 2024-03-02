@@ -1,6 +1,6 @@
 namespace school_admin_api.Contracts.DTO;
 
-public class AlumnoBaseDTO
+public class StudentBaseDTO
 {
     public string Rut { get; init; }
     public string Nombre { get; init; }
@@ -8,17 +8,17 @@ public class AlumnoBaseDTO
     public int IdEstado { get; init; }
 }
 
-public class AlumnoForCreationDTO : AlumnoBaseDTO
+public class StudentForCreationDTO : StudentBaseDTO
 {
 }
 
-public class AlumnoForUpdateDTO : AlumnoBaseDTO
+public class StudentForUpdateDTO : StudentBaseDTO
 {
 }
 
-public class AlumnoDTO : AlumnoBaseDTO
+public class StudentDTO : StudentBaseDTO
 {
-    public int IdAlumno { get; init; }
+    public int StudentId { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
 }
