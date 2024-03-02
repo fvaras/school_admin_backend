@@ -13,7 +13,6 @@ public class MyEntityForCreationDTO : MyEntityBaseDTO
 
 public class MyEntityForUpdateDTO : MyEntityBaseDTO
 {
-    // public int IdMyEntity { get; init; }
 }
 
 public class MyEntityDTO : MyEntityBaseDTO

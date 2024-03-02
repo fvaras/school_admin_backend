@@ -42,9 +42,11 @@ public static class ServiceExtensions
         // DAL
         services.AddTransient<ConnectionsHelper>();
         services.AddScoped<IMyEntityDAL, MyEntityDAL>();
+        services.AddScoped<IAlumnoDAL, AlumnoDAL>();
 
         // Services
         services.AddScoped<IMyEntityService, MyEntityService>();
+        services.AddScoped<IAlumnoService, AlumnoService>();
     }
 
     public static void ConfigureAppSettingsMapping(this IServiceCollection services, IConfiguration configuration)

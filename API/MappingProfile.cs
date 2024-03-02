@@ -12,5 +12,10 @@ public class MappingProfile : Profile
         CreateMap<MyEntityForUpdateDTO, MyEntity>();
         CreateMap<MyEntity, MyEntityDTO>()
             .ForMember(p => p.IdMyEntity, opt => opt.MapFrom(x => x.Id));
+
+        CreateMap<AlumnoForCreationDTO, Alumno>();
+        CreateMap<AlumnoForUpdateDTO, Alumno>();
+        CreateMap<Alumno, AlumnoDTO>()
+            .ForMember(p => p.IdAlumno, opt => opt.MapFrom(x => x.Id));
     }
 }

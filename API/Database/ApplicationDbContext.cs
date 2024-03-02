@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<MyEntity> MyEntities { get; set; }
+    public DbSet<Alumno> Alumnos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
