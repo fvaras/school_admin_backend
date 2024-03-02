@@ -44,11 +44,13 @@ public static class ServiceExtensions
         services.AddScoped<IStudentDAL, StudentDAL>();
         services.AddScoped<ICourseDAL, CourseDAL>();
         services.AddScoped<ITeacherDAL, TeacherDAL>();
+        services.AddScoped<IStudentGuardianDAL, StudentGuardianDAL>();
 
         // Services
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<ICourseService, CourseService>();
         services.AddScoped<ITeacherService, TeacherService>();
+        services.AddScoped<IStudentGuardianService, StudentGuardianService>();
     }
 
     public static void ConfigureAppSettingsMapping(this IServiceCollection services, IConfiguration configuration)

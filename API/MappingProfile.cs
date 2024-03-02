@@ -23,5 +23,9 @@ public class MappingProfile : Profile
         CreateMap<Teacher, TeacherDTO>()
             .ForMember(t => t.Id, opt => opt.MapFrom(x => x.Id));
 
+        CreateMap<StudentGuardianForCreationDTO, StudentGuardian>();
+        CreateMap<StudentGuardianForUpdateDTO, StudentGuardian>();
+        CreateMap<StudentGuardian, StudentGuardianDTO>()
+            .ForMember(sg => sg.Id, opt => opt.MapFrom(x => x.Id));
     }
 }
