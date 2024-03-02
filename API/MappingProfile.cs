@@ -12,5 +12,11 @@ public class MappingProfile : Profile
         CreateMap<StudentForUpdateDTO, Student>();
         CreateMap<Student, StudentDTO>()
             .ForMember(p => p.StudentId, opt => opt.MapFrom(x => x.Id));
+
+        CreateMap<CourseForCreationDTO, Course>();
+        CreateMap<CourseForUpdateDTO, Course>();
+        CreateMap<Course, CourseDTO>()
+            .ForMember(c => c.Id, opt => opt.MapFrom(x => x.Id));
+
     }
 }
