@@ -1,0 +1,47 @@
+using Microsoft.AspNetCore.Mvc;
+using school_admin_api.Contracts.DTO;
+using school_admin_api.Contracts.Services;
+
+namespace school_admin_api.Controllers;
+
+[ApiController]
+[Route("api/grade")]
+public class GradeController : ControllerBase
+{
+    private readonly IGradeService _gradeService;
+
+    public GradeController(IGradeService gradeService)
+    {
+        _gradeService = gradeService;
+    }
+
+    [HttpPost]
+    public async Task<int> Create([FromBody] GradeForCreationDTO gradeDTO)
+    {
+        return await _gradeService.Create(gradeDTO);
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task Update(int id, [FromBody] GradeForUpdateDTO gradeDTO)
+    {
+        await _gradeService.Update(id, gradeDTO);
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task Delete(int id)
+    {
+        await _gradeService.Delete(id);
+    }
+
+    [HttpGet("{id:int}")]
+    public async Task<GradeDTO> Retrieve(int id)
+    {
+        return await _gradeService.Retrieve(id);
+    }
+
+    [HttpGet]
+    public async Task<List<GradeDTO>> RetrieveAll()
+    {
+        return await _gradeService.RetrieveAll();
+    }
+}

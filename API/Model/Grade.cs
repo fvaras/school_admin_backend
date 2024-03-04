@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace school_admin_api.Model;
 
-[Table("Courses", Schema = "public")]
-public class Course
+[Table("Grades", Schema = "public")]
+public class Grade
 {
     [Column("Id")]
     public int Id { get; set; }
@@ -15,4 +15,7 @@ public class Course
     public bool Active { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+
+    // public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 }

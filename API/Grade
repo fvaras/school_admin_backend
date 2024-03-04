@@ -1,0 +1,4 @@
+Build started...
+Build succeeded.
+The Entity Framework tools version '7.0.2' is older than that of the runtime '8.0.2'. Update the tools for the latest features and bug fixes. See https://aka.ms/AAc1fbw for more information.
+An operation was scaffolded that may result in the loss of data. Please review the migration for accuracy.

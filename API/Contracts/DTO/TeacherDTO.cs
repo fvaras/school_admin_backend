@@ -2,6 +2,7 @@ namespace school_admin_api.Contracts.DTO;
 
 public class TeacherBaseDTO
 {
+    public string Rut { get; init; }
     public string FirstName { get; init; }
     public string LastName { get; init; }
     public byte IdGender { get; init; }

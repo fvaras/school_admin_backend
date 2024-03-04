@@ -13,9 +13,9 @@ public class MappingProfile : Profile
         CreateMap<Student, StudentDTO>()
             .ForMember(p => p.StudentId, opt => opt.MapFrom(x => x.Id));
 
-        CreateMap<CourseForCreationDTO, Course>();
-        CreateMap<CourseForUpdateDTO, Course>();
-        CreateMap<Course, CourseDTO>()
+        CreateMap<GradeForCreationDTO, Grade>();
+        CreateMap<GradeForUpdateDTO, Grade>();
+        CreateMap<Grade, GradeDTO>()
             .ForMember(c => c.Id, opt => opt.MapFrom(x => x.Id));
 
         CreateMap<TeacherForCreationDTO, Teacher>();

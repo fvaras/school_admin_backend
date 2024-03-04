@@ -7,6 +7,7 @@ public class Teacher
 {
     [Column("Id")]
     public int Id { get; set; }
+    public string Rut { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public byte IdGender { get; set; }
@@ -20,4 +21,6 @@ public class Teacher
     public byte IdState { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+
+    public ICollection<Grade> Grades { get; set; } = new List<Grade>();
 }

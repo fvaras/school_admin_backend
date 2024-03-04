@@ -22,7 +22,7 @@ public static class ServiceExtensions
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .WithExposedHeaders("X-Pagination")
+                // .WithExposedHeaders("X-Pagination")
                 );
         });
 
@@ -42,13 +42,13 @@ public static class ServiceExtensions
         // DAL
         services.AddTransient<ConnectionsHelper>();
         services.AddScoped<IStudentDAL, StudentDAL>();
-        services.AddScoped<ICourseDAL, CourseDAL>();
+        services.AddScoped<IGradeDAL, GradeDAL>();
         services.AddScoped<ITeacherDAL, TeacherDAL>();
         services.AddScoped<IStudentGuardianDAL, StudentGuardianDAL>();
 
         // Services
         services.AddScoped<IStudentService, StudentService>();
-        services.AddScoped<ICourseService, CourseService>();
+        services.AddScoped<IGradeService, GradeService>();
         services.AddScoped<ITeacherService, TeacherService>();
         services.AddScoped<IStudentGuardianService, StudentGuardianService>();
     }

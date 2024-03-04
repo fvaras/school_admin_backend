@@ -1,6 +1,6 @@
 namespace school_admin_api.Contracts.DTO;
 
-public class CourseBaseDTO
+public class GradeBaseDTO
 {
     public string Name { get; init; }
     public string ContactEmail { get; init; }
@@ -10,15 +10,15 @@ public class CourseBaseDTO
     public bool Active { get; init; }
 }
 
-public class CourseForCreationDTO : CourseBaseDTO
+public class GradeForCreationDTO : GradeBaseDTO
 {
 }
 
-public class CourseForUpdateDTO : CourseBaseDTO
+public class GradeForUpdateDTO : GradeBaseDTO
 {
 }
 
-public class CourseDTO : CourseBaseDTO
+public class GradeDTO : GradeBaseDTO
 {
     public int Id { get; init; }
     public DateTime CreatedAt { get; init; }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,11 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240302224906_courses_teachers")]
+    partial class courses_teachers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,22 +25,22 @@ namespace school_admin_api.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("GradeTeacher", b =>
+            modelBuilder.Entity("CourseTeacher", b =>
                 {
-                    b.Property<int>("GradesId")
+                    b.Property<int>("CoursesId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TeachersId")
                         .HasColumnType("integer");
 
-                    b.HasKey("GradesId", "TeachersId");
+                    b.HasKey("CoursesId", "TeachersId");
 
                     b.HasIndex("TeachersId");
 
-                    b.ToTable("TeacherGrades", "public");
+                    b.ToTable("TeacherCourses", "public");
                 });
 
-            modelBuilder.Entity("school_admin_api.Model.Grade", b =>
+            modelBuilder.Entity("school_admin_api.Model.Course", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -76,7 +79,7 @@ namespace school_admin_api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Grades", "public");
+                    b.ToTable("Courses", "public");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Student", b =>
@@ -242,11 +245,11 @@ namespace school_admin_api.Migrations
                     b.ToTable("Teachers", "public");
                 });
 
-            modelBuilder.Entity("GradeTeacher", b =>
+            modelBuilder.Entity("CourseTeacher", b =>
                 {
-                    b.HasOne("school_admin_api.Model.Grade", null)
+                    b.HasOne("school_admin_api.Model.Course", null)
                         .WithMany()
-                        .HasForeignKey("GradesId")
+                        .HasForeignKey("CoursesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
