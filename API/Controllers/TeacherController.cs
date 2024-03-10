@@ -44,4 +44,10 @@ public class TeacherController : ControllerBase
     {
         return await _teacherService.RetrieveAll();
     }
+
+    [HttpGet("forList")]
+    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    {
+        return await _teacherService.RetrieveForList();
+    }
 }

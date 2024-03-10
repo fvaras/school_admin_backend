@@ -25,7 +25,16 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
 
     public async Task<Grade?> Retrieve(int id, bool trackChanges = false) =>
         await FindByCondition(c => c.Id == id, trackChanges)
+                // .Include(g => g.Teachers)
                 .FirstOrDefaultAsync();
 
     public async Task<List<Grade>> RetrieveAll() => await FindAll().ToListAsync();
+
+    public async Task<List<int>> RetrieveTeachersId(int id)
+    {
+        return await FindByCondition(c => c.Id == id, trackChanges: false)
+            .SelectMany(p => p.Teachers)
+            .Select(p => p.Id)
+            .ToListAsync();
+    }
 }

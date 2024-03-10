@@ -9,4 +9,6 @@ public interface IGradeDAL
     Task Delete(Grade grade);
     Task<Grade?> Retrieve(int id, bool trackChanges = false);
     Task<List<Grade>> RetrieveAll();
+
+    Task<List<int>> RetrieveTeachersId(int id);
 }

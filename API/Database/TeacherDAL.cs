@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api.Database;
@@ -26,6 +27,15 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
     public async Task<Teacher?> Retrieve(int id, bool trackChanges = false) =>
         await FindByCondition(t => t.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
+
+    public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
+        await FindByCondition(t => t.IdState == 1, false)
+                .Select(t => new LabelValueFromDB<int>()
+                {
+                    Value = t.Id,
+                    Label = $"{t.FirstName} {t.LastName}"
+                })
+                .ToListAsync();
 
     public async Task<List<Teacher>> RetrieveAll() => await FindAll().ToListAsync();
 }

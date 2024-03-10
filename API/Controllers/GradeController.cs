@@ -39,6 +39,12 @@ public class GradeController : ControllerBase
         return await _gradeService.Retrieve(id);
     }
 
+    [HttpGet("teachersId/{id:int}")]
+    public async Task<List<int>> RetrieveTeachersId(int id)
+    {
+        return await _gradeService.RetrieveTeachersId(id);
+    }
+
     [HttpGet]
     public async Task<List<GradeDTO>> RetrieveAll()
     {

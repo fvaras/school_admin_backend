@@ -1,4 +1,5 @@
 using AutoMapper;
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Model;
 
@@ -27,5 +28,7 @@ public class MappingProfile : Profile
         CreateMap<StudentGuardianForUpdateDTO, StudentGuardian>();
         CreateMap<StudentGuardian, StudentGuardianDTO>()
             .ForMember(sg => sg.Id, opt => opt.MapFrom(x => x.Id));
+
+        CreateMap(typeof(LabelValueFromDB<>), typeof(LabelValueDTO<>));
     }
 }

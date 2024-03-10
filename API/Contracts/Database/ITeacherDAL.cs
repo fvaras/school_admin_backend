@@ -1,3 +1,4 @@
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api.Contracts.Database;
@@ -9,4 +10,6 @@ public interface ITeacherDAL
     Task Delete(Teacher teacher);
     Task<Teacher?> Retrieve(int id, bool trackChanges = false);
     Task<List<Teacher>> RetrieveAll();
+
+    Task<List<LabelValueFromDB<int>>> RetrieveForList();
 }

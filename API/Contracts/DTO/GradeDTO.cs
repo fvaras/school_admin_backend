@@ -10,11 +10,16 @@ public class GradeBaseDTO
     public bool Active { get; init; }
 }
 
-public class GradeForCreationDTO : GradeBaseDTO
+public class GradeForManipulationDTO : GradeBaseDTO
+{
+    public List<int> TeachersId { get; set; }
+}
+
+public class GradeForCreationDTO : GradeForManipulationDTO
 {
 }
 
-public class GradeForUpdateDTO : GradeBaseDTO
+public class GradeForUpdateDTO : GradeForManipulationDTO
 {
 }
 

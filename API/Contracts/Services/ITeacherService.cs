@@ -9,4 +9,6 @@ public interface ITeacherService
     Task Delete(int id);
     Task<TeacherDTO?> Retrieve(int id);
     Task<List<TeacherDTO>> RetrieveAll();
+
+    Task<List<LabelValueDTO<int>>> RetrieveForList();
 }

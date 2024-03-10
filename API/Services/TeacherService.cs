@@ -51,6 +51,9 @@ public class TeacherService : ITeacherService
     public async Task<List<TeacherDTO>> RetrieveAll() =>
         _mapper.Map<List<TeacherDTO>>(await _teacherDAL.RetrieveAll());
 
+    public async Task<List<LabelValueDTO<int>>> RetrieveForList() =>
+        _mapper.Map<List<LabelValueDTO<int>>>(await _teacherDAL.RetrieveForList());
+
     private async Task<Teacher> GetRecordAndCheckExistence(int id)
     {
         Teacher teacher = await _teacherDAL.Retrieve(id);
