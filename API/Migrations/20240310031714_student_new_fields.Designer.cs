@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,11 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240310031714_student_new_fields")]
+    partial class student_new_fields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,14 +99,14 @@ namespace school_admin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<string>("BloodGroup")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
@@ -116,9 +119,6 @@ namespace school_admin_api.Migrations
 
                     b.Property<byte>("IdGender")
                         .HasColumnType("smallint");
-
-                    b.Property<DateTime?>("JoiningDate")
-                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("LastName")
                         .IsRequired()
