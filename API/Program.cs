@@ -49,6 +49,7 @@ else
 app.UseCors(ServiceExtensions.CorsPolicyString);
 
 app.UseAuthorization();
+app.ConfigureCustomAuthorizationMiddleware();
 
 app.MapControllers();
 

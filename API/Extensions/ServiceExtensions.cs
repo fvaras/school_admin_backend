@@ -4,6 +4,7 @@ using school_admin_api.Database;
 using school_admin_api.Database.Helpers;
 using school_admin_api.Services;
 using Microsoft.EntityFrameworkCore;
+using school_admin_api.Contracts.ConfigSettings;
 
 namespace school_admin_api.Extensions;
 
@@ -47,6 +48,8 @@ public static class ServiceExtensions
         services.AddScoped<IStudentGuardianDAL, StudentGuardianDAL>();
 
         // Services
+        services.AddSingleton<IJWTService, JWTService>();
+        services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IGradeService, GradeService>();
         services.AddScoped<ITeacherService, TeacherService>();
@@ -55,6 +58,6 @@ public static class ServiceExtensions
 
     public static void ConfigureAppSettingsMapping(this IServiceCollection services, IConfiguration configuration)
     {
-        // services.Configure<AppSettings>(configuration.GetSection("appSettings"));
+        services.Configure<TokenSettings>(configuration.GetSection("jwt"));
     }
 }

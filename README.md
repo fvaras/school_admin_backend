@@ -3,3 +3,11 @@ This backend project is designed to support a comprehensive frontend for school 
 
 ## Important
 Currently, the project is in the design phase. However, I have made it public so that you can view my work and progress.
+
+## Tech stack
+- C#
+- Web API
+- .NET Core 8.0
+- EF Core (PSQL)
+- Dapper
+- NLog
