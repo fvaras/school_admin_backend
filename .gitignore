@@ -482,3 +482,7 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+
+# EC2 configs
+appsettings.stage.json
+nlog.stage.config

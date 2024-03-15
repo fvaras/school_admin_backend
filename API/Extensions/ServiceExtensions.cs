@@ -31,7 +31,9 @@ public static class ServiceExtensions
     {
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            options.UseNpgsql(configuration.GetConnectionString("school_db"));
+            string connectionString = configuration.GetConnectionString("school_db");
+            // string connectionString = Environment.GetEnvironmentVariable("SchoolAdm_DB_ConnString");
+            options.UseNpgsql(connectionString);
         });
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
