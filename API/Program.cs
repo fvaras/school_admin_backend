@@ -38,12 +38,12 @@ var logger = app.Services.GetRequiredService<ILoggerService>();
 app.ConfigureExceptionHandler(logger);
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-else
+// else
     app.UseHttpsRedirection();
 
 app.UseCors(ServiceExtensions.CorsPolicyString);

@@ -486,3 +486,4 @@ $RECYCLE.BIN/
 # EC2 configs
 appsettings.stage.json
 nlog.stage.config
+config_ec2.md

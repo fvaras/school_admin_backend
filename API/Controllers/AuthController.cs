@@ -16,6 +16,7 @@ public class AuthController : ControllerBase
     {
         _authService = authService;
     }
+    
     [HttpPost("tkn")]
     public Task<string> ValidateUser(ValidateUserDTO req)
     {
