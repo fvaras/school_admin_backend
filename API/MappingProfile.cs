@@ -5,10 +5,14 @@ using school_admin_api.Model;
 
 namespace school_admin_api;
 
-public class MappingProfile : Profile
+public class MappingProfile : AutoMapper.Profile
 {
     public MappingProfile()
     {
+        CreateMap<UserForCreationDTO, User>();
+        CreateMap<UserForUpdateDTO, User>();
+        CreateMap<User, UserDTO>();
+
         CreateMap<StudentForCreationDTO, Student>();
         CreateMap<StudentForUpdateDTO, Student>();
         CreateMap<Student, StudentDTO>();

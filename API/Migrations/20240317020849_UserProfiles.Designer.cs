@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317020849_UserProfiles")]
+    partial class UserProfiles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -299,6 +301,9 @@ namespace school_admin_api.Migrations
                     b.Property<byte>("IdState")
                         .HasColumnType("smallint");
 
+                    b.Property<int>("IdUser")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Phone")
                         .IsRequired()
                         .HasColumnType("text");
@@ -366,14 +371,14 @@ namespace school_admin_api.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 3, 17, 0, 1, 20, 476, DateTimeKind.Local).AddTicks(8302),
+                            CreatedAt = new DateTime(2024, 3, 16, 23, 8, 49, 108, DateTimeKind.Local).AddTicks(8837),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             IdState = (byte)1,
                             LastName = "",
                             Password = "admin",
                             Rut = "19",
-                            UpdatedAt = new DateTime(2024, 3, 17, 0, 1, 20, 476, DateTimeKind.Local).AddTicks(8340),
+                            UpdatedAt = new DateTime(2024, 3, 16, 23, 8, 49, 108, DateTimeKind.Local).AddTicks(8879),
                             UserName = "admin"
                         });
                 });

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using school_admin_api.Database.Configurations;
 using school_admin_api.Model;
 
 namespace school_admin_api.Database;
@@ -10,6 +11,8 @@ public class ApplicationDbContext : DbContext
     {
     }
 
+    public DbSet<User> Users { get; set; }
+    public DbSet<Profile> Profiles { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
@@ -21,7 +24,25 @@ public class ApplicationDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
 
-        // Example of a many-to-many relationship configuration for Teacher and Grade
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
+        modelBuilder.ApplyConfiguration(new ProfileConfiguration());
+
+        modelBuilder.Entity<User>()
+            .HasMany(t => t.Profiles)
+            .WithMany(c => c.Users)
+            .UsingEntity<Dictionary<string, object>>(
+                "UserProfiles", // This is the name of the join table
+                j => j.HasOne<Profile>().WithMany().HasForeignKey("ProfileId"),
+                j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+                j =>
+                {
+                    // Seeding the relationship
+                    j.HasData(
+                        new { UserId = 1, ProfileId = 1 } // Associates User with Id 1 to Profile with Id 1
+                    );
+                });
+
+        // many-to-many relationship configuration for Teacher and Grade
         modelBuilder.Entity<Teacher>()
             .HasMany(t => t.Grades)
             .WithMany(c => c.Teachers)

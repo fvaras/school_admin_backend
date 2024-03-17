@@ -2,31 +2,31 @@ namespace school_admin_api.Contracts.DTO;
 
 public class TeacherBaseDTO
 {
-    public string Rut { get; init; }
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
-    public byte IdGender { get; init; }
-    public string ContactEmail { get; init; }
-    public string ContactPhone { get; init; }
-    public string PersonalEmail { get; init; }
-    public string PersonalPhone { get; init; }
-    public string PersonalAddress { get; init; }
-    public DateTime? DateOfBirth { get; init; }
-    public string Education { get; init; }
-    public byte IdState { get; init; }
+    public byte IdGender { get; set; }
+    public string ContactEmail { get; set; }
+    public string ContactPhone { get; set; }
+    public string Education { get; set; }
+    public string Phone { get; set; }
+    public string Address { get; set; }
+    public DateTime? DateOfBirth { get; set; }
 }
 
 public class TeacherForCreationDTO : TeacherBaseDTO
 {
+    public UserForCreationDTO User { get; set; }
 }
 
 public class TeacherForUpdateDTO : TeacherBaseDTO
 {
+    public UserForUpdateDTO User { get; set; }
+    public byte IdState { get; set; }
 }
 
 public class TeacherDTO : TeacherBaseDTO
 {
     public int Id { get; init; }
+    public UserDTO User { get; set; }
+    public byte IdState { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
 }

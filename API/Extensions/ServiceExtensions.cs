@@ -44,12 +44,16 @@ public static class ServiceExtensions
     {
         // DAL
         services.AddTransient<ConnectionsHelper>();
+        services.AddScoped<IUserDAL, UserDAL>();
+        services.AddScoped<IProfileDAL, ProfileDAL>();
         services.AddScoped<IStudentDAL, StudentDAL>();
         services.AddScoped<IGradeDAL, GradeDAL>();
         services.AddScoped<ITeacherDAL, TeacherDAL>();
         services.AddScoped<IStudentGuardianDAL, StudentGuardianDAL>();
 
         // Services
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IProfileService, ProfileService>();
         services.AddSingleton<IJWTService, JWTService>();
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IStudentService, StudentService>();

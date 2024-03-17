@@ -33,7 +33,7 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                 .Select(t => new LabelValueFromDB<int>()
                 {
                     Value = t.Id,
-                    Label = $"{t.FirstName} {t.LastName}"
+                    Label = $"TODO" // TODO: Get from User Entity // Label = $"{t.FirstName} {t.LastName}"
                 })
                 .ToListAsync();
 

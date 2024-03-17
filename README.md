@@ -1,6 +1,9 @@
 # school_admin_backend
 This backend project is designed to support a comprehensive frontend for school administrations, facilitating a variety of operations. The API utilizes .NET Core 6.0, EF (Entity Framework), and Dapper, known for their robustness, security, and scalability, thereby ensuring a reliable foundation for school management systems.
 
+## Notes:
+For the scaffolding of interfaces, services, data access layer, DTOs and mapping profiles I used ChatGPT 4 with a prompt that generates all of this from a Model definition.
+
 ## Important
 Currently, the project is in the design phase. However, I have made it public so that you can view my work and progress.
 
@@ -8,9 +11,11 @@ Currently, the project is in the design phase. However, I have made it public so
 - C#
 - Web API
 - .NET Core 6.0
-- EF Core (PSQL)
+- EF Core (PSQL). I used to work with Dapper, but for this project I'm making experiments with EF
 - Dapper
+- AutoMapper
 - NLog
+- VS Code
 
 # Test
 For demostrative purposes you can find the API Swagger UI in http://3.85.201.107/schooladm/swagger

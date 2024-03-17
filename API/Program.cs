@@ -11,8 +11,8 @@ builder.Services.ConfigureLoggerService();
 // CORS
 builder.Services.ConfigureCors();
 
-// // .NET Cache
-// builder.Services.AddMemoryCache();
+// .NET Cache
+builder.Services.AddMemoryCache();
 
 // EF Core
 builder.Services.ConfigureSqlContext(builder.Configuration);
@@ -44,7 +44,7 @@ app.ConfigureExceptionHandler(logger);
     app.UseSwaggerUI();
 }
 // else
-    app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseCors(ServiceExtensions.CorsPolicyString);
 
