@@ -80,7 +80,17 @@ public class TeacherService : ITeacherService
 
     public async Task Delete(int id)
     {
-        Teacher teacher = await GetRecordAndCheckExistence(id);
+        Teacher teacher = await _teacherDAL.RetrieveWithProfiles(id);
+        if (teacher == null)
+            throw new EntityNotFoundException();
+
+        if (teacher != null && teacher.User != null && teacher.User.Profiles != null)
+        {
+            var teacherProfile = teacher.User.Profiles.SingleOrDefault(p => p.Id == (int)Profile.PROFILES_TYPES.TEACHER);
+            if (teacherProfile != null)
+                teacher.User.Profiles.Remove(teacherProfile);
+        }
+
         await _teacherDAL.Delete(teacher);
     }
 

@@ -16,8 +16,6 @@ public class UserForCreationDTO : UserBaseDTO
 
 public class UserForUpdateDTO : UserBaseDTO
 {
-    public int Id { get; init; }
-    public byte IdState { get; init; }
 }
 
 public class UserDTO : UserBaseDTO

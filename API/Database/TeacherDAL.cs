@@ -28,6 +28,12 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
         await FindByCondition(t => t.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 
+    public async Task<Teacher?> RetrieveWithProfiles(int id, bool trackChanges = true) =>
+        await FindByCondition(t => t.Id == id, trackChanges)
+                .Include(t=>t.User)
+                    .ThenInclude(u => u.Profiles)
+                .FirstOrDefaultAsync();
+
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
         await FindByCondition(t => t.IdState == 1, false)
                 .Select(t => new LabelValueFromDB<int>()
