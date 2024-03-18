@@ -6,8 +6,8 @@ using school_admin_api.Contracts.Services;
 namespace school_admin_api.Controllers;
 
 [ApiController]
-[Route("api/teacher")]
 [Authorize]
+[Route("api/teacher")]
 public class TeacherController : ControllerBase
 {
     private readonly ITeacherService _teacherService;

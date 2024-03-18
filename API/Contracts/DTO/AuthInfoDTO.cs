@@ -1,7 +1,13 @@
 namespace school_admin_api.Contracts.DTO;
 
-public class AuthInfoDTO
+public record AuthInfoDTO
 {
-    public string UserName { get; set; }
+    public UserInfoDTO User { get; set; }
+    public string Token { get; set; }
+}
+
+public record TokenInfoDTO
+{
+    public string Username { get; set; }
     public int Profile { get; set; }
 }

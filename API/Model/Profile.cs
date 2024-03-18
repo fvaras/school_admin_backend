@@ -16,6 +16,6 @@ public class Profile
         ADMINISTRATOR = 1,
         TEACHER = 2,
         STUDENT = 3,
-        GUARDIAN = 4,
+        STUDENT_GUARDIAN = 4,
     }
 }

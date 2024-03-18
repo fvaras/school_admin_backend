@@ -62,12 +62,9 @@ public class TeacherService : ITeacherService
 
         Teacher teacher = _mapper.Map<Teacher>(teacherDTO);
         teacher.User = user;
-        // teacher.User.Profiles.Add(teacherProfile);
         teacher.CreatedAt = DateTime.Now;
         teacher.UpdatedAt = DateTime.Now;
-        int teacherId = await _teacherDAL.Create(teacher);
-
-        return teacherId;
+        return await _teacherDAL.Create(teacher);
     }
 
     public async Task Update(int id, TeacherForUpdateDTO teacherDTO)

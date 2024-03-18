@@ -32,4 +32,10 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
                 .FirstOrDefaultAsync();
 
     public async Task<List<User>> RetrieveAll() => await FindAll().ToListAsync();
+
+    public async Task<User?> RetrieveByCredentials(string username, string password)
+        => await FindByCondition(
+                u => u.UserName.Equals(username)
+                && u.Password.Equals(password), trackChanges: false)
+                .FirstOrDefaultAsync();
 }

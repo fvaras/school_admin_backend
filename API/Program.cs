@@ -37,14 +37,18 @@ var app = builder.Build();
 var logger = app.Services.GetRequiredService<ILoggerService>();
 app.ConfigureExceptionHandler(logger);
 
+// TODO: Remove me! I just exist for dev purposes
+app.UseSwagger();
+app.UseSwaggerUI();
+
 // Configure the HTTP request pipeline.
-// if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    // app.UseSwagger();
+    // app.UseSwaggerUI();
 }
-// else
-app.UseHttpsRedirection();
+else
+    app.UseHttpsRedirection();
 
 app.UseCors(ServiceExtensions.CorsPolicyString);
 

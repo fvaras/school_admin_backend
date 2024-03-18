@@ -12,6 +12,7 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<UserForCreationDTO, User>();
         CreateMap<UserForUpdateDTO, User>();
         CreateMap<User, UserDTO>();
+        CreateMap<User, UserInfoDTO>();
 
         CreateMap<StudentForCreationDTO, Student>();
         CreateMap<StudentForUpdateDTO, Student>();

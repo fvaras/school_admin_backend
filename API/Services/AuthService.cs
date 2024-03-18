@@ -5,30 +5,44 @@ namespace school_admin_api.Services;
 
 public class AuthService : IAuthService
 {
+    private readonly IUserService _userService;
     private readonly IJWTService _jwtService;
-    
+
     public AuthService(
+        IUserService userService,
         IJWTService jwtService
         )
     {
+        _userService = userService;
         _jwtService = jwtService;
     }
 
-    public async Task<string> ValidateUser(string username, string token)
+    public async Task<AuthInfoDTO?> ValidateUser(string username, string password)
     {
-        // TODO: Validate in DB
-        AuthInfoDTO authInfoDTO = new AuthInfoDTO()
+        UserInfoDTO? user = await _userService.Validate(username, password);
+        if (user == null)
+            return null;
+
+        TokenInfoDTO tokenInfo = new TokenInfoDTO()
         {
-            UserName = "JimMorrison",
-            Profile = 1
+            Username = user.UserName,
+            Profile = 10 // TODO: Set profile
         };
 
-        return _jwtService.Encode(authInfoDTO);
+        string token = _jwtService.Encode(tokenInfo);
+
+        AuthInfoDTO authInfoDTO = new AuthInfoDTO()
+        {
+            User = user,
+            Token = token
+        };
+
+        return authInfoDTO;
     }
 
-    public async Task<AuthInfoDTO?> ValidateToken(string token)
+    public async Task<TokenInfoDTO?> ValidateToken(string token)
     {
-        AuthInfoDTO authInfo = _jwtService.Decode<AuthInfoDTO>(token);
+        TokenInfoDTO authInfo = _jwtService.Decode<TokenInfoDTO>(token);
         return authInfo;
     }
 }

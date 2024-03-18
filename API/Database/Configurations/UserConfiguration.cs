@@ -18,7 +18,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 FirstName = "admin",
                 LastName = "",
                 Email = "fdovarasc@gmail.com",
-                IdState = 1,
+                Phone = "",
+                Address = "",
+                Gender = 0,
+                BirthDate = DateTime.Now,
+                StateId = 1,
                 CreatedAt = DateTime.Now,
                 UpdatedAt = DateTime.Now,
             }

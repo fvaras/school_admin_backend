@@ -26,6 +26,7 @@ public class UserService : IUserService
     public async Task<User> Create(UserForCreationDTO userDTO)
     {
         User user = _mapper.Map<User>(userDTO);
+        user.UserName = user.UserName.ToLower();
         user.CreatedAt = DateTime.Now;
         user.UpdatedAt = DateTime.Now;
         // await _userDAL.Create(user);
@@ -60,7 +61,14 @@ public class UserService : IUserService
             throw new EntityNotFoundException();
         return user;
     }
-
     public async Task<User?> RetrieveByRut(string rut, bool trackChanges = false) =>
         await _userDAL.RetrieveByDNI(rut, trackChanges);
+
+    public async Task<UserInfoDTO?> Validate(string username, string password)
+    {
+        User? user = await _userDAL.RetrieveByCredentials(username.ToLower(), password);
+        if (user is null)
+            return null;
+        return _mapper.Map<UserInfoDTO?>(user);
+    }
 }

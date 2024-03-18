@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240317185729_Teacher_BithDate__name_fix")]
+    partial class Teacher_BithDate__name_fix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -150,9 +152,16 @@ namespace school_admin_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Allergies")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("BloodGroup")
                         .IsRequired()
@@ -161,21 +170,39 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte>("IdGender")
+                        .HasColumnType("smallint");
+
                     b.Property<DateTime?>("JoiningDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<byte>("StateId")
-                        .HasColumnType("smallint");
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Rut")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("StateId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Students", "public");
                 });
@@ -189,25 +216,50 @@ namespace school_admin_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<byte>("IdGender")
+                        .HasColumnType("smallint");
+
+                    b.Property<byte>("IdState")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Relation")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte>("StateId")
-                        .HasColumnType("smallint");
+                    b.Property<string>("Rut")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("StudentGuardians", "public");
                 });
@@ -220,6 +272,13 @@ namespace school_admin_api.Migrations
                         .HasColumnName("Id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("BirthDate")
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("ContactEmail")
                         .IsRequired()
@@ -236,8 +295,15 @@ namespace school_admin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte>("StateId")
+                    b.Property<byte>("IdGender")
                         .HasColumnType("smallint");
+
+                    b.Property<byte>("IdState")
+                        .HasColumnType("smallint");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -261,13 +327,6 @@ namespace school_admin_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -279,7 +338,7 @@ namespace school_admin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<byte>("Gender")
+                    b.Property<byte>("IdState")
                         .HasColumnType("smallint");
 
                     b.Property<string>("LastName")
@@ -290,16 +349,9 @@ namespace school_admin_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Rut")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<byte>("StateId")
-                        .HasColumnType("smallint");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -316,18 +368,14 @@ namespace school_admin_api.Migrations
                         new
                         {
                             Id = 1,
-                            Address = "",
-                            BirthDate = new DateTime(2024, 3, 17, 19, 38, 58, 557, DateTimeKind.Local).AddTicks(7989),
-                            CreatedAt = new DateTime(2024, 3, 17, 19, 38, 58, 557, DateTimeKind.Local).AddTicks(8034),
+                            CreatedAt = new DateTime(2024, 3, 17, 15, 57, 29, 101, DateTimeKind.Local).AddTicks(4598),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
-                            Gender = (byte)0,
+                            IdState = (byte)1,
                             LastName = "",
                             Password = "admin",
-                            Phone = "",
                             Rut = "19",
-                            StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 3, 17, 19, 38, 58, 557, DateTimeKind.Local).AddTicks(8039),
+                            UpdatedAt = new DateTime(2024, 3, 17, 15, 57, 29, 101, DateTimeKind.Local).AddTicks(4645),
                             UserName = "admin"
                         });
                 });
@@ -360,28 +408,6 @@ namespace school_admin_api.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("school_admin_api.Model.Student", b =>
-                {
-                    b.HasOne("school_admin_api.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("school_admin_api.Model.StudentGuardian", b =>
-                {
-                    b.HasOne("school_admin_api.Model.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Teacher", b =>

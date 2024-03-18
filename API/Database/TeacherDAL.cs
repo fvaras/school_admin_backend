@@ -35,7 +35,7 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                 .FirstOrDefaultAsync();
 
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
-        await FindByCondition(t => t.IdState == 1, false)
+        await FindByCondition(t => t.StateId == 1, false)
                 .Select(t => new LabelValueFromDB<int>()
                 {
                     Value = t.Id,

@@ -40,12 +40,12 @@ public class TokenValidationMiddleware
         {
             // Validate token
             // AuthInfoDTO authInfoDTO = await _authService.ValidateToken(token);
-            AuthInfoDTO authInfoDTO = _jwtService.Decode<AuthInfoDTO>(token);
+            TokenInfoDTO authInfoDTO = _jwtService.Decode<TokenInfoDTO>(token);
 
             // Optional: Get data from DB. (session data on DB)
 
             // attach user to context on successful jwt validation
-            context.Items["username"] = authInfoDTO.UserName;
+            context.Items["username"] = authInfoDTO.Username;
             context.Items["profile"] = authInfoDTO.Profile;
         }
         catch (Exception ex)
