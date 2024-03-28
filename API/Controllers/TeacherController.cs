@@ -42,7 +42,7 @@ public class TeacherController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<TeacherDTO>> RetrieveAll()
+    public async Task<List<TeacherTableRowDTO>> RetrieveAll()
     {
         return await _teacherService.RetrieveAll();
     }

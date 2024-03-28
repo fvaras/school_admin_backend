@@ -44,7 +44,7 @@ public class StudentController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<StudentDTO>> RetrieveAll()
+    public async Task<List<StudentTableRowDTO>> RetrieveAll()
     {
         return await _studentService.RetrieveAll();
     }

@@ -30,7 +30,7 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
 
     public async Task<Teacher?> RetrieveWithProfiles(int id, bool trackChanges = true) =>
         await FindByCondition(t => t.Id == id, trackChanges)
-                .Include(t=>t.User)
+                .Include(t => t.User)
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
@@ -43,5 +43,8 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                 })
                 .ToListAsync();
 
-    public async Task<List<Teacher>> RetrieveAll() => await FindAll().ToListAsync();
+    public async Task<List<Teacher>> RetrieveAll() =>
+        await FindAll()
+                .Include(t => t.User)
+                .ToListAsync();
 }

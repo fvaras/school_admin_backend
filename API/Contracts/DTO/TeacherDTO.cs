@@ -24,5 +24,27 @@ public class TeacherDTO : TeacherBaseDTO
     public byte StateId { get; set; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
-    public UserDTO User { get; set; }    
+    public UserDTO User { get; set; }
+}
+
+public class TeacherTableRowDTO
+{
+    public int Id { get; init; }
+    public string Rut { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
+    public string Address { get; set; }
+    public byte Gender { get; set; }
+    public string ContactEmail { get; set; }
+    public string ContactPhone { get; set; }
+    public DateTime? BirthDate { get; set; }
+    public string Education { get; set; }
+    public byte StateId { get; set; }
+    // public DateTime CreatedAt { get; init; }
+    // public DateTime? UpdatedAt { get; init; }
+    // public string UserName { get; set; }
+    // public int UserId { get; init; }
+    // public byte UserStateId { get; init; }
 }

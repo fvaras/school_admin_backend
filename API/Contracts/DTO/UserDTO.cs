@@ -10,6 +10,7 @@ public class UserBaseDTO
     public string Phone { get; set; }
     public string Address { get; set; }
     public byte Gender { get; set; }
+    public DateTime? BirthDate { get; set; }
 }
 
 public class UserForCreationDTO : UserBaseDTO

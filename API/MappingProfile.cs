@@ -17,6 +17,20 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<StudentForCreationDTO, Student>();
         CreateMap<StudentForUpdateDTO, Student>();
         CreateMap<Student, StudentDTO>();
+        CreateMap<Student, StudentTableRowDTO>()
+            .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
+            .ForPath(t => t.Rut, opt => opt.MapFrom(x => x.User.Rut))
+            .ForPath(t => t.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
+            .ForPath(t => t.LastName, opt => opt.MapFrom(x => x.User.LastName))
+            .ForPath(t => t.Email, opt => opt.MapFrom(x => x.User.Email))
+            .ForPath(t => t.Phone, opt => opt.MapFrom(x => x.User.Phone))
+            .ForPath(t => t.Address, opt => opt.MapFrom(x => x.User.Address))
+            .ForPath(t => t.Gender, opt => opt.MapFrom(x => x.User.Gender))
+            .ForPath(t => t.BirthDate, opt => opt.MapFrom(x => x.User.BirthDate))
+            .ForPath(t => t.BloodGroup, opt => opt.MapFrom(x => x.BloodGroup))
+            .ForPath(t => t.Allergies, opt => opt.MapFrom(x => x.Allergies))
+            .ForPath(t => t.JoiningDate, opt => opt.MapFrom(x => x.JoiningDate))
+            .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId));
 
         CreateMap<GradeForCreationDTO, Grade>();
         CreateMap<GradeForUpdateDTO, Grade>();
@@ -27,6 +41,21 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<TeacherForUpdateDTO, Teacher>();
         CreateMap<Teacher, TeacherDTO>()
             .ForMember(t => t.Id, opt => opt.MapFrom(x => x.Id));
+        CreateMap<Teacher, TeacherTableRowDTO>()
+            .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
+            .ForPath(t => t.Rut, opt => opt.MapFrom(x => x.User.Rut))
+            .ForPath(t => t.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
+            .ForPath(t => t.LastName, opt => opt.MapFrom(x => x.User.LastName))
+            .ForPath(t => t.Email, opt => opt.MapFrom(x => x.User.Email))
+            .ForPath(t => t.Phone, opt => opt.MapFrom(x => x.User.Phone))
+            .ForPath(t => t.Address, opt => opt.MapFrom(x => x.User.Address))
+            .ForPath(t => t.Gender, opt => opt.MapFrom(x => x.User.Gender))
+            .ForPath(t => t.ContactEmail, opt => opt.MapFrom(x => x.ContactEmail))
+            .ForPath(t => t.ContactPhone, opt => opt.MapFrom(x => x.ContactPhone))
+            .ForPath(t => t.BirthDate, opt => opt.MapFrom(x => x.User.BirthDate))
+            .ForPath(t => t.Education, opt => opt.MapFrom(x => x.Education))
+            .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId))
+            ;
 
         CreateMap<StudentGuardianForCreationDTO, StudentGuardian>();
         CreateMap<StudentGuardianForUpdateDTO, StudentGuardian>();

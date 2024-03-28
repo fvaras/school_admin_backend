@@ -8,5 +8,5 @@ public interface IStudentService
     Task Update(int id, StudentForUpdateDTO studentDTO);
     Task Delete(int id);
     Task<StudentDTO?> Retrieve(int id);
-    Task<List<StudentDTO>> RetrieveAll();
+    Task<List<StudentTableRowDTO>> RetrieveAll();
 }

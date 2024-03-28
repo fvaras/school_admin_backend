@@ -16,7 +16,7 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
     public async Task<int> Create(Student student)
     {
         await base.Create(student);
-        return student.Id; // Assuming Id is auto-generated
+        return student.Id;
     }
 
     public async Task Update(Student student) => await base.Update(student);
@@ -27,5 +27,8 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
         await FindByCondition(a => a.Id == id, trackChanges)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-    public async Task<List<Student>> RetrieveAll() => await FindAll().ToListAsync();
+    public async Task<List<Student>> RetrieveAll() =>
+        await FindAll()
+                .Include(t => t.User)
+                .ToListAsync();
 }
