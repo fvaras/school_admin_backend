@@ -19,6 +19,8 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<Student, StudentDTO>();
         CreateMap<Student, StudentTableRowDTO>()
             .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
+            .ForPath(t => t.UserName, opt => opt.MapFrom(x => x.User.UserName))
+            .ForPath(t => t.UserId, opt => opt.MapFrom(x => x.User.Id))
             .ForPath(t => t.Rut, opt => opt.MapFrom(x => x.User.Rut))
             .ForPath(t => t.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
             .ForPath(t => t.LastName, opt => opt.MapFrom(x => x.User.LastName))
@@ -43,6 +45,8 @@ public class MappingProfile : AutoMapper.Profile
             .ForMember(t => t.Id, opt => opt.MapFrom(x => x.Id));
         CreateMap<Teacher, TeacherTableRowDTO>()
             .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
+            .ForPath(t => t.UserName, opt => opt.MapFrom(x => x.User.UserName))
+            .ForPath(t => t.UserId, opt => opt.MapFrom(x => x.User.Id))
             .ForPath(t => t.Rut, opt => opt.MapFrom(x => x.User.Rut))
             .ForPath(t => t.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
             .ForPath(t => t.LastName, opt => opt.MapFrom(x => x.User.LastName))

@@ -28,6 +28,8 @@ public class StudentDTO : StudentBaseDTO
 public class StudentTableRowDTO
 {
     public int Id { get; init; }
+    public string UserName { get; set; }
+    public string UserId { get; set; }
     public string Rut { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
