@@ -35,20 +35,20 @@ public class TeacherService : ITeacherService
 
     public async Task<int> Create(TeacherForCreationDTO teacherDTO)
     {
-        // TODO: Retrieve teacher (DuplicatedEntityException)
-
-        User user = await _userService.RetrieveByRut(teacherDTO.User.Rut, trackChanges: true);
+        User user = await _userService.RetrieveByRutWithProfiles(teacherDTO.User.Rut, trackChanges: true);
 
         // Validations of existence and duplicity
         if (user is not null)
         {
-            if (!user.UserName.Equals(teacherDTO.User.UserName))
-                throw new InconsistentDataException("User already exists with a different username");
-            if (!user.Rut.Equals(teacherDTO.User.Rut))
-                throw new InconsistentDataException("User already exists with a different DNI");
+            if (user.Profiles.ToList().Find(p => p.Id == (int)Profile.PROFILES_TYPES.TEACHER) != null)
+                throw new InconsistentDataException("Teacher already exists with the same Rut");
+            if (user.StateId == (int)User.USER_STATES.INACTIVE)
+                throw new InconsistentDataException($"User rut {teacherDTO.User.Rut} is not active");
+            // TODO: Verify email duplicity
         }
         else
         {
+            // TODO: Verify email duplicity
             user = await _userService.Create(teacherDTO.User);
         }
 
@@ -77,7 +77,7 @@ public class TeacherService : ITeacherService
 
     public async Task Delete(int id)
     {
-        Teacher teacher = await _teacherDAL.RetrieveWithProfiles(id);
+        Teacher teacher = await _teacherDAL.RetrieveWithUserAndProfiles(id);
         if (teacher == null)
             throw new EntityNotFoundException();
 

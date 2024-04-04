@@ -33,17 +33,15 @@ public class StudentService : IStudentService
 
     public async Task<int> Create(StudentForCreationDTO studentDTO)
     {
-        // TODO: Retrieve student (DuplicatedEntityException)
-
-        User user = await _userService.RetrieveByRut(studentDTO.User.Rut, trackChanges: true);
+        User user = await _userService.RetrieveByRutWithProfiles(studentDTO.User.Rut, trackChanges: true);
 
         // Validations of existence and duplicity
         if (user is not null)
         {
-            if (!user.UserName.Equals(studentDTO.User.UserName))
-                throw new InconsistentDataException("User already exists with a different username");
-            if (!user.Rut.Equals(studentDTO.User.Rut))
-                throw new InconsistentDataException("User already exists with a different DNI");
+            if (user.Profiles.ToList().Find(p => p.Id == (int)Profile.PROFILES_TYPES.STUDENT) != null)
+                throw new InconsistentDataException("Student already exists with the same Rut");
+            if (user.StateId == (int)User.USER_STATES.INACTIVE)
+                throw new InconsistentDataException($"User rut {studentDTO.User.Rut} is not active");
         }
         else
         {
@@ -74,7 +72,7 @@ public class StudentService : IStudentService
 
     public async Task Delete(int id)
     {
-        Student student = await GetRecordAndCheckExistence(id);
+        Student student = await _studentDAL.RetrieveWithUserAndProfiles(id);
         if (student == null)
             throw new EntityNotFoundException();
 

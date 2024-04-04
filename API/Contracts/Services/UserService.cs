@@ -64,6 +64,9 @@ public class UserService : IUserService
     public async Task<User?> RetrieveByRut(string rut, bool trackChanges = false) =>
         await _userDAL.RetrieveByDNI(rut, trackChanges);
 
+    public async Task<User?> RetrieveByRutWithProfiles(string rut, bool trackChanges = false) =>
+        await _userDAL.RetrieveByDNIWithProfiles(rut, trackChanges);
+
     public async Task<UserInfoDTO?> Validate(string username, string password)
     {
         User? user = await _userDAL.RetrieveByCredentials(username.ToLower(), password);

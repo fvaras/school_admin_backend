@@ -9,6 +9,7 @@ public interface IUserDAL
     Task Delete(User user);
     Task<User?> Retrieve(int id, bool trackChanges = false);
     Task<User?> RetrieveByDNI(string rut, bool trackChanges = false);
+    Task<User?> RetrieveByDNIWithProfiles(string rut, bool trackChanges = false);
     Task<List<User>> RetrieveAll();
     Task<User?> RetrieveByCredentials(string username, string password);
 }

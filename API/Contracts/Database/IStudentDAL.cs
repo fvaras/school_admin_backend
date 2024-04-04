@@ -7,6 +7,7 @@ public interface IStudentDAL
     Task<int> Create(Student student);
     Task Update(Student student);
     Task Delete(Student student);
-    Task<Student?> Retrieve(int studentId, bool trackChanges = false);
+    Task<Student?> Retrieve(int id, bool trackChanges = false);
+    Task<Student?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true);
     Task<List<Student>> RetrieveAll();
 }

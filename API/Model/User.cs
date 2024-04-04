@@ -22,4 +22,11 @@ public class User
     public DateTime? UpdatedAt { get; set; }
 
     public ICollection<Profile> Profiles { get; set; } = new List<Profile>();
+
+
+    public enum USER_STATES
+    {
+        ACTIVE = 1,
+        INACTIVE = 2,
+    }
 }

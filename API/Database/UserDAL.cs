@@ -31,6 +31,11 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
         await FindByCondition(u => u.Rut == rut, trackChanges)
                 .FirstOrDefaultAsync();
 
+    public async Task<User?> RetrieveByDNIWithProfiles(string rut, bool trackChanges = false) =>
+        await FindByCondition(u => u.Rut == rut, trackChanges)
+                .Include(t => t.Profiles)
+                .FirstOrDefaultAsync();
+
     public async Task<List<User>> RetrieveAll() => await FindAll().ToListAsync();
 
     public async Task<User?> RetrieveByCredentials(string username, string password)

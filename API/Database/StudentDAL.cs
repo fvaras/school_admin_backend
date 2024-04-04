@@ -27,8 +27,15 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
         await FindByCondition(a => a.Id == id, trackChanges)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
+    public async Task<Student?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true) =>
+        await FindByCondition(a => a.Id == id, trackChanges)
+                .Include(t => t.User)
+                    .ThenInclude(u => u.Profiles)
+                .FirstOrDefaultAsync();
+
     public async Task<List<Student>> RetrieveAll() =>
         await FindAll()
+                .Where(t => t.User.StateId == 1) // TODO: User enums
                 .Include(t => t.User)
                 .ToListAsync();
 }

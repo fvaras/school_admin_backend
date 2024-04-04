@@ -11,6 +11,7 @@ public class UserBaseDTO
     public string Address { get; set; }
     public byte Gender { get; set; }
     public DateTime? BirthDate { get; set; }
+    public byte StateId { get; init; }
 }
 
 public class UserForCreationDTO : UserBaseDTO
@@ -25,7 +26,6 @@ public class UserForUpdateDTO : UserBaseDTO
 public class UserDTO : UserBaseDTO
 {
     public int Id { get; init; }
-    public byte StateId { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
 }

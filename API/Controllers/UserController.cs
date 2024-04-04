@@ -51,4 +51,10 @@ public class UserController : ControllerBase
     {
         return await _userService.RetrieveAll();
     }
+
+    [HttpGet("byRut")]
+    public async Task<UserDTO> RetrieveByRut(string rut)
+    {
+        return _mapper.Map<UserDTO>(await _userService.RetrieveByRut(rut, trackChanges: false));
+    }
 }

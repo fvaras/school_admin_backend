@@ -26,16 +26,19 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
 
     public async Task<Teacher?> Retrieve(int id, bool trackChanges = false) =>
         await FindByCondition(t => t.Id == id, trackChanges)
+                .Where(t => t.User.StateId == 1) // TODO: User enums
                 .FirstOrDefaultAsync();
 
-    public async Task<Teacher?> RetrieveWithProfiles(int id, bool trackChanges = true) =>
+    public async Task<Teacher?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true) =>
         await FindByCondition(t => t.Id == id, trackChanges)
+                // .Where(t => t.User.StateId == 1) // TODO: User enums
                 .Include(t => t.User)
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
         await FindByCondition(t => t.StateId == 1, false)
+                .Where(t => t.User.StateId == 1 && t.StateId == 1) // TODO: User enums
                 .Select(t => new LabelValueFromDB<int>()
                 {
                     Value = t.Id,
@@ -45,6 +48,7 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
 
     public async Task<List<Teacher>> RetrieveAll() =>
         await FindAll()
+                .Where(t => t.User.StateId == 1) // TODO: User enums
                 .Include(t => t.User)
                 .ToListAsync();
 }
