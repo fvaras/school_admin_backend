@@ -26,7 +26,7 @@ public class GradeService : IGradeService
         _mapper = mapper;
     }
 
-    public async Task<int> Create(GradeForCreationDTO gradeDTO)
+    public async Task<GradeDTO> Create(GradeForCreationDTO gradeDTO)
     {
         Grade grade = _mapper.Map<Grade>(gradeDTO);
         grade.CreatedAt = DateTime.Now;
@@ -35,10 +35,11 @@ public class GradeService : IGradeService
         foreach (int teacherId in gradeDTO.TeachersId)
             grade.Teachers.Add(await _teacherDAL.Retrieve(teacherId, trackChanges: true));
 
-        return await _gradeDAL.Create(grade);
+        await _gradeDAL.Create(grade);
+        return _mapper.Map<GradeDTO>(grade);
     }
 
-    public async Task Update(int id, GradeForUpdateDTO gradeDTO)
+    public async Task<GradeDTO> Update(int id, GradeForUpdateDTO gradeDTO)
     {
         Grade grade = await GetRecordAndCheckExistence(id);
 
@@ -68,6 +69,7 @@ public class GradeService : IGradeService
 
         // Persist changes
         await _gradeDAL.Update(grade);
+        return _mapper.Map<GradeDTO>(grade);
     }
 
     public async Task Delete(int id)

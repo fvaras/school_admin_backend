@@ -33,7 +33,7 @@ public class TeacherService : ITeacherService
         _mapper = mapper;
     }
 
-    public async Task<int> Create(TeacherForCreationDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Create(TeacherForCreationDTO teacherDTO)
     {
         User user = await _userService.RetrieveByRutWithProfiles(teacherDTO.User.Rut, trackChanges: true);
 
@@ -49,6 +49,7 @@ public class TeacherService : ITeacherService
         else
         {
             // TODO: Verify email duplicity
+            teacherDTO.User.StateId = teacherDTO.StateId;  // New users => Same stateId as TeacherDTO
             user = await _userService.Create(teacherDTO.User);
         }
 
@@ -64,15 +65,18 @@ public class TeacherService : ITeacherService
         teacher.User = user;
         teacher.CreatedAt = DateTime.Now;
         teacher.UpdatedAt = DateTime.Now;
-        return await _teacherDAL.Create(teacher);
+        await _teacherDAL.Create(teacher);
+        return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
-    public async Task Update(int id, TeacherForUpdateDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Update(int id, TeacherForUpdateDTO teacherDTO)
     {
         Teacher teacher = await GetRecordAndCheckExistence(id);
         _mapper.Map(teacherDTO, teacher);
         teacher.UpdatedAt = DateTime.Now;
         await _teacherDAL.Update(teacher);
+        teacher = await _teacherDAL.RetrieveWithUserAndProfiles(id);
+        return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
     public async Task Delete(int id)

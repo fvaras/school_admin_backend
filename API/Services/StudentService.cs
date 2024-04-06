@@ -31,7 +31,7 @@ public class StudentService : IStudentService
         _mapper = mapper;
     }
 
-    public async Task<int> Create(StudentForCreationDTO studentDTO)
+    public async Task<StudentTableRowDTO> Create(StudentForCreationDTO studentDTO)
     {
         User user = await _userService.RetrieveByRutWithProfiles(studentDTO.User.Rut, trackChanges: true);
 
@@ -45,6 +45,7 @@ public class StudentService : IStudentService
         }
         else
         {
+            studentDTO.User.StateId = studentDTO.StateId;  // New users => Same stateId as StudentDTO
             user = await _userService.Create(studentDTO.User);
         }
 
@@ -59,15 +60,18 @@ public class StudentService : IStudentService
         student.User = user;
         student.CreatedAt = DateTime.Now;
         student.UpdatedAt = DateTime.Now;
-        return await _studentDAL.Create(student);
+        await _studentDAL.Create(student);
+        return _mapper.Map<StudentTableRowDTO>(student);
     }
 
-    public async Task Update(int id, StudentForUpdateDTO studentDTO)
+    public async Task<StudentTableRowDTO> Update(int id, StudentForUpdateDTO studentDTO)
     {
         Student student = await GetRecordAndCheckExistence(id);
         _mapper.Map(studentDTO, student);
         student.UpdatedAt = DateTime.Now;
         await _studentDAL.Update(student);
+        student = await _studentDAL.RetrieveWithUserAndProfiles(id);
+        return _mapper.Map<StudentTableRowDTO>(student);
     }
 
     public async Task Delete(int id)

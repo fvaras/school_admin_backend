@@ -6,7 +6,7 @@ namespace school_admin_api.Contracts.Services;
 public interface IUserService
 {
     Task<User> Create(UserForCreationDTO userDTO);
-    Task Update(int id, UserForUpdateDTO userDTO);
+    Task<User> Update(int id, UserForUpdateDTO userDTO);
     Task Delete(int id);
     Task<UserDTO?> Retrieve(int id);
     Task<List<UserDTO>> RetrieveAll();

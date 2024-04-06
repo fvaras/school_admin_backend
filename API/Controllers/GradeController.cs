@@ -18,15 +18,15 @@ public class GradeController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<int> Create([FromBody] GradeForCreationDTO gradeDTO)
+    public async Task<GradeDTO> Create([FromBody] GradeForCreationDTO gradeDTO)
     {
         return await _gradeService.Create(gradeDTO);
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, [FromBody] GradeForUpdateDTO gradeDTO)
+    public async Task<GradeDTO> Update(int id, [FromBody] GradeForUpdateDTO gradeDTO)
     {
-        await _gradeService.Update(id, gradeDTO);
+        return await _gradeService.Update(id, gradeDTO);
     }
 
     [HttpDelete("{id:int}")]

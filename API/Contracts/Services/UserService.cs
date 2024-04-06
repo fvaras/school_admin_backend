@@ -34,12 +34,13 @@ public class UserService : IUserService
         return await _userDAL.Create(user);
     }
 
-    public async Task Update(int id, UserForUpdateDTO userDTO)
+    public async Task<User> Update(int id, UserForUpdateDTO userDTO)
     {
         User user = await GetRecordAndCheckExistence(id);
         _mapper.Map(userDTO, user);
         user.UpdatedAt = DateTime.Now;
         await _userDAL.Update(user);
+        return user;
     }
 
     public async Task Delete(int id)

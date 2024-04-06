@@ -17,4 +17,10 @@ public class Teacher
     public User User { get; set; }
 
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+
+    public enum TEACHER_STATES
+    {
+        ACTIVE = 1,
+        INACTIVE = 2,
+    }
 }

@@ -26,29 +26,30 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
 
     public async Task<Teacher?> Retrieve(int id, bool trackChanges = false) =>
         await FindByCondition(t => t.Id == id, trackChanges)
-                .Where(t => t.User.StateId == 1) // TODO: User enums
+                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
                 .FirstOrDefaultAsync();
 
     public async Task<Teacher?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true) =>
         await FindByCondition(t => t.Id == id, trackChanges)
-                // .Where(t => t.User.StateId == 1) // TODO: User enums
+                // .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
                 .Include(t => t.User)
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
         await FindByCondition(t => t.StateId == 1, false)
-                .Where(t => t.User.StateId == 1 && t.StateId == 1) // TODO: User enums
+                .Where(t => t.User.StateId == 1 && t.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
+                .Include(t => t.User)
                 .Select(t => new LabelValueFromDB<int>()
                 {
                     Value = t.Id,
-                    Label = $"TODO" // TODO: Get from User Entity // Label = $"{t.FirstName} {t.LastName}"
+                    Label = $"{t.User.FirstName} {t.User.LastName}"
                 })
                 .ToListAsync();
 
     public async Task<List<Teacher>> RetrieveAll() =>
         await FindAll()
-                .Where(t => t.User.StateId == 1) // TODO: User enums
+                .Where(t => t.User.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .ToListAsync();
 }

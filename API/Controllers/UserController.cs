@@ -29,9 +29,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, [FromBody] UserForUpdateDTO userDTO)
+    public async Task<UserDTO> Update(int id, [FromBody] UserForUpdateDTO userDTO)
     {
-        await _userService.Update(id, userDTO);
+        return _mapper.Map<UserDTO>(await _userService.Update(id, userDTO));
     }
 
     [HttpDelete("{id:int}")]

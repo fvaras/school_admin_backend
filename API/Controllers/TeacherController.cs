@@ -18,15 +18,15 @@ public class TeacherController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<int> Create([FromBody] TeacherForCreationDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Create([FromBody] TeacherForCreationDTO teacherDTO)
     {
         return await _teacherService.Create(teacherDTO);
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, [FromBody] TeacherForUpdateDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Update(int id, [FromBody] TeacherForUpdateDTO teacherDTO)
     {
-        await _teacherService.Update(id, teacherDTO);
+        return await _teacherService.Update(id, teacherDTO);
     }
 
     [HttpDelete("{id:int}")]
