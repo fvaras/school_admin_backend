@@ -67,5 +67,16 @@ public class MappingProfile : AutoMapper.Profile
             .ForMember(sg => sg.Id, opt => opt.MapFrom(x => x.Id));
 
         CreateMap(typeof(LabelValueFromDB<>), typeof(LabelValueDTO<>));
+
+        CreateMap<CalendarForCreationDTO, Calendar>();
+        CreateMap<CalendarForUpdateDTO, Calendar>();
+        CreateMap<Calendar, CalendarDTO>();
+
+        CreateMap<CalendarEventForCreationDTO, CalendarEvent>()
+            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type));
+        CreateMap<CalendarEventForUpdateDTO, CalendarEvent>()
+            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type));
+        CreateMap<CalendarEvent, CalendarEventDTO>()
+            .ForMember(dto => dto.Type, opt => opt.MapFrom(x => x.EventType));
     }
 }

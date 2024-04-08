@@ -17,6 +17,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<StudentGuardian> StudentGuardians { get; set; }
+    public DbSet<Calendar> Calendars { get; set; }
+    public DbSet<CalendarEvent> CalendarEvents { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -26,6 +29,7 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new CalendarConfiguration());
 
         modelBuilder.Entity<User>()
             .HasMany(t => t.Profiles)
