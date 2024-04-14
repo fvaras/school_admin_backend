@@ -73,10 +73,19 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<Calendar, CalendarDTO>();
 
         CreateMap<CalendarEventForCreationDTO, CalendarEvent>()
-            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type));
+            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type))
+            .ForMember(entity => entity.StartDate, opt => opt.MapFrom(x => ISODt2DateTime(x.StartISODate)))
+            .ForMember(entity => entity.EndDate, opt => opt.MapFrom(x => ISODt2DateTime(x.EndISODate)));
         CreateMap<CalendarEventForUpdateDTO, CalendarEvent>()
-            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type));
+            .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type))
+            .ForMember(entity => entity.StartDate, opt => opt.MapFrom(x => ISODt2DateTime(x.StartISODate)))
+            .ForMember(entity => entity.EndDate, opt => opt.MapFrom(x => ISODt2DateTime(x.EndISODate)));
         CreateMap<CalendarEvent, CalendarEventDTO>()
             .ForMember(dto => dto.Type, opt => opt.MapFrom(x => x.EventType));
+    }
+
+    private DateTime ISODt2DateTime(string ISODateTime)
+    {
+        return DateTime.ParseExact(ISODateTime, "yyyyMMddHHmmss", null);
     }
 }

@@ -13,10 +13,14 @@ public class CalendarEventBaseDTO
 
 public class CalendarEventForCreationDTO : CalendarEventBaseDTO
 {
+    public string StartISODate { get; init; }
+    public string EndISODate { get; init; }
 }
 
 public class CalendarEventForUpdateDTO : CalendarEventBaseDTO
 {
+    public string StartISODate { get; init; }
+    public string EndISODate { get; init; }
 }
 
 public class CalendarEventDTO : CalendarEventBaseDTO
