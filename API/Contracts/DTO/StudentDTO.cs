@@ -2,10 +2,11 @@ namespace school_admin_api.Contracts.DTO;
 
 public class StudentBaseDTO
 {
-    public string BloodGroup { get; set; }
-    public string Allergies { get; set; }
-    public DateTime? JoiningDate { get; set; }
-    public byte StateId { get; set; }
+    public string BloodGroup { get; init; }
+    public string Allergies { get; init; }
+    public DateTime? JoiningDate { get; init; }
+    public byte StateId { get; init; }
+    public int? GradeId { get; set; }
 }
 
 public class StudentForCreationDTO : StudentBaseDTO
@@ -42,6 +43,8 @@ public class StudentTableRowDTO
     public string Allergies { get; set; }
     public DateTime? JoiningDate { get; set; }
     public byte StateId { get; set; }
+    public int GradeId { get; init; }
+    public string GradeName { get; init; }
     // public DateTime CreatedAt { get; init; }
     // public DateTime? UpdatedAt { get; init; }
     // public string UserName { get; set; }

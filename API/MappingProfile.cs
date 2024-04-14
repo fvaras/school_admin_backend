@@ -32,7 +32,8 @@ public class MappingProfile : AutoMapper.Profile
             .ForPath(t => t.BloodGroup, opt => opt.MapFrom(x => x.BloodGroup))
             .ForPath(t => t.Allergies, opt => opt.MapFrom(x => x.Allergies))
             .ForPath(t => t.JoiningDate, opt => opt.MapFrom(x => x.JoiningDate))
-            .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId));
+            .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId))
+            .ForPath(t => t.GradeName, opt => opt.MapFrom(x => x.Grade.Name));
 
         CreateMap<GradeForCreationDTO, Grade>();
         CreateMap<GradeForUpdateDTO, Grade>();

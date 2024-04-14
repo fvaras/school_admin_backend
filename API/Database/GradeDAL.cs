@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api.Database;
@@ -29,6 +30,15 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
                 .FirstOrDefaultAsync();
 
     public async Task<List<Grade>> RetrieveAll() => await FindAll().ToListAsync();
+
+    public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
+        await FindByCondition(g => g.Active == true, false)
+                .Select(g => new LabelValueFromDB<int>()
+                {
+                    Value = g.Id,
+                    Label = $"{g.Name}"
+                })
+                .ToListAsync();
 
     public async Task<List<int>> RetrieveTeachersId(int id)
     {

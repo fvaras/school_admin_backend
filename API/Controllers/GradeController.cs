@@ -52,4 +52,10 @@ public class GradeController : ControllerBase
     {
         return await _gradeService.RetrieveAll();
     }
+
+    [HttpGet("forList")]
+    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    {
+        return await _gradeService.RetrieveForList();
+    }
 }

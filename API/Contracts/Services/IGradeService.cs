@@ -9,6 +9,7 @@ public interface IGradeService
     Task Delete(int id);
     Task<GradeDTO?> Retrieve(int id);
     Task<List<GradeDTO>> RetrieveAll();
+    Task<List<LabelValueDTO<int>>> RetrieveForList();
 
     Task<List<int>> RetrieveTeachersId(int id);
 }

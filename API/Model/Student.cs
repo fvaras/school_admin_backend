@@ -16,6 +16,9 @@ public class Student
 
     public User User { get; set; }
 
+    public int? GradeId { get; set; }
+    public Grade? Grade { get; set; }
+
     // public int? GradeId { get; set; } // Foreign key property for Grade
     // public Grade Grade { get; set; } // Navigation property for Grade
 

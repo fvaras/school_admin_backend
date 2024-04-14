@@ -35,6 +35,10 @@ public class StudentService : IStudentService
     {
         User user = await _userService.RetrieveByRutWithProfiles(studentDTO.User.Rut, trackChanges: true);
 
+        // Grade null value
+        if (studentDTO.GradeId == 0)
+            studentDTO.GradeId = null;
+
         // Validations of existence and duplicity
         if (user is not null)
         {
@@ -61,7 +65,9 @@ public class StudentService : IStudentService
         student.CreatedAt = DateTime.Now;
         student.UpdatedAt = DateTime.Now;
         await _studentDAL.Create(student);
-        return _mapper.Map<StudentTableRowDTO>(student);
+
+        var studentForMainTable = await _studentDAL.RetrieveForMainTable(student.Id);
+        return _mapper.Map<StudentTableRowDTO>(studentForMainTable);
     }
 
     public async Task<StudentTableRowDTO> Update(int id, StudentForUpdateDTO studentDTO)
@@ -69,8 +75,13 @@ public class StudentService : IStudentService
         Student student = await GetRecordAndCheckExistence(id);
         _mapper.Map(studentDTO, student);
         student.UpdatedAt = DateTime.Now;
+
+        // Grade null value
+        if (studentDTO.GradeId == 0)
+            student.GradeId = null;
+
         await _studentDAL.Update(student);
-        student = await _studentDAL.RetrieveWithUserAndProfiles(id);
+        student = await _studentDAL.RetrieveForMainTable(id);
         return _mapper.Map<StudentTableRowDTO>(student);
     }
 

@@ -33,9 +33,16 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
+    public async Task<Student?> RetrieveForMainTable(int id) =>
+        await FindByCondition(a => a.Id == id, trackChanges: false)
+                .Include(p => p.Grade)
+                .Include(t => t.User)
+                .FirstOrDefaultAsync();
+
     public async Task<List<Student>> RetrieveAll() =>
         await FindAll()
                 .Where(t => t.User.StateId == 1) // TODO: User enums
                 .Include(t => t.User)
+                .Include(t => t.Grade)
                 .ToListAsync();
 }
