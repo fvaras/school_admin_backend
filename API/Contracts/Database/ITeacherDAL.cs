@@ -10,6 +10,7 @@ public interface ITeacherDAL
     Task Delete(Teacher teacher);
     Task<Teacher?> Retrieve(int id, bool trackChanges = false);
     Task<Teacher?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true);
+    Task<Teacher?> RetrieveForMainTable(int id);
     Task<List<Teacher>> RetrieveAll();
 
     Task<List<LabelValueFromDB<int>>> RetrieveForList();

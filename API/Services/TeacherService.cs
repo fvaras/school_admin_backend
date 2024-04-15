@@ -75,7 +75,7 @@ public class TeacherService : ITeacherService
         _mapper.Map(teacherDTO, teacher);
         teacher.UpdatedAt = DateTime.Now;
         await _teacherDAL.Update(teacher);
-        teacher = await _teacherDAL.RetrieveWithUserAndProfiles(id);
+        teacher = await _teacherDAL.RetrieveForMainTable(id);
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 

@@ -36,6 +36,11 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
+    public async Task<Teacher?> RetrieveForMainTable(int id) =>
+        await FindByCondition(a => a.Id == id, trackChanges: false)
+            .Include(t => t.User)
+            .FirstOrDefaultAsync();
+
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
         await FindByCondition(t => t.StateId == 1, false)
                 .Where(t => t.User.StateId == 1 && t.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
