@@ -16,7 +16,6 @@ public class TeacherForCreationDTO : TeacherBaseDTO
 public class TeacherForUpdateDTO : TeacherBaseDTO
 {
     // public UserForUpdateDTO User { get; set; }
-    public byte IdState { get; set; }
 }
 
 public class TeacherDTO : TeacherBaseDTO

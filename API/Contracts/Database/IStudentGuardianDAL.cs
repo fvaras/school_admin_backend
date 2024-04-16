@@ -8,5 +8,6 @@ public interface IStudentGuardianDAL
     Task Update(StudentGuardian studentGuardian);
     Task Delete(StudentGuardian studentGuardian);
     Task<StudentGuardian?> Retrieve(int id, bool trackChanges = false);
+    Task<StudentGuardian?> RetrieveForMainTable(int id);
     Task<List<StudentGuardian>> RetrieveAll();
 }

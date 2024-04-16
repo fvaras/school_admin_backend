@@ -18,15 +18,15 @@ public class StudentGuardianController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<int> Create([FromBody] StudentGuardianForCreationDTO studentGuardianDTO)
+    public async Task<StudentGuardianTableRowDTO> Create([FromBody] StudentGuardianForCreationDTO studentGuardianDTO)
     {
         return await _studentGuardianService.Create(studentGuardianDTO);
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, [FromBody] StudentGuardianForUpdateDTO studentGuardianDTO)
+    public async Task<StudentGuardianTableRowDTO> Update(int id, [FromBody] StudentGuardianForUpdateDTO studentGuardianDTO)
     {
-        await _studentGuardianService.Update(id, studentGuardianDTO);
+        return await _studentGuardianService.Update(id, studentGuardianDTO);
     }
 
     [HttpDelete("{id:int}")]
@@ -42,7 +42,7 @@ public class StudentGuardianController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<List<StudentGuardianDTO>> RetrieveAll()
+    public async Task<List<StudentGuardianTableRowDTO>> RetrieveAll()
     {
         return await _studentGuardianService.RetrieveAll();
     }

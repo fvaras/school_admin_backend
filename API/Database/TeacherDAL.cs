@@ -43,7 +43,7 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
 
     public async Task<List<LabelValueFromDB<int>>> RetrieveForList() =>
         await FindByCondition(t => t.StateId == 1, false)
-                .Where(t => t.User.StateId == 1 && t.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
+                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE && t.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .Select(t => new LabelValueFromDB<int>()
                 {

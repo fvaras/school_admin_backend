@@ -30,7 +30,7 @@ public class StudentGuardianService : IStudentGuardianService
         _mapper = mapper;
     }
 
-    public async Task<int> Create(StudentGuardianForCreationDTO studentGuardianDTO)
+    public async Task<StudentGuardianTableRowDTO> Create(StudentGuardianForCreationDTO studentGuardianDTO)
     {
         // TODO: Retrieve studentGuardian (DuplicatedEntityException)
 
@@ -60,15 +60,21 @@ public class StudentGuardianService : IStudentGuardianService
         studentGuardian.User = user;
         studentGuardian.CreatedAt = DateTime.Now;
         studentGuardian.UpdatedAt = DateTime.Now;
-        return await _studentGuardianDAL.Create(studentGuardian);
+        await _studentGuardianDAL.Create(studentGuardian);
+
+        var studentGuardianForMainTable = await _studentGuardianDAL.RetrieveForMainTable(studentGuardian.Id);
+        return _mapper.Map<StudentGuardianTableRowDTO>(studentGuardianForMainTable);
     }
 
-    public async Task Update(int id, StudentGuardianForUpdateDTO studentGuardianDTO)
+    public async Task<StudentGuardianTableRowDTO> Update(int id, StudentGuardianForUpdateDTO studentGuardianDTO)
     {
         StudentGuardian studentGuardian = await GetRecordAndCheckExistence(id);
         _mapper.Map(studentGuardianDTO, studentGuardian);
         studentGuardian.UpdatedAt = DateTime.Now;
         await _studentGuardianDAL.Update(studentGuardian);
+
+        var studentGuardianForMainTable = await _studentGuardianDAL.RetrieveForMainTable(id);
+        return _mapper.Map<StudentGuardianTableRowDTO>(studentGuardianForMainTable);
     }
 
     public async Task Delete(int id)
@@ -89,13 +95,13 @@ public class StudentGuardianService : IStudentGuardianService
     public async Task<StudentGuardianDTO?> Retrieve(int id) =>
         _mapper.Map<StudentGuardianDTO>(await _studentGuardianDAL.Retrieve(id));
 
-    public async Task<List<StudentGuardianDTO>> RetrieveAll() =>
-        _mapper.Map<List<StudentGuardianDTO>>(await _studentGuardianDAL.RetrieveAll());
+    public async Task<List<StudentGuardianTableRowDTO>> RetrieveAll() =>
+        _mapper.Map<List<StudentGuardianTableRowDTO>>(await _studentGuardianDAL.RetrieveAll());
 
     private async Task<StudentGuardian> GetRecordAndCheckExistence(int id)
     {
         StudentGuardian studentGuardian = await _studentGuardianDAL.Retrieve(id);
-        if (studentGuardian == null)
+        if (studentGuardian is null)
             throw new EntityNotFoundException();
         return studentGuardian;
     }

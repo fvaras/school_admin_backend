@@ -25,7 +25,16 @@ public class StudentGuardianDAL : RepositoryBase<StudentGuardian>, IStudentGuard
 
     public async Task<StudentGuardian?> Retrieve(int id, bool trackChanges = false) =>
         await FindByCondition(sg => sg.Id == id, trackChanges)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+    public async Task<StudentGuardian?> RetrieveForMainTable(int id) =>
+        await FindByCondition(a => a.Id == id, trackChanges: false)
+                .Include(t => t.User)
                 .FirstOrDefaultAsync();
 
-    public async Task<List<StudentGuardian>> RetrieveAll() => await FindAll().ToListAsync();
+    public async Task<List<StudentGuardian>> RetrieveAll() => 
+        await FindAll()
+                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
+                .Include(t => t.User)
+                .ToListAsync();
 }

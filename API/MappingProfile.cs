@@ -66,6 +66,19 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<StudentGuardianForUpdateDTO, StudentGuardian>();
         CreateMap<StudentGuardian, StudentGuardianDTO>()
             .ForMember(sg => sg.Id, opt => opt.MapFrom(x => x.Id));
+        CreateMap<StudentGuardian, StudentGuardianTableRowDTO>()
+            .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
+            .ForPath(t => t.UserName, opt => opt.MapFrom(x => x.User.UserName))
+            .ForPath(t => t.UserId, opt => opt.MapFrom(x => x.User.Id))
+            .ForPath(t => t.Rut, opt => opt.MapFrom(x => x.User.Rut))
+            .ForPath(t => t.FirstName, opt => opt.MapFrom(x => x.User.FirstName))
+            .ForPath(t => t.LastName, opt => opt.MapFrom(x => x.User.LastName))
+            .ForPath(t => t.Email, opt => opt.MapFrom(x => x.User.Email))
+            .ForPath(t => t.Phone, opt => opt.MapFrom(x => x.User.Phone))
+            .ForPath(t => t.Address, opt => opt.MapFrom(x => x.User.Address))
+            // .ForPath(t => t.Gender, opt => opt.MapFrom(x => x.User.Gender))
+            .ForPath(t => t.BirthDate, opt => opt.MapFrom(x => x.User.BirthDate))
+            .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId));
 
         CreateMap(typeof(LabelValueFromDB<>), typeof(LabelValueDTO<>));
 

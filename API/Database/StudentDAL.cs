@@ -41,7 +41,7 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
 
     public async Task<List<Student>> RetrieveAll() =>
         await FindAll()
-                .Where(t => t.User.StateId == 1) // TODO: User enums
+                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .Include(t => t.Grade)
                 .ToListAsync();

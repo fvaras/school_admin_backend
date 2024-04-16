@@ -4,9 +4,9 @@ namespace school_admin_api.Contracts.Services;
 
 public interface IStudentGuardianService
 {
-    Task<int> Create(StudentGuardianForCreationDTO studentGuardianDTO);
-    Task Update(int id, StudentGuardianForUpdateDTO studentGuardianDTO);
+    Task<StudentGuardianTableRowDTO> Create(StudentGuardianForCreationDTO studentGuardianDTO);
+    Task<StudentGuardianTableRowDTO> Update(int id, StudentGuardianForUpdateDTO studentGuardianDTO);
     Task Delete(int id);
     Task<StudentGuardianDTO?> Retrieve(int id);
-    Task<List<StudentGuardianDTO>> RetrieveAll();
+    Task<List<StudentGuardianTableRowDTO>> RetrieveAll();
 }
