@@ -18,4 +18,13 @@ Currently, the project is in the design phase. However, I have made it public so
 - VS Code
 
 # Test
-For demostrative purposes you can find the API Swagger UI in http://3.85.201.107/schooladm/swagger
+## API
+For demostrative purposes you can find the [API Swagger UI](http://3.85.201.107/schooladm/swagger) in http://3.85.201.107/schooladm/swagger
+
+## Frontend
+You can test the API from this frontend system [SchoolAdmin](http://3.85.201.107/schooladmin) (http://3.85.201.107/schooladmin)
+
+## Credentials
+user: admin
+
+pass: admin
