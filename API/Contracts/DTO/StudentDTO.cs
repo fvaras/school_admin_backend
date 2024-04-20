@@ -7,6 +7,8 @@ public class StudentBaseDTO
     public DateTime? JoiningDate { get; init; }
     public byte StateId { get; init; }
     public int? GradeId { get; set; }
+    public int Guardian1Id { get; set; }
+    public int Guardian2Id { get; set; }
 }
 
 public class StudentForCreationDTO : StudentBaseDTO

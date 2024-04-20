@@ -62,11 +62,11 @@ public class MappingProfile : AutoMapper.Profile
             .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId))
             ;
 
-        CreateMap<StudentGuardianForCreationDTO, StudentGuardian>();
-        CreateMap<StudentGuardianForUpdateDTO, StudentGuardian>();
-        CreateMap<StudentGuardian, StudentGuardianDTO>()
+        CreateMap<GuardianForCreationDTO, Guardian>();
+        CreateMap<GuardianForUpdateDTO, Guardian>();
+        CreateMap<Guardian, GuardianDTO>()
             .ForMember(sg => sg.Id, opt => opt.MapFrom(x => x.Id));
-        CreateMap<StudentGuardian, StudentGuardianTableRowDTO>()
+        CreateMap<Guardian, GuardianTableRowDTO>()
             .ForPath(t => t.Id, opt => opt.MapFrom(x => x.Id))
             .ForPath(t => t.UserName, opt => opt.MapFrom(x => x.User.UserName))
             .ForPath(t => t.UserId, opt => opt.MapFrom(x => x.User.Id))

@@ -49,7 +49,7 @@ public static class ServiceExtensions
         services.AddScoped<IStudentDAL, StudentDAL>();
         services.AddScoped<IGradeDAL, GradeDAL>();
         services.AddScoped<ITeacherDAL, TeacherDAL>();
-        services.AddScoped<IStudentGuardianDAL, StudentGuardianDAL>();
+        services.AddScoped<IGuardianDAL, GuardianDAL>();
         services.AddScoped<ICalendarDAL, CalendarDAL>();
         services.AddScoped<ICalendarEventDAL, CalendarEventDAL>();
 
@@ -61,7 +61,7 @@ public static class ServiceExtensions
         services.AddScoped<IStudentService, StudentService>();
         services.AddScoped<IGradeService, GradeService>();
         services.AddScoped<ITeacherService, TeacherService>();
-        services.AddScoped<IStudentGuardianService, StudentGuardianService>();
+        services.AddScoped<IGuardianService, GuardianService>();
         services.AddScoped<ICalendarService, CalendarService>();
         services.AddScoped<ICalendarEventService, CalendarEventService>();
     }

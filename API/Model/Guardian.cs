@@ -2,8 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace school_admin_api.Model;
 
-[Table("StudentGuardians", Schema = "public")]
-public class StudentGuardian
+[Table("Guardians", Schema = "public")]
+public class Guardian
 {
     [Column("Id")]
     public int Id { get; set; }
@@ -14,5 +14,5 @@ public class StudentGuardian
 
     public User User { get; set; }
 
-    // public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
 }

@@ -33,6 +33,11 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
                     .ThenInclude(u => u.Profiles)
                 .FirstOrDefaultAsync();
 
+    public async Task<Student?> RetrieveWithGuardians(int id, bool trackChanges = true) =>
+        await FindByCondition(a => a.Id == id, trackChanges)
+                .Include(t => t.Guardians)
+                .FirstOrDefaultAsync();
+
     public async Task<Student?> RetrieveForMainTable(int id) =>
         await FindByCondition(a => a.Id == id, trackChanges: false)
                 .Include(p => p.Grade)
@@ -44,5 +49,11 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
                 .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .Include(t => t.Grade)
+                .ToListAsync();
+
+    public async Task<List<int>> RetrieveGuardiansId(int id) =>
+        await FindByCondition(c => c.Id == id, trackChanges: false)
+                .SelectMany(p => p.Guardians)
+                .Select(p => p.Id)
                 .ToListAsync();
 }

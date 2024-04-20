@@ -75,6 +75,8 @@ public class GradeService : IGradeService
     public async Task Delete(int id)
     {
         Grade grade = await GetRecordAndCheckExistence(id);
+
+        // TODO: Delete relations Grades/Teachers
         await _gradeDAL.Delete(grade);
     }
 

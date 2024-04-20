@@ -16,7 +16,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
-    public DbSet<StudentGuardian> StudentGuardians { get; set; }
+    public DbSet<Guardian> Guardians { get; set; }
     public DbSet<Calendar> Calendars { get; set; }
     public DbSet<CalendarEvent> CalendarEvents { get; set; }
 
@@ -61,9 +61,9 @@ public class ApplicationDbContext : DbContext
 
         // // Configuring the optional one-to-one relationship for a Student and their main guardian
         // modelBuilder.Entity<Student>()
-        //     .HasOne(s => s.MainStudentGuardian)
+        //     .HasOne(s => s.MainGuardian)
         //     .WithOne()
-        //     .HasForeignKey<Student>(s => s.MainStudentGuardianId)
+        //     .HasForeignKey<Student>(s => s.MainGuardianId)
         //     .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete if the main guardian is deleted
     }
 }

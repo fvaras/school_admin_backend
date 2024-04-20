@@ -13,6 +13,7 @@ public class StudentService : IStudentService
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
     private readonly IStudentDAL _studentDAL;
+    private readonly IGuardianDAL _guardianDAL;
     private readonly IProfileDAL _profileDAL;
     private readonly IMapper _mapper;
 
@@ -20,6 +21,7 @@ public class StudentService : IStudentService
         ILoggerService logger,
         IUserService userService,
         IStudentDAL studentDAL,
+        IGuardianDAL guardianDAL,
         IProfileDAL profileDAL,
         IMapper mapper
         )
@@ -27,6 +29,7 @@ public class StudentService : IStudentService
         _logger = logger;
         _userService = userService;
         _studentDAL = studentDAL;
+        _guardianDAL = guardianDAL;
         _profileDAL = profileDAL;
         _mapper = mapper;
     }
@@ -64,6 +67,17 @@ public class StudentService : IStudentService
         student.User = user;
         student.CreatedAt = DateTime.Now;
         student.UpdatedAt = DateTime.Now;
+
+        /********* GUARDIANS *********/
+        List<int> guardiansIds = new List<int>();
+        if (studentDTO.Guardian1Id != 0)
+            guardiansIds.Add(studentDTO.Guardian1Id);
+        if (studentDTO.Guardian2Id != 0 && !guardiansIds.Contains(studentDTO.Guardian2Id))
+            guardiansIds.Add(studentDTO.Guardian2Id);
+        foreach (int guardianId in guardiansIds)
+            student.Guardians.Add(await _guardianDAL.Retrieve(guardianId, trackChanges: true));
+        /********* GUARDIANS *********/
+
         await _studentDAL.Create(student);
 
         var studentForMainTable = await _studentDAL.RetrieveForMainTable(student.Id);
@@ -72,9 +86,38 @@ public class StudentService : IStudentService
 
     public async Task<StudentTableRowDTO> Update(int id, StudentForUpdateDTO studentDTO)
     {
-        Student student = await GetRecordAndCheckExistence(id);
+        Student student = await _studentDAL.RetrieveWithGuardians(id);
         _mapper.Map(studentDTO, student);
         student.UpdatedAt = DateTime.Now;
+
+        /********* GUARDIANS *********/
+        List<int> guardiansIds = new List<int>();
+        if (studentDTO.Guardian1Id != 0)
+            guardiansIds.Add(studentDTO.Guardian1Id);
+        if (studentDTO.Guardian2Id != 0 && !guardiansIds.Contains(studentDTO.Guardian2Id))
+            guardiansIds.Add(studentDTO.Guardian2Id);
+
+        // Retrieve current guardian associations for comparison
+        List<int> currentGuardianIds = await _studentDAL.RetrieveGuardiansId(id);
+
+        // Determine guardians to remove
+        var guardiansIdsToRemove = currentGuardianIds.Except(guardiansIds).ToList();
+        foreach (var guardianId in guardiansIdsToRemove)
+        {
+            var guardianToRemove = student.Guardians.FirstOrDefault(t => t.Id == guardianId);
+            if (guardianToRemove != null)
+                student.Guardians.Remove(guardianToRemove);
+        }
+
+        // Determine new guardians to add
+        var newGuardiansIds = guardiansIds.Except(currentGuardianIds).ToList();
+        foreach (var newGuardianId in newGuardiansIds)
+        {
+            var guardianToAdd = await _guardianDAL.Retrieve(newGuardianId, trackChanges: true);
+            if (guardianToAdd != null)
+                student.Guardians.Add(guardianToAdd);
+        }
+        /********* GUARDIANS *********/
 
         // Grade null value
         if (studentDTO.GradeId == 0)
@@ -97,6 +140,9 @@ public class StudentService : IStudentService
             if (studentProfile != null)
                 student.User.Profiles.Remove(studentProfile);
         }
+
+        student.Guardians = null;
+
         await _studentDAL.Delete(student);
     }
 

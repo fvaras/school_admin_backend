@@ -1,21 +1,21 @@
 namespace school_admin_api.Contracts.DTO;
 
-public class StudentGuardianBaseDTO
+public class GuardianBaseDTO
 {
     public string Relation { get; set; }
     public byte StateId { get; init; }
 }
 
-public class StudentGuardianForCreationDTO : StudentGuardianBaseDTO
+public class GuardianForCreationDTO : GuardianBaseDTO
 {
     public UserForCreationDTO User { get; set; }
 }
 
-public class StudentGuardianForUpdateDTO : StudentGuardianBaseDTO
+public class GuardianForUpdateDTO : GuardianBaseDTO
 {
 }
 
-public class StudentGuardianDTO : StudentGuardianBaseDTO
+public class GuardianDTO : GuardianBaseDTO
 {
     public int Id { get; init; }
     public byte StateId { get; init; }
@@ -24,7 +24,7 @@ public class StudentGuardianDTO : StudentGuardianBaseDTO
     public UserDTO User { get; set; }
 }
 
-public class StudentGuardianTableRowDTO
+public class GuardianTableRowDTO
 {
     public int Id { get; init; }
     public string UserName { get; set; }
