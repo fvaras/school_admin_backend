@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240421011112_subjects")]
+    partial class subjects
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -300,42 +302,6 @@ namespace school_admin_api.Migrations
                     b.ToTable("Students", "public");
                 });
 
-            modelBuilder.Entity("school_admin_api.Model.Subject", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int>("GradeId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("StateId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GradeId");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Subjects", "public");
-                });
-
             modelBuilder.Entity("school_admin_api.Model.Teacher", b =>
                 {
                     b.Property<int>("Id")
@@ -441,8 +407,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = 1,
                             Address = "",
-                            BirthDate = new DateTime(2024, 4, 22, 0, 19, 32, 147, DateTimeKind.Local).AddTicks(7013),
-                            CreatedAt = new DateTime(2024, 4, 22, 0, 19, 32, 147, DateTimeKind.Local).AddTicks(7071),
+                            BirthDate = new DateTime(2024, 4, 20, 21, 11, 11, 767, DateTimeKind.Local).AddTicks(8068),
+                            CreatedAt = new DateTime(2024, 4, 20, 21, 11, 11, 767, DateTimeKind.Local).AddTicks(8114),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -451,7 +417,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 4, 22, 0, 19, 32, 147, DateTimeKind.Local).AddTicks(7075),
+                            UpdatedAt = new DateTime(2024, 4, 20, 21, 11, 11, 767, DateTimeKind.Local).AddTicks(8119),
                             UserName = "admin"
                         });
                 });
@@ -538,25 +504,6 @@ namespace school_admin_api.Migrations
                     b.Navigation("Grade");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("school_admin_api.Model.Subject", b =>
-                {
-                    b.HasOne("school_admin_api.Model.Grade", "Grade")
-                        .WithMany()
-                        .HasForeignKey("GradeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("school_admin_api.Model.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Grade");
-
-                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Teacher", b =>

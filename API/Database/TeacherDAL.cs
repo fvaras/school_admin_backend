@@ -57,4 +57,22 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                 .Where(t => t.User.StateId == (int)Teacher.TEACHER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .ToListAsync();
+
+    public async Task<List<UserDerivedEntityDbDataForLists<int>>> RetrieveByNamesOrRut(string text) =>
+        await FindAll()
+                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE
+                    && (
+                        EF.Functions.Like(t.User.FirstName.ToLower(), $"%{text}%".ToLower()) ||
+                        EF.Functions.Like(t.User.LastName.ToLower(), $"%{text}%".ToLower()) ||
+                        EF.Functions.Like(t.User.Rut.ToLower(), $"%{text}%".ToLower())
+                    ))
+                .Include(t => t.User)
+                .Select(t => new UserDerivedEntityDbDataForLists<int>()
+                {
+                    Id = t.Id,
+                    Rut = t.User.Rut,
+                    FirstName = t.User.FirstName,
+                    LastName = t.User.LastName,
+                })
+                .ToListAsync();
 }

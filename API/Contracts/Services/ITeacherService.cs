@@ -11,4 +11,6 @@ public interface ITeacherService
     Task<List<TeacherTableRowDTO>> RetrieveAll();
 
     Task<List<LabelValueDTO<int>>> RetrieveForList();
+
+    Task<List<UserDerivedEntityDataForLists<int>>> RetrieveByNamesOrRut(string text);
 }

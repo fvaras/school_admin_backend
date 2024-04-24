@@ -104,6 +104,9 @@ public class TeacherService : ITeacherService
     public async Task<List<LabelValueDTO<int>>> RetrieveForList() =>
         _mapper.Map<List<LabelValueDTO<int>>>(await _teacherDAL.RetrieveForList());
 
+    public async Task<List<UserDerivedEntityDataForLists<int>>> RetrieveByNamesOrRut(string text) =>
+        _mapper.Map<List<UserDerivedEntityDataForLists<int>>>(await _teacherDAL.RetrieveByNamesOrRut(text.Trim()));
+
     private async Task<Teacher> GetRecordAndCheckExistence(int id)
     {
         Teacher teacher = await _teacherDAL.Retrieve(id);

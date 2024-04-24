@@ -52,4 +52,11 @@ public class TeacherController : ControllerBase
     {
         return await _teacherService.RetrieveForList();
     }
+
+    [HttpGet("byNamesOrRut")]
+    public async Task<List<UserDerivedEntityDataForLists<int>>> RetrieveByNamesOrRut(string? text)
+    {
+        text = string.IsNullOrWhiteSpace(text) ? string.Empty : text.Trim();
+        return await _teacherService.RetrieveByNamesOrRut(text);
+    }
 }

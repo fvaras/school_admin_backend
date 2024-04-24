@@ -14,4 +14,6 @@ public interface ITeacherDAL
     Task<List<Teacher>> RetrieveAll();
 
     Task<List<LabelValueFromDB<int>>> RetrieveForList();
+
+    Task<List<UserDerivedEntityDbDataForLists<int>>> RetrieveByNamesOrRut(string text);
 }

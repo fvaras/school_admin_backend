@@ -82,9 +82,18 @@ public class MappingProfile : AutoMapper.Profile
 
         CreateMap(typeof(LabelValueFromDB<>), typeof(LabelValueDTO<>));
 
+        CreateMap(typeof(UserDerivedEntityDbDataForLists<>), typeof(UserDerivedEntityDataForLists<>));
+        // .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EntityId));
+        // .ForPath(t => t.Id, opt => opt.MapFrom(x => x.EntityId));
+
         CreateMap<CalendarForCreationDTO, Calendar>();
         CreateMap<CalendarForUpdateDTO, Calendar>();
         CreateMap<Calendar, CalendarDTO>();
+
+        CreateMap<SubjectForCreationDTO, Subject>();
+        CreateMap<SubjectForUpdateDTO, Subject>();
+        CreateMap<Subject, SubjectDTO>();
+        CreateMap<SubjectTableRowDbDTO, SubjectTableRowDTO>();
 
         CreateMap<CalendarEventForCreationDTO, CalendarEvent>()
             .ForMember(entity => entity.EventType, opt => opt.MapFrom(x => x.Type))

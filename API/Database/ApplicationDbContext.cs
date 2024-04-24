@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Guardian> Guardians { get; set; }
     public DbSet<Calendar> Calendars { get; set; }
     public DbSet<CalendarEvent> CalendarEvents { get; set; }
+    public DbSet<Subject> Subject { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
