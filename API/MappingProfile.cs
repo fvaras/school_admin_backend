@@ -105,6 +105,12 @@ public class MappingProfile : AutoMapper.Profile
             .ForMember(entity => entity.EndDate, opt => opt.MapFrom(x => ISODt2DateTime(x.EndISODate)));
         CreateMap<CalendarEvent, CalendarEventDTO>()
             .ForMember(dto => dto.Type, opt => opt.MapFrom(x => x.EventType));
+
+        CreateMap<PlanningForCreationDTO, Planning>();
+        CreateMap<PlanningForUpdateDTO, Planning>();
+        CreateMap<Planning, PlanningDTO>();
+        CreateMap<Planning, PlanningTableRowDTO>();
+        CreateMap<PlanningTableRowDbDTO, PlanningTableRowDTO>();
     }
 
     private DateTime ISODt2DateTime(string ISODateTime)

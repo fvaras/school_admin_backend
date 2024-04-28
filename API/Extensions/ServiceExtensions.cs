@@ -53,6 +53,7 @@ public static class ServiceExtensions
         services.AddScoped<ICalendarDAL, CalendarDAL>();
         services.AddScoped<ICalendarEventDAL, CalendarEventDAL>();
         services.AddScoped<ISubjectDAL, SubjectDAL>();
+        services.AddScoped<IPlanningDAL, PlanningDAL>();
 
         // Services
         services.AddScoped<IUserService, UserService>();
@@ -66,6 +67,7 @@ public static class ServiceExtensions
         services.AddScoped<ICalendarService, CalendarService>();
         services.AddScoped<ICalendarEventService, CalendarEventService>();
         services.AddScoped<ISubjectService, SubjectService>();
+        services.AddScoped<IPlanningService, PlanningService>();
     }
 
     public static void ConfigureAppSettingsMapping(this IServiceCollection services, IConfiguration configuration)
