@@ -111,10 +111,35 @@ public class MappingProfile : AutoMapper.Profile
         CreateMap<Planning, PlanningDTO>();
         CreateMap<Planning, PlanningTableRowDTO>();
         CreateMap<PlanningTableRowDbDTO, PlanningTableRowDTO>();
+
+        CreateMap<TimeBlockForCreationDTO, TimeBlock>()
+            .ForMember(entity => entity.Start, opt => opt.MapFrom(dto => ParseTimeSpanFromString(dto.Start, "HH:mm")))
+            .ForMember(entity => entity.End, opt => opt.MapFrom(dto => ParseTimeSpanFromString(dto.End, "HH:mm")));
+        CreateMap<TimeBlockForUpdateDTO, TimeBlock>()
+            .ForMember(entity => entity.Start, opt => opt.MapFrom(dto => ParseTimeSpanFromString(dto.Start, "HH:mm")))
+            .ForMember(entity => entity.End, opt => opt.MapFrom(dto => ParseTimeSpanFromString(dto.End, "HH:mm")));
+        CreateMap<TimeBlock, TimeBlockDTO>()
+            .ForMember(dto => dto.Start, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.Start, "HH:mm")))
+            .ForMember(dto => dto.End, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.End, "HH:mm")));
+        CreateMap<TimeBlock, TimeBlockTableRowDTO>()
+            .ForMember(dto => dto.Start, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.Start, "HH:mm")))
+            .ForMember(dto => dto.End, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.End, "HH:mm")));
+        CreateMap<TimeBlockTableRowDbDTO, TimeBlockTableRowDTO>();
     }
 
     private DateTime ISODt2DateTime(string ISODateTime)
     {
         return DateTime.ParseExact(ISODateTime, "yyyyMMddHHmmss", null);
+    }
+
+    private TimeSpan ParseTimeSpanFromString(string time, string format)
+    {
+        if (string.IsNullOrWhiteSpace(time)) return TimeSpan.MinValue;
+        return DateTime.ParseExact(time, format, null).TimeOfDay;
+    }
+    private string? ParseTimeSpanToString(TimeSpan? time, string format)
+    {
+        if (time == null) return string.Empty;
+        return time!.ToString();
     }
 }

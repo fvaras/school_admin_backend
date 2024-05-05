@@ -6,8 +6,8 @@ using school_admin_api.Contracts.Services;
 namespace school_admin_api.Controllers;
 
 [ApiController]
-[Route("api/guardian")]
 [Authorize]
+[Route("api/guardian")]
 public class GuardianController : ControllerBase
 {
     private readonly IGuardianService _guardianService;

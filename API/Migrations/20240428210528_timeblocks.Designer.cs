@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240428210528_timeblocks")]
+    partial class timeblocks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -448,13 +450,6 @@ namespace school_admin_api.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("BlockName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Color")
-                        .HasColumnType("text");
-
                     b.Property<byte>("Day")
                         .HasColumnType("smallint");
 
@@ -470,17 +465,12 @@ namespace school_admin_api.Migrations
                     b.Property<TimeSpan>("Start")
                         .HasColumnType("interval");
 
-                    b.Property<int?>("SubjectId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("integer");
+                    b.Property<byte>("Year")
+                        .HasColumnType("smallint");
 
                     b.HasKey("Id");
 
                     b.HasIndex("GradeId");
-
-                    b.HasIndex("SubjectId");
 
                     b.ToTable("TimeBlocks", "public");
                 });
@@ -550,8 +540,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = 1,
                             Address = "",
-                            BirthDate = new DateTime(2024, 5, 3, 3, 45, 20, 962, DateTimeKind.Local).AddTicks(6456),
-                            CreatedAt = new DateTime(2024, 5, 3, 3, 45, 20, 962, DateTimeKind.Local).AddTicks(6505),
+                            BirthDate = new DateTime(2024, 4, 28, 17, 5, 27, 641, DateTimeKind.Local).AddTicks(870),
+                            CreatedAt = new DateTime(2024, 4, 28, 17, 5, 27, 641, DateTimeKind.Local).AddTicks(922),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -560,7 +550,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 5, 3, 3, 45, 20, 962, DateTimeKind.Local).AddTicks(6510),
+                            UpdatedAt = new DateTime(2024, 4, 28, 17, 5, 27, 641, DateTimeKind.Local).AddTicks(924),
                             UserName = "admin"
                         });
                 });
@@ -698,13 +688,7 @@ namespace school_admin_api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("school_admin_api.Model.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId");
-
                     b.Navigation("Grade");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Calendar", b =>

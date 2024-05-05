@@ -21,6 +21,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<CalendarEvent> CalendarEvents { get; set; }
     public DbSet<Subject> Subject { get; set; }
     public DbSet<Planning> Plannings { get; set; }
+    public DbSet<TimeBlock> TimeBlocks { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
