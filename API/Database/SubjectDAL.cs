@@ -46,4 +46,14 @@ public class SubjectDAL : RepositoryBase<Subject>, ISubjectDAL
                 TeacherName = $"{t.Teacher.User.FirstName} {t.Teacher.User.LastName}",
             })
             .ToListAsync();
+
+    public async Task<List<LabelValueFromDB<int>>> RetrieveByGradeForList(int gradeId) =>
+        await FindByCondition(t => t.StateId == 1, false)
+                .Where(subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.GradeId == gradeId)
+                .Select(subject => new LabelValueFromDB<int>()
+                {
+                    Value = subject.Id,
+                    Label = $"{subject.Name}"
+                })
+                .ToListAsync();
 }

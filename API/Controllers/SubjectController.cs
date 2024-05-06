@@ -12,7 +12,9 @@ public class SubjectController : ControllerBase
 {
     private readonly ISubjectService _subjectService;
 
-    public SubjectController(ISubjectService subjectService)
+    public SubjectController(
+        ISubjectService subjectService
+    )
     {
         _subjectService = subjectService;
     }
@@ -45,5 +47,12 @@ public class SubjectController : ControllerBase
     public async Task<List<SubjectTableRowDTO>> RetrieveAll()
     {
         return await _subjectService.RetrieveAll();
+    }
+
+    [HttpGet("byGradeForList")]
+    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    {
+        int gradeId = 1; // TODO: Get from tkn or session
+        return await _subjectService.RetrieveByGrade(gradeId);
     }
 }

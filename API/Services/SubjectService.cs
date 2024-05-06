@@ -56,4 +56,7 @@ public class SubjectService : ISubjectService
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<SubjectTableRowDTO>(rows.FirstOrDefault());
     }
+
+    public async Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId) =>
+        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeForList(gradeId));
 }

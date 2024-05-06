@@ -11,16 +11,19 @@ public class TimeBlockService : ITimeBlockService
 {
     private readonly ILoggerService _logger;
     private readonly ITimeBlockDAL _timeBlockDAL;
+    private readonly ISubjectDAL _subjectDAL;
     private readonly IMapper _mapper;
 
     public TimeBlockService(
         ILoggerService logger,
         ITimeBlockDAL timeBlockDAL,
+        ISubjectDAL subjectDAL,
         IMapper mapper
         )
     {
         _logger = logger;
         _timeBlockDAL = timeBlockDAL;
+        _subjectDAL = subjectDAL;
         _mapper = mapper;
     }
 
@@ -36,6 +39,14 @@ public class TimeBlockService : ITimeBlockService
     {
         if (timeBlockDTO.SubjectId == 0) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
+
+        // Update blockName with Subject name
+        if (timeBlockDTO.SubjectId != null)
+        {
+            Subject subject = await _subjectDAL.Retrieve((int)timeBlockDTO.SubjectId, trackChanges: false);
+            timeBlockDTO.BlockName = subject.Name;
+        }
+
         _mapper.Map(timeBlockDTO, timeBlock);
         await _timeBlockDAL.Update(timeBlock);
         return await RetrieveForTable(timeBlock.Id);

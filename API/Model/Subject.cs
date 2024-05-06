@@ -16,4 +16,10 @@ public class Subject
 
     public int TeacherId { get; set; }
     public Teacher Teacher { get; set; }
+
+    public enum SUBJECT_STATES
+    {
+        ACTIVE = 1,
+        INACTIVE = 2,
+    }
 }
