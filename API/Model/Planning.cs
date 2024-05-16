@@ -23,4 +23,12 @@ public class Planning
     public int CreatedBy { get; set; }
     public int LastUpdatedBy { get; set; }
     public byte StateId { get; set; }
+    public List<PlanningTimeBlock> PlanningTimeBlocks { get; set; }
+
+    public enum PLANNING_STATES
+    {
+        ACTIVE = 1,
+        IN_CREATION = 2,
+        INACTIVE = 3,
+    }
 }

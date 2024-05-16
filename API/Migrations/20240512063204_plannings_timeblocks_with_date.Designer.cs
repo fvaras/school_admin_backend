@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240512063204_plannings_timeblocks_with_date")]
+    partial class plannings_timeblocks_with_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,27 +284,18 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.PlanningTimeBlock", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("PlanningsId")
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    b.Property<int>("TimeBlocksId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("PlanningId")
-                        .HasColumnType("integer");
+                    b.HasKey("PlanningsId", "TimeBlocksId");
 
-                    b.Property<int>("TimeBlockId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TimeBlockId");
-
-                    b.HasIndex("PlanningId", "TimeBlockId", "Date")
-                        .IsUnique();
+                    b.HasIndex("TimeBlocksId");
 
                     b.ToTable("PlanningTimeBlock");
                 });
@@ -580,8 +573,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = 1,
                             Address = "",
-                            BirthDate = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7624),
-                            CreatedAt = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7677),
+                            BirthDate = new DateTime(2024, 5, 12, 2, 32, 3, 947, DateTimeKind.Local).AddTicks(2170),
+                            CreatedAt = new DateTime(2024, 5, 12, 2, 32, 3, 947, DateTimeKind.Local).AddTicks(2225),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -590,7 +583,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7681),
+                            UpdatedAt = new DateTime(2024, 5, 12, 2, 32, 3, 947, DateTimeKind.Local).AddTicks(2230),
                             UserName = "admin"
                         });
                 });
@@ -677,13 +670,13 @@ namespace school_admin_api.Migrations
                 {
                     b.HasOne("school_admin_api.Model.Planning", "Planning")
                         .WithMany("PlanningTimeBlocks")
-                        .HasForeignKey("PlanningId")
+                        .HasForeignKey("PlanningsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("school_admin_api.Model.TimeBlock", "TimeBlock")
                         .WithMany("PlanningTimeBlocks")
-                        .HasForeignKey("TimeBlockId")
+                        .HasForeignKey("TimeBlocksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

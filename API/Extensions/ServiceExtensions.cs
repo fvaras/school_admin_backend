@@ -55,6 +55,7 @@ public static class ServiceExtensions
         services.AddScoped<ISubjectDAL, SubjectDAL>();
         services.AddScoped<IPlanningDAL, PlanningDAL>();
         services.AddScoped<ITimeBlockDAL, TimeBlockDAL>();
+        services.AddScoped<IPlanningTimeBlockDAL, PlanningTimeBlockDAL>();
 
         // Services
         services.AddScoped<IUserService, UserService>();

@@ -31,4 +31,6 @@ public class TimeBlock
 
     public int? SubjectId { get; set; }
     public Subject? Subject { get; set; }
+
+    public List<PlanningTimeBlock> PlanningTimeBlocks { get; set; }
 }

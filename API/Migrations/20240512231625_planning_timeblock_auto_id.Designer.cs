@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240512231625_planning_timeblock_auto_id")]
+    partial class planning_timeblock_auto_id
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -282,27 +284,24 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.PlanningTimeBlock", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp without time zone");
-
                     b.Property<int>("PlanningId")
                         .HasColumnType("integer");
 
                     b.Property<int>("TimeBlockId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.HasKey("PlanningId", "TimeBlockId");
 
                     b.HasIndex("TimeBlockId");
-
-                    b.HasIndex("PlanningId", "TimeBlockId", "Date")
-                        .IsUnique();
 
                     b.ToTable("PlanningTimeBlock");
                 });
@@ -580,8 +579,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = 1,
                             Address = "",
-                            BirthDate = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7624),
-                            CreatedAt = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7677),
+                            BirthDate = new DateTime(2024, 5, 12, 19, 16, 24, 458, DateTimeKind.Local).AddTicks(4627),
+                            CreatedAt = new DateTime(2024, 5, 12, 19, 16, 24, 458, DateTimeKind.Local).AddTicks(4674),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -590,7 +589,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 5, 12, 19, 41, 37, 753, DateTimeKind.Local).AddTicks(7681),
+                            UpdatedAt = new DateTime(2024, 5, 12, 19, 16, 24, 458, DateTimeKind.Local).AddTicks(4677),
                             UserName = "admin"
                         });
                 });

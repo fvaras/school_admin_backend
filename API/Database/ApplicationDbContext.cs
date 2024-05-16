@@ -22,6 +22,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Subject> Subject { get; set; }
     public DbSet<Planning> Plannings { get; set; }
     public DbSet<TimeBlock> TimeBlocks { get; set; }
+    public DbSet<PlanningTimeBlock> PlanningTimeBlock { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,5 +69,29 @@ public class ApplicationDbContext : DbContext
         //     .WithOne()
         //     .HasForeignKey<Student>(s => s.MainGuardianId)
         //     .OnDelete(DeleteBehavior.Restrict); // Prevents cascade delete if the main guardian is deleted
+
+
+        modelBuilder.Entity<PlanningTimeBlock>()
+            .HasKey(ptb => ptb.Id);  // Primary Key
+
+        modelBuilder.Entity<PlanningTimeBlock>()
+            .HasIndex(ptb => new { ptb.PlanningId, ptb.TimeBlockId, ptb.Date })
+            .IsUnique();  // Unique Constraint on combination of fields
+
+        modelBuilder.Entity<PlanningTimeBlock>()
+            .HasOne(ptb => ptb.Planning)
+            .WithMany(p => p.PlanningTimeBlocks)
+            .HasForeignKey(ptb => ptb.PlanningId)
+            .OnDelete(DeleteBehavior.Cascade);  // Ensuring proper cascade delete behavior
+
+        modelBuilder.Entity<PlanningTimeBlock>()
+            .HasOne(ptb => ptb.TimeBlock)
+            .WithMany(tb => tb.PlanningTimeBlocks)
+            .HasForeignKey(ptb => ptb.TimeBlockId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<PlanningTimeBlock>()
+            .Property(ptb => ptb.Date)
+            .IsRequired();
     }
 }
