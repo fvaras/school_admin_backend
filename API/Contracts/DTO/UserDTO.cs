@@ -40,5 +40,5 @@ public record UserInfoDTO
     // public string Phone { get; set; }
     // public string Address { get; set; }
     // public byte Gender { get; set; }
-    public int Profile { get; set; }
+    public int ProfileId { get; set; }
 }

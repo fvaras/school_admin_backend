@@ -17,16 +17,17 @@ public class AuthService : IAuthService
         _jwtService = jwtService;
     }
 
-    public async Task<AuthInfoDTO?> ValidateUser(string username, string password)
+    public async Task<AuthInfoDTO?> ValidateUser(string username, string password, int profileId)
     {
-        UserInfoDTO? user = await _userService.Validate(username, password);
+        UserInfoDTO? user = await _userService.Validate(username, password, profileId);
         if (user == null)
             return null;
+        user.ProfileId = profileId;
 
         TokenInfoDTO tokenInfo = new TokenInfoDTO()
         {
             Username = user.UserName,
-            Profile = 10 // TODO: Set profile
+            ProfileId = profileId
         };
 
         string token = _jwtService.Encode(tokenInfo);

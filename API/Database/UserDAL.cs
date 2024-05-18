@@ -38,9 +38,10 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
 
     public async Task<List<User>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<User?> RetrieveByCredentials(string username, string password)
+    public async Task<User?> RetrieveByCredentials(string username, string password, int profileId)
         => await FindByCondition(
                 u => u.UserName.Equals(username)
                 && u.Password.Equals(password), trackChanges: false)
+                .Include(u => u.Profiles) // TODO: Filter by profileId
                 .FirstOrDefaultAsync();
 }

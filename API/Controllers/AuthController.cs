@@ -16,10 +16,10 @@ public class AuthController : ControllerBase
     {
         _authService = authService;
     }
-    
+
     [HttpPost("tkn")]
     public Task<AuthInfoDTO?> ValidateUser(ValidateUserDTO req)
     {
-        return _authService.ValidateUser(req.Username, req.Password);
+        return _authService.ValidateUser(req.Username, req.Password, req.ProfileId);
     }
 }

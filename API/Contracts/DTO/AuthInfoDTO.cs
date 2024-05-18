@@ -9,5 +9,5 @@ public record AuthInfoDTO
 public record TokenInfoDTO
 {
     public string Username { get; set; }
-    public int Profile { get; set; }
+    public int ProfileId { get; set; }
 }

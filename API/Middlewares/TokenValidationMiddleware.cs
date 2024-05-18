@@ -46,7 +46,7 @@ public class TokenValidationMiddleware
 
             // attach user to context on successful jwt validation
             context.Items["username"] = authInfoDTO.Username;
-            context.Items["profile"] = authInfoDTO.Profile;
+            context.Items["profile"] = authInfoDTO.ProfileId;
         }
         catch (Exception ex)
         {
