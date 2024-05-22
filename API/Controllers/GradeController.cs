@@ -58,4 +58,11 @@ public class GradeController : ControllerBase
     {
         return await _gradeService.RetrieveForList();
     }
+
+    [HttpGet("forListByTeacher")]
+    public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher()
+    {
+        int teacherId = 74; // TODO: Get from token
+        return await _gradeService.RetrieveForListByTeacher(teacherId);
+    }
 }

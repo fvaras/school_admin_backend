@@ -10,6 +10,7 @@ public interface IGradeService
     Task<GradeDTO?> Retrieve(int id);
     Task<List<GradeDTO>> RetrieveAll();
     Task<List<LabelValueDTO<int>>> RetrieveForList();
+    Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher(int teacherId);
 
     Task<List<int>> RetrieveTeachersId(int id);
 }

@@ -58,5 +58,8 @@ public class SubjectService : ISubjectService
     }
 
     public async Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId) =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeForList(gradeId));
+        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
+
+    public async Task<List<LabelValueDTO<int>>> RetrieveByGradeAndTeacher(int gradeId, int teacherId) =>
+        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId));
 }

@@ -31,25 +31,25 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
 
     public async Task<List<Planning>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(int id = 0) =>
+    public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(int id = 0, int teacherId = 0) =>
         await FindAll(trackChanges: false)
-            .Where(t => t.Id == id || id == 0)
-            .Include(t => t.Subject)
-            .Select(t => new PlanningTableRowDbDTO()
+            .Include(p => p.Subject)
+            .Where(p => (p.Id == id || id == 0) && (p.Subject.TeacherId == teacherId || teacherId == 0))
+            .Select(p => new PlanningTableRowDbDTO()
             {
-                Id = t.Id,
-                SubjectId = t.SubjectId,
-                SubjectName = t.Subject.Name,
-                Title = t.Title,
-                Description = t.Description,
+                Id = p.Id,
+                SubjectId = p.SubjectId,
+                SubjectName = p.Subject.Name,
+                Title = p.Title,
+                Description = p.Description,
                 // ExpectedLearning = t.ExpectedLearning,
                 // Contents = t.Contents,
                 // Activities = t.Activities,
                 // Resources = t.Resources,
                 // EvaluationPlan = t.EvaluationPlan,
-                EstimatedDuration = t.EstimatedDuration,
-                StartDate = t.StartDate,
-                EndDate = t.EndDate,
+                EstimatedDuration = p.EstimatedDuration,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
                 // SubjectName = t.Subject.Name
             })
             .ToListAsync();

@@ -89,6 +89,9 @@ public class GradeService : IGradeService
     public async Task<List<LabelValueDTO<int>>> RetrieveForList() =>
         _mapper.Map<List<LabelValueDTO<int>>>(await _gradeDAL.RetrieveForList());
 
+    public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher(int teacherId) =>
+        _mapper.Map<List<LabelValueDTO<int>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId));
+
     private async Task<Grade> GetRecordAndCheckExistence(int id)
     {
         Grade grade = await _gradeDAL.Retrieve(id);

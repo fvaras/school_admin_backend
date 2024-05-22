@@ -11,6 +11,7 @@ public interface IGradeDAL
     Task<Grade?> Retrieve(int id, bool trackChanges = false);
     Task<List<Grade>> RetrieveAll();
     Task<List<LabelValueFromDB<int>>> RetrieveForList();
+    Task<List<LabelValueFromDB<int>>> RetrieveForListByTeacher(int teacherId);
 
     Task<List<int>> RetrieveTeachersId(int id);
 }

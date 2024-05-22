@@ -52,7 +52,8 @@ public class PlanningController : ControllerBase
     [HttpGet]
     public async Task<List<PlanningTableRowDTO>> RetrieveAll()
     {
-        return await _planningService.RetrieveAll();
+        int teacherId = 74; // TODO: Get from token
+        return await _planningService.RetrieveAll(teacherId);
     }
 
     [HttpGet("byGradeAndSubject/{gradeId:int}/{subjectId:int}")]

@@ -40,6 +40,36 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
                 })
                 .ToListAsync();
 
+    public async Task<List<LabelValueFromDB<int>>> RetrieveForListByTeacher(int teacherId) =>
+        await _context.Subject
+                .Include(s => s.Grade)
+                .Include(s => s.Teacher)
+                    .ThenInclude(t => t.User)
+                .Where(s =>
+                        s.TeacherId == teacherId
+                        && s.StateId == (int)Subject.SUBJECT_STATES.ACTIVE
+                        && s.Teacher.StateId == (int)Teacher.TEACHER_STATES.ACTIVE
+                        && s.Teacher.User.StateId == (int)User.USER_STATES.ACTIVE
+                )
+                .AsNoTracking()
+                .Select(s => new LabelValueFromDB<int>()
+                {
+                    Value = s.Grade.Id,
+                    Label = $"{s.Grade.Name}"
+                })
+                .Distinct()
+                .ToListAsync();
+    // public async Task<List<LabelValueFromDB<int>>> RetrieveForListByTeacher(int teacherId) =>
+    //     await FindByCondition(g => g.Active == true, false)
+    //             .Include(g => g.Teachers)
+    //             .Where(g => g.Teachers.Any(t => t.Id == teacherId))
+    //             .Select(g => new LabelValueFromDB<int>()
+    //             {
+    //                 Value = g.Id,
+    //                 Label = $"{g.Name} ${String.Join(",", g.Teachers.Select(t => t.Id))}"
+    //             })
+    //             .ToListAsync();
+
     public async Task<List<int>> RetrieveTeachersId(int id)
     {
         return await FindByCondition(c => c.Id == id, trackChanges: false)

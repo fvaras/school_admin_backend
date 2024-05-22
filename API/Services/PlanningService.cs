@@ -90,7 +90,7 @@ public class PlanningService : IPlanningService
 
     public async Task<PlanningDTO?> Retrieve(int id) => _mapper.Map<PlanningDTO>(await _planningDAL.Retrieve(id));
 
-    public async Task<List<PlanningTableRowDTO>> RetrieveAll() => _mapper.Map<List<PlanningTableRowDTO>>(await _planningDAL.RetrieveForMainTable(id: 0));
+    public async Task<List<PlanningTableRowDTO>> RetrieveAll(int teacherId) => _mapper.Map<List<PlanningTableRowDTO>>(await _planningDAL.RetrieveForMainTable(id: 0, teacherId: teacherId));
 
     public async Task<List<LabelValueDTO<int>>> RetrieveByGradeAndSubject(int gradeId, int subjectId) => _mapper.Map<List<LabelValueDTO<int>>>(await _planningDAL.RetrieveByGradeAndSubject(gradeId, subjectId));
 

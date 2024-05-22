@@ -9,7 +9,7 @@ public interface IPlanningService
     Task<PlanningTableRowDTO> UpdateWithTimeBlocks(int id, PlanningWithTimeBlocksForUpdateDTO planningDTO);
     Task Delete(int id);
     Task<PlanningDTO?> Retrieve(int id);
-    Task<List<PlanningTableRowDTO>> RetrieveAll();
+    Task<List<PlanningTableRowDTO>> RetrieveAll(int teacherId);
     Task<List<LabelValueDTO<int>>> RetrieveByGradeAndSubject(int gradeId, int subjectId);
     Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(int subjectId, int timeBlockId, string dateString);
 }

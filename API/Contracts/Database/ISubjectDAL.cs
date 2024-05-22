@@ -11,5 +11,5 @@ public interface ISubjectDAL
     Task<Subject?> Retrieve(int id, bool trackChanges = false);
     Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(int id = 0);
 
-    Task<List<LabelValueFromDB<int>>> RetrieveByGradeForList(int gradeId);
+    Task<List<LabelValueFromDB<int>>> RetrieveByGradeAndTeacherForList(int gradeId, int teacherId);
 }
