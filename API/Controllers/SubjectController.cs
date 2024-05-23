@@ -49,12 +49,12 @@ public class SubjectController : ControllerBase
         return await _subjectService.RetrieveAll();
     }
 
-    [HttpGet("byGradeForList")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
-    {
-        int gradeId = 1; // TODO: Get from tkn or session
-        return await _subjectService.RetrieveByGrade(gradeId);
-    }
+    // [HttpGet("byGradeForList")]
+    // public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    // {
+    //     int gradeId = 1; // TODO: Get from tkn or session
+    //     return await _subjectService.RetrieveByGrade(gradeId);
+    // }
 
     [HttpGet("byGradeAndTeacherForList/{gradeId}")]
     public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher([FromRoute] int gradeId)

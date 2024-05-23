@@ -24,8 +24,10 @@ public class TimeBlockDAL : RepositoryBase<TimeBlock>, ITimeBlockDAL
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-    public async Task<List<TimeBlock>> RetrieveAll(int gradeId) =>
+    public async Task<List<TimeBlock>> RetrieveAll(int gradeId, int teacherId) =>
         await FindAll()
+                // .Include(t => t.Subject) // TODO: Teacher can only view scoped plannings
+                // .Where(t => t.GradeId == gradeId && t.Subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && t.Subject.TeacherId == teacherId)
                 .Where(t => t.GradeId == gradeId)
                 .ToListAsync();
 

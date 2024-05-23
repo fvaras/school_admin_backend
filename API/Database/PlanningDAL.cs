@@ -34,10 +34,13 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
     public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(int id = 0, int teacherId = 0) =>
         await FindAll(trackChanges: false)
             .Include(p => p.Subject)
+                .ThenInclude(s => s.Grade)
             .Where(p => (p.Id == id || id == 0) && (p.Subject.TeacherId == teacherId || teacherId == 0))
             .Select(p => new PlanningTableRowDbDTO()
             {
                 Id = p.Id,
+                GradeId = p.Subject.Grade.Id,
+                GradeName = p.Subject.Grade.Name,
                 SubjectId = p.SubjectId,
                 SubjectName = p.Subject.Name,
                 Title = p.Title,

@@ -60,8 +60,8 @@ public class TimeBlockService : ITimeBlockService
 
     public async Task<TimeBlockDTO?> Retrieve(int id) => _mapper.Map<TimeBlockDTO>(await _timeBlockDAL.Retrieve(id));
 
-    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(int gradeId) =>
-        _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockDAL.RetrieveAll(gradeId));
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(int gradeId, int teacherId) =>
+        _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockDAL.RetrieveAll(gradeId, teacherId));
 
     private async Task<TimeBlock> GetRecordAndCheckExistence(int id)
     {

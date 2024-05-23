@@ -9,6 +9,6 @@ public interface ITimeBlockDAL
     Task Update(TimeBlock timeBlock);
     Task Delete(TimeBlock timeBlock);
     Task<TimeBlock?> Retrieve(int id, bool trackChanges = false);
-    Task<List<TimeBlock>> RetrieveAll(int gradeId);
+    Task<List<TimeBlock>> RetrieveAll(int gradeId, int teacherId);
     Task<List<TimeBlockTableRowDbDTO>> RetrieveForMainTable(int id = 0);
 }

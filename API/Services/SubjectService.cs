@@ -57,8 +57,8 @@ public class SubjectService : ISubjectService
         return _mapper.Map<SubjectTableRowDTO>(rows.FirstOrDefault());
     }
 
-    public async Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId) =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
+    // public async Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId) =>
+    //     _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
 
     public async Task<List<LabelValueDTO<int>>> RetrieveByGradeAndTeacher(int gradeId, int teacherId) =>
         _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId));

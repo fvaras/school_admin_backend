@@ -23,7 +23,6 @@ public class TimeBlockController : ControllerBase
     public async Task<TimeBlockTableRowDTO> Create([FromBody] TimeBlockForCreationDTO timeBlockDTO)
     {
         timeBlockDTO.Year = DateTime.Now.Year; // TODO: Configure current Year Operation
-        timeBlockDTO.GradeId = 1; // TODO: Get from tkn or session
         return await _timeBlockService.Create(timeBlockDTO);
     }
 
@@ -31,7 +30,6 @@ public class TimeBlockController : ControllerBase
     public async Task<TimeBlockTableRowDTO> Update(int id, [FromBody] TimeBlockForUpdateDTO timeBlockDTO)
     {
         timeBlockDTO.Year = DateTime.Now.Year; // TODO: Configure current Year Operation
-        timeBlockDTO.GradeId = 1; // TODO: Get from tkn or session
         return await _timeBlockService.Update(id, timeBlockDTO);
     }
 
@@ -47,11 +45,11 @@ public class TimeBlockController : ControllerBase
         return await _timeBlockService.Retrieve(id);
     }
 
-    [HttpGet]
-    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll()
+    [HttpGet("byGrade/{gradeId}")]
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(int gradeId)
     {
-        int gradeId = 1; // TODO: Get from tkn or session
-        return await _timeBlockService.RetrieveAll(gradeId);
+        int teacherId = 1; // TODO: Get from tkn or session
+        return await _timeBlockService.RetrieveAll(gradeId, teacherId);
     }
 
     [HttpPost("weeklyBlocksBase")]

@@ -9,6 +9,6 @@ public interface ISubjectService
     Task Delete(int id);
     Task<SubjectDTO?> Retrieve(int id);
     Task<List<SubjectTableRowDTO>> RetrieveAll();
-    Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId);
+    // Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId);
     Task<List<LabelValueDTO<int>>> RetrieveByGradeAndTeacher(int gradeId, int teacherId);
 }
