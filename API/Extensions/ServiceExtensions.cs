@@ -56,6 +56,7 @@ public static class ServiceExtensions
         services.AddScoped<IPlanningDAL, PlanningDAL>();
         services.AddScoped<ITimeBlockDAL, TimeBlockDAL>();
         services.AddScoped<IPlanningTimeBlockDAL, PlanningTimeBlockDAL>();
+        services.AddScoped<IHomeworkRepository, HomeworkRepository>();
 
         // Services
         services.AddScoped<IUserService, UserService>();
@@ -71,6 +72,7 @@ public static class ServiceExtensions
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<IPlanningService, PlanningService>();
         services.AddScoped<ITimeBlockService, TimeBlockService>();
+        services.AddScoped<IHomeworkService, HomeworkService>();
     }
 
     public static void ConfigureAppSettingsMapping(this IServiceCollection services, IConfiguration configuration)

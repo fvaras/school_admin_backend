@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523235530_homeworks")]
+    partial class homeworks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,15 +234,15 @@ namespace school_admin_api.Migrations
                     b.Property<DateTimeOffset>("EndsAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<byte>("StateId")
                         .HasColumnType("smallint");
 
                     b.Property<int>("SubjectId")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -616,8 +618,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = 1,
                             Address = "",
-                            BirthDate = new DateTime(2024, 5, 23, 21, 50, 9, 693, DateTimeKind.Local).AddTicks(5021),
-                            CreatedAt = new DateTime(2024, 5, 23, 21, 50, 9, 693, DateTimeKind.Local).AddTicks(5070),
+                            BirthDate = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8120),
+                            CreatedAt = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8177),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -626,7 +628,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 5, 23, 21, 50, 9, 693, DateTimeKind.Local).AddTicks(5074),
+                            UpdatedAt = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8179),
                             UserName = "admin"
                         });
                 });

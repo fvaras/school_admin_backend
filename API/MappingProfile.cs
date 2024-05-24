@@ -125,6 +125,13 @@ public class MappingProfile : AutoMapper.Profile
             .ForMember(dto => dto.Start, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.Start, "HH:mm")))
             .ForMember(dto => dto.End, opt => opt.MapFrom(entity => ParseTimeSpanToString(entity.End, "HH:mm")));
         CreateMap<TimeBlockTableRowDbDTO, TimeBlockTableRowDTO>();
+
+        CreateMap<HomeworkForCreationDTO, Homework>();
+        CreateMap<HomeworkForUpdateDTO, Homework>();
+        CreateMap<Homework, HomeworkDTO>();
+        CreateMap<Homework, HomeworkTableRowDTO>();
+        CreateMap<HomeworkTableRowDbDTO, HomeworkTableRowDTO>();
+
     }
 
     private DateTime ISODt2DateTime(string ISODateTime)

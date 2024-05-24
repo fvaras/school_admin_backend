@@ -23,6 +23,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Planning> Plannings { get; set; }
     public DbSet<TimeBlock> TimeBlocks { get; set; }
     public DbSet<PlanningTimeBlock> PlanningTimeBlock { get; set; }
+    public DbSet<Homework> Homeworks { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
