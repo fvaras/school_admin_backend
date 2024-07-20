@@ -26,20 +26,20 @@ public class TimeBlockController : ControllerBase
         return await _timeBlockService.Create(timeBlockDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<TimeBlockTableRowDTO> Update(Guid id, [FromBody] TimeBlockForUpdateDTO timeBlockDTO)
     {
         timeBlockDTO.Year = DateTime.Now.Year; // TODO: Configure current Year Operation
         return await _timeBlockService.Update(id, timeBlockDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _timeBlockService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<TimeBlockDTO> Retrieve(Guid id)
     {
         return await _timeBlockService.Retrieve(id);

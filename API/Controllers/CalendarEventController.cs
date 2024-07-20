@@ -23,19 +23,19 @@ public class CalendarEventController : ControllerBase
         return await _calendarEventService.Create(calendarEventDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<CalendarEventDTO> Update(Guid id, [FromBody] CalendarEventForUpdateDTO calendarEventDTO)
     {
         return await _calendarEventService.Update(id, calendarEventDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _calendarEventService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<CalendarEventDTO> Retrieve(Guid id)
     {
         return await _calendarEventService.Retrieve(id);

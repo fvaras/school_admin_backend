@@ -25,19 +25,19 @@ public class SubjectController : ControllerBase
         return await _subjectService.Create(subjectDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<SubjectTableRowDTO> Update(Guid id, [FromBody] SubjectForUpdateDTO subjectDTO)
     {
         return await _subjectService.Update(id, subjectDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _subjectService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<SubjectDTO> Retrieve(Guid id)
     {
         return await _subjectService.Retrieve(id);

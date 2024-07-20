@@ -23,19 +23,19 @@ public class TeacherController : ControllerBase
         return await _teacherService.Create(teacherDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<TeacherTableRowDTO> Update(Guid id, [FromBody] TeacherForUpdateDTO teacherDTO)
     {
         return await _teacherService.Update(id, teacherDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _teacherService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<TeacherDTO> Retrieve(Guid id)
     {
         return await _teacherService.Retrieve(id);

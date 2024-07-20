@@ -25,25 +25,25 @@ public class PlanningController : ControllerBase
         return await _planningService.Create(planningDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<PlanningTableRowDTO> Update(Guid id, [FromBody] PlanningForUpdateDTO planningDTO)
     {
         return await _planningService.Update(id, planningDTO);
     }
 
-    [HttpPut("withTimeBlock/{id:int}")]
+    [HttpPut("withTimeBlock/{id:Guid}")]
     public async Task<PlanningTableRowDTO> UpdateWithTimeBlocks(Guid id, [FromBody] PlanningWithTimeBlocksForUpdateDTO planningDTO)
     {
         return await _planningService.UpdateWithTimeBlocks(id, planningDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _planningService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<PlanningDTO> Retrieve(Guid id)
     {
         return await _planningService.Retrieve(id);

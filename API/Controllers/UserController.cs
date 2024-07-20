@@ -28,19 +28,19 @@ public class UserController : ControllerBase
         return _mapper.Map<UserDTO>(await _userService.Create(userDTO));
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<UserDTO> Update(Guid id, [FromBody] UserForUpdateDTO userDTO)
     {
         return _mapper.Map<UserDTO>(await _userService.Update(id, userDTO));
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _userService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<UserDTO> Retrieve(Guid id)
     {
         return await _userService.Retrieve(id);

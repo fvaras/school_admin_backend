@@ -25,19 +25,19 @@ public class StudentController : ControllerBase
         return await _studentService.Create(studentDTO);
     }
 
-    [HttpPut("{id:int}")]
+    [HttpPut("{id:Guid}")]
     public async Task<StudentTableRowDTO> Update(Guid id, [FromBody] StudentForUpdateDTO studentDTO)
     {
         return await _studentService.Update(id, studentDTO);
     }
 
-    [HttpDelete("{id:int}")]
+    [HttpDelete("{id:Guid}")]
     public async Task Delete(Guid id)
     {
         await _studentService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id:Guid}")]
     public async Task<StudentDTO> Retrieve(Guid id)
     {
         return await _studentService.Retrieve(id);
