@@ -24,19 +24,19 @@ public class TeacherController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<TeacherTableRowDTO> Update(int id, [FromBody] TeacherForUpdateDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Update(Guid id, [FromBody] TeacherForUpdateDTO teacherDTO)
     {
         return await _teacherService.Update(id, teacherDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _teacherService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<TeacherDTO> Retrieve(int id)
+    public async Task<TeacherDTO> Retrieve(Guid id)
     {
         return await _teacherService.Retrieve(id);
     }
@@ -48,7 +48,7 @@ public class TeacherController : ControllerBase
     }
 
     [HttpGet("forList")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList()
     {
         return await _teacherService.RetrieveForList();
     }

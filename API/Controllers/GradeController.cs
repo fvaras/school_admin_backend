@@ -23,26 +23,26 @@ public class GradeController : ControllerBase
         return await _gradeService.Create(gradeDTO);
     }
 
-    [HttpPut("{id:int}")]
-    public async Task<GradeDTO> Update(int id, [FromBody] GradeForUpdateDTO gradeDTO)
+    [HttpPut("{id}")]
+    public async Task<GradeDTO> Update([FromRoute] Guid id, [FromBody] GradeForUpdateDTO gradeDTO)
     {
         return await _gradeService.Update(id, gradeDTO);
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    [HttpDelete("{id}")]
+    public async Task Delete(Guid id)
     {
         await _gradeService.Delete(id);
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<GradeDTO> Retrieve(int id)
+    [HttpGet("{id}")]
+    public async Task<GradeDTO> Retrieve(Guid id)
     {
         return await _gradeService.Retrieve(id);
     }
 
-    [HttpGet("teachersId/{id:int}")]
-    public async Task<List<int>> RetrieveTeachersId(int id)
+    [HttpGet("teachersId/{id}")]
+    public async Task<List<Guid>> RetrieveTeachersId(Guid id)
     {
         return await _gradeService.RetrieveTeachersId(id);
     }
@@ -54,15 +54,15 @@ public class GradeController : ControllerBase
     }
 
     [HttpGet("forList")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList()
     {
         return await _gradeService.RetrieveForList();
     }
 
     [HttpGet("forListByTeacher")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher()
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher()
     {
-        int teacherId = 74; // TODO: Get from token
+        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
         return await _gradeService.RetrieveForListByTeacher(teacherId);
     }
 }

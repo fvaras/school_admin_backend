@@ -7,7 +7,7 @@ namespace school_admin_api.Model;
 public class CalendarEvent
 {
     [Column("Id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public DateTime StartDate { get; set; }
     public DateTime EndDate { get; set; }
@@ -18,7 +18,7 @@ public class CalendarEvent
     // Navigation Properties
 
     // [ForeignKey("Calendar")]
-    public int CalendarId { get; set; }
+    public Guid CalendarId { get; set; }
     public Calendar Calendar { get; set; }
 
     // Enums for EventType and StateId

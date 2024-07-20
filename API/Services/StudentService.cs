@@ -39,13 +39,13 @@ public class StudentService : IStudentService
         User user = await _userService.RetrieveByRutWithProfiles(studentDTO.User.Rut, trackChanges: true);
 
         // Grade null value
-        if (studentDTO.GradeId == 0)
+        if (studentDTO.GradeId == Guid.Empty)
             studentDTO.GradeId = null;
 
         // Validations of existence and duplicity
         if (user is not null)
         {
-            if (user.Profiles.ToList().Find(p => p.Id == (int)Profile.PROFILES_TYPES.STUDENT) != null)
+            if (user.UserProfiles.ToList().Find(p => p.ProfileId == Profile.STUDENT) != null)
                 throw new InconsistentDataException("Student already exists with the same Rut");
             if (user.StateId == (int)User.USER_STATES.INACTIVE)
                 throw new InconsistentDataException($"User rut {studentDTO.User.Rut} is not active");
@@ -57,11 +57,15 @@ public class StudentService : IStudentService
         }
 
         // Get Student Profile
-        Profile studentProfile = await _profileDAL.Retrieve((int)Profile.PROFILES_TYPES.STUDENT, trackChanges: true);
+        Profile studentProfile = await _profileDAL.Retrieve(Profile.STUDENT, trackChanges: true);
 
         // Check if the user already has the student profile associated
-        if (!user.Profiles.Any(p => p.Id == studentProfile.Id))
-            user.Profiles.Add(studentProfile);
+        if (!user.UserProfiles.Any(p => p.ProfileId == studentProfile.Id))
+            user.UserProfiles.Add(new UserProfile()
+            {
+                User = user,
+                Profile = studentProfile
+            });
 
         Student student = _mapper.Map<Student>(studentDTO);
         student.User = user;
@@ -69,12 +73,12 @@ public class StudentService : IStudentService
         student.UpdatedAt = DateTime.Now;
 
         /********* GUARDIANS *********/
-        List<int> guardiansIds = new List<int>();
-        if (studentDTO.Guardian1Id != 0)
+        List<Guid> guardiansIds = new List<Guid>();
+        if (studentDTO.Guardian1Id != Guid.Empty)
             guardiansIds.Add(studentDTO.Guardian1Id);
-        if (studentDTO.Guardian2Id != 0 && !guardiansIds.Contains(studentDTO.Guardian2Id))
+        if (studentDTO.Guardian2Id != Guid.Empty && !guardiansIds.Contains(studentDTO.Guardian2Id))
             guardiansIds.Add(studentDTO.Guardian2Id);
-        foreach (int guardianId in guardiansIds)
+        foreach (Guid guardianId in guardiansIds)
             student.Guardians.Add(await _guardianDAL.Retrieve(guardianId, trackChanges: true));
         /********* GUARDIANS *********/
 
@@ -84,21 +88,21 @@ public class StudentService : IStudentService
         return _mapper.Map<StudentTableRowDTO>(studentForMainTable);
     }
 
-    public async Task<StudentTableRowDTO> Update(int id, StudentForUpdateDTO studentDTO)
+    public async Task<StudentTableRowDTO> Update(Guid id, StudentForUpdateDTO studentDTO)
     {
         Student student = await _studentDAL.RetrieveWithGuardians(id);
         _mapper.Map(studentDTO, student);
         student.UpdatedAt = DateTime.Now;
 
         /********* GUARDIANS *********/
-        List<int> guardiansIds = new List<int>();
-        if (studentDTO.Guardian1Id != 0)
+        List<Guid> guardiansIds = new List<Guid>();
+        if (studentDTO.Guardian1Id != Guid.Empty)
             guardiansIds.Add(studentDTO.Guardian1Id);
-        if (studentDTO.Guardian2Id != 0 && !guardiansIds.Contains(studentDTO.Guardian2Id))
+        if (studentDTO.Guardian2Id != Guid.Empty && !guardiansIds.Contains(studentDTO.Guardian2Id))
             guardiansIds.Add(studentDTO.Guardian2Id);
 
         // Retrieve current guardian associations for comparison
-        List<int> currentGuardianIds = await _studentDAL.RetrieveGuardiansId(id);
+        List<Guid> currentGuardianIds = await _studentDAL.RetrieveGuardiansId(id);
 
         // Determine guardians to remove
         var guardiansIdsToRemove = currentGuardianIds.Except(guardiansIds).ToList();
@@ -120,7 +124,7 @@ public class StudentService : IStudentService
         /********* GUARDIANS *********/
 
         // Grade null value
-        if (studentDTO.GradeId == 0)
+        if (studentDTO.GradeId == Guid.Empty)
             student.GradeId = null;
 
         await _studentDAL.Update(student);
@@ -128,17 +132,17 @@ public class StudentService : IStudentService
         return _mapper.Map<StudentTableRowDTO>(student);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Student student = await _studentDAL.RetrieveWithUserAndProfiles(id);
         if (student == null)
             throw new EntityNotFoundException();
 
-        if (student != null && student.User != null && student.User.Profiles != null)
+        if (student != null && student.User != null && student.User.UserProfiles != null)
         {
-            var studentProfile = student.User.Profiles.SingleOrDefault(p => p.Id == (int)Profile.PROFILES_TYPES.STUDENT);
+            var studentProfile = student.User.UserProfiles.SingleOrDefault(p => p.ProfileId == Profile.STUDENT);
             if (studentProfile != null)
-                student.User.Profiles.Remove(studentProfile);
+                student.User.UserProfiles.Remove(studentProfile);
         }
 
         student.Guardians = null;
@@ -146,11 +150,11 @@ public class StudentService : IStudentService
         await _studentDAL.Delete(student);
     }
 
-    public async Task<StudentDTO?> Retrieve(int id) => _mapper.Map<StudentDTO>(await _studentDAL.Retrieve(id));
+    public async Task<StudentDTO?> Retrieve(Guid id) => _mapper.Map<StudentDTO>(await _studentDAL.Retrieve(id));
 
     public async Task<List<StudentTableRowDTO>> RetrieveAll() => _mapper.Map<List<StudentTableRowDTO>>(await _studentDAL.RetrieveAll());
 
-    private async Task<Student> GetRecordAndCheckExistence(int id)
+    private async Task<Student> GetRecordAndCheckExistence(Guid id)
     {
         Student student = await _studentDAL.Retrieve(id);
         if (student is null)

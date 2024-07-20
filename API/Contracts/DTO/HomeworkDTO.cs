@@ -6,7 +6,7 @@ public class HomeworkBaseDTO
     public string Description { get; init; } = string.Empty;
     public DateTime EndsAt { get; init; }
     public byte StateId { get; set; }
-    public int SubjectId { get; init; }
+    public Guid SubjectId { get; init; }
 }
 
 public class HomeworkForCreationDTO : HomeworkBaseDTO
@@ -34,8 +34,8 @@ public class HomeworkTableRowDTO
     public DateTimeOffset UpdatedAt { get; set; }
     public DateTimeOffset EndsAt { get; set; }
     public byte StateId { get; set; }
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
     public string SubjectName { get; set; }
-    public int GradeId { get; set; }
+    public Guid GradeId { get; set; }
     public string GradeName { get; set; }
 }

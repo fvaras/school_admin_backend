@@ -40,7 +40,7 @@ public class TeacherService : ITeacherService
         // Validations of existence and duplicity
         if (user is not null)
         {
-            if (user.Profiles.ToList().Find(p => p.Id == (int)Profile.PROFILES_TYPES.TEACHER) != null)
+            if (user.UserProfiles.ToList().Find(p => p.ProfileId == Profile.TEACHER) != null)
                 throw new InconsistentDataException("Teacher already exists with the same Rut");
             if (user.StateId == (int)User.USER_STATES.INACTIVE)
                 throw new InconsistentDataException($"User rut {teacherDTO.User.Rut} is not active");
@@ -54,12 +54,15 @@ public class TeacherService : ITeacherService
         }
 
         // Get Teacher Profile
-        Profile teacherProfile = await _profileDAL.Retrieve((int)Profile.PROFILES_TYPES.TEACHER, trackChanges: true);
-        // Profile teacherProfile = await _profileService.Retrieve((int)Profile.PROFILES_TYPES.TEACHER);
+        Profile teacherProfile = await _profileDAL.Retrieve(Profile.TEACHER, trackChanges: true);
+        // Profile teacherProfile = await _profileService.Retrieve(Profile.TEACHER);
 
         // Check if the user already has the teacher profile associated
-        if (!user.Profiles.Any(p => p.Id == teacherProfile.Id))
-            user.Profiles.Add(teacherProfile);
+        if (!user.UserProfiles.Any(p => p.ProfileId == teacherProfile.Id))
+            user.UserProfiles.Add(new () {
+                 Profile = teacherProfile,
+                 User = user
+            });
 
         Teacher teacher = _mapper.Map<Teacher>(teacherDTO);
         teacher.User = user;
@@ -69,7 +72,7 @@ public class TeacherService : ITeacherService
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
-    public async Task<TeacherTableRowDTO> Update(int id, TeacherForUpdateDTO teacherDTO)
+    public async Task<TeacherTableRowDTO> Update(Guid id, TeacherForUpdateDTO teacherDTO)
     {
         Teacher teacher = await GetRecordAndCheckExistence(id);
         _mapper.Map(teacherDTO, teacher);
@@ -79,35 +82,35 @@ public class TeacherService : ITeacherService
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Teacher teacher = await _teacherDAL.RetrieveWithUserAndProfiles(id);
         if (teacher == null)
             throw new EntityNotFoundException();
 
-        if (teacher != null && teacher.User != null && teacher.User.Profiles != null)
+        if (teacher != null && teacher.User != null && teacher.User.UserProfiles != null)
         {
-            var teacherProfile = teacher.User.Profiles.SingleOrDefault(p => p.Id == (int)Profile.PROFILES_TYPES.TEACHER);
+            var teacherProfile = teacher.User.UserProfiles.SingleOrDefault(p => p.ProfileId == Profile.TEACHER);
             if (teacherProfile != null)
-                teacher.User.Profiles.Remove(teacherProfile);
+                teacher.User.UserProfiles.Remove(teacherProfile);
         }
 
         await _teacherDAL.Delete(teacher);
     }
 
-    public async Task<TeacherDTO?> Retrieve(int id) =>
+    public async Task<TeacherDTO?> Retrieve(Guid id) =>
         _mapper.Map<TeacherDTO>(await _teacherDAL.Retrieve(id));
 
     public async Task<List<TeacherTableRowDTO>> RetrieveAll() =>
         _mapper.Map<List<TeacherTableRowDTO>>(await _teacherDAL.RetrieveAll());
 
-    public async Task<List<LabelValueDTO<int>>> RetrieveForList() =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _teacherDAL.RetrieveForList());
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList() =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _teacherDAL.RetrieveForList());
 
     public async Task<List<UserDerivedEntityDataForLists<int>>> RetrieveByNamesOrRut(string text) =>
         _mapper.Map<List<UserDerivedEntityDataForLists<int>>>(await _teacherDAL.RetrieveByNamesOrRut(text.Trim()));
 
-    private async Task<Teacher> GetRecordAndCheckExistence(int id)
+    private async Task<Teacher> GetRecordAndCheckExistence(Guid id)
     {
         Teacher teacher = await _teacherDAL.Retrieve(id);
         if (teacher == null)

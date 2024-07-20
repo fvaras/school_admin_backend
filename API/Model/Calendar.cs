@@ -6,7 +6,7 @@ namespace school_admin_api.Model;
 public class Calendar
 {
     [Column("Id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string Title { get; set; }
     public byte StateId { get; set; }
     public ICollection<CalendarEvent> CalendarEvents { get; set; } = new List<CalendarEvent>();

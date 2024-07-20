@@ -32,14 +32,14 @@ public class GradeService : IGradeService
         grade.CreatedAt = DateTime.Now;
         grade.UpdatedAt = DateTime.Now;
 
-        foreach (int teacherId in gradeDTO.TeachersId)
+        foreach (Guid teacherId in gradeDTO.TeachersId)
             grade.Teachers.Add(await _teacherDAL.Retrieve(teacherId, trackChanges: true));
 
         await _gradeDAL.Create(grade);
         return _mapper.Map<GradeDTO>(grade);
     }
 
-    public async Task<GradeDTO> Update(int id, GradeForUpdateDTO gradeDTO)
+    public async Task<GradeDTO> Update(Guid id, GradeForUpdateDTO gradeDTO)
     {
         Grade grade = await GetRecordAndCheckExistence(id);
 
@@ -72,7 +72,7 @@ public class GradeService : IGradeService
         return _mapper.Map<GradeDTO>(grade);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Grade grade = await GetRecordAndCheckExistence(id);
 
@@ -80,19 +80,19 @@ public class GradeService : IGradeService
         await _gradeDAL.Delete(grade);
     }
 
-    public async Task<GradeDTO?> Retrieve(int id) =>
+    public async Task<GradeDTO?> Retrieve(Guid id) =>
         _mapper.Map<GradeDTO>(await _gradeDAL.Retrieve(id));
 
     public async Task<List<GradeDTO>> RetrieveAll() =>
         _mapper.Map<List<GradeDTO>>(await _gradeDAL.RetrieveAll());
 
-    public async Task<List<LabelValueDTO<int>>> RetrieveForList() =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _gradeDAL.RetrieveForList());
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList() =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForList());
 
-    public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher(int teacherId) =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId));
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher(Guid teacherId) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId));
 
-    private async Task<Grade> GetRecordAndCheckExistence(int id)
+    private async Task<Grade> GetRecordAndCheckExistence(Guid id)
     {
         Grade grade = await _gradeDAL.Retrieve(id);
         if (grade == null)
@@ -100,5 +100,5 @@ public class GradeService : IGradeService
         return grade;
     }
 
-    public async Task<List<int>> RetrieveTeachersId(int id) => await _gradeDAL.RetrieveTeachersId(id);
+    public async Task<List<Guid>> RetrieveTeachersId(Guid id) => await _gradeDAL.RetrieveTeachersId(id);
 }

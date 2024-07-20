@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Profile> Profiles { get; set; }
+    public DbSet<UserProfile> UserProfiles { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
@@ -34,22 +35,23 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());
-        modelBuilder.ApplyConfiguration(new CalendarConfiguration());
+        modelBuilder.ApplyConfiguration(new UserProfileConfiguration());
+        // modelBuilder.ApplyConfiguration(new CalendarConfiguration());
 
-        modelBuilder.Entity<User>()
-            .HasMany(t => t.Profiles)
-            .WithMany(c => c.Users)
-            .UsingEntity<Dictionary<string, object>>(
-                "UserProfiles", // This is the name of the join table
-                j => j.HasOne<Profile>().WithMany().HasForeignKey("ProfileId"),
-                j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
-                j =>
-                {
-                    // Seeding the relationship
-                    j.HasData(
-                        new { UserId = 1, ProfileId = 1 } // Associates User with Id 1 to Profile with Id 1
-                    );
-                });
+        // modelBuilder.Entity<User>()
+        //     .HasMany(t => t.Profiles)
+        //     .WithMany(c => c.Users)
+        //     .UsingEntity<Dictionary<string, object>>(
+        //         "UserProfiles", // This is the name of the join table
+        //         j => j.HasOne<Profile>().WithMany().HasForeignKey("ProfileId"),
+        //         j => j.HasOne<User>().WithMany().HasForeignKey("UserId"),
+        //         j =>
+        //         {
+        //             // Seeding the relationship
+        //             j.HasData(
+        //                 new { UserId = 1, ProfileId = 1 } // Associates User with Id 1 to Profile with Id 1
+        //             );
+        //         });
 
         // many-to-many relationship configuration for Teacher and Grade
         modelBuilder.Entity<Teacher>()

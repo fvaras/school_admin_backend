@@ -25,7 +25,7 @@ public class UserForUpdateDTO : UserBaseDTO
 
 public class UserDTO : UserBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
 }
@@ -40,5 +40,5 @@ public record UserInfoDTO
     // public string Phone { get; set; }
     // public string Address { get; set; }
     // public byte Gender { get; set; }
-    public int ProfileId { get; set; }
+    public Guid ProfileId { get; set; }
 }

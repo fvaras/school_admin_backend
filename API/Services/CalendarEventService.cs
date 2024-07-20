@@ -38,7 +38,7 @@ public class CalendarEventService : ICalendarEventService
         return _mapper.Map<CalendarEventDTO>(calendarEvent);
     }
 
-    public async Task<CalendarEventDTO> Update(int idCalendarEvent, CalendarEventForUpdateDTO calendarEventDTO)
+    public async Task<CalendarEventDTO> Update(Guid idCalendarEvent, CalendarEventForUpdateDTO calendarEventDTO)
     {
         var calendarEvent = await GetRecordAndCheckExistence(idCalendarEvent);
         _mapper.Map(calendarEventDTO, calendarEvent);
@@ -46,19 +46,19 @@ public class CalendarEventService : ICalendarEventService
         return _mapper.Map<CalendarEventDTO>(calendarEvent);
     }
 
-    public async Task Delete(int idCalendarEvent)
+    public async Task Delete(Guid idCalendarEvent)
     {
         var calendarEvent = await GetRecordAndCheckExistence(idCalendarEvent);
         await _calendarEventDAL.Delete(calendarEvent);
     }
 
-    public async Task<CalendarEventDTO?> Retrieve(int idCalendarEvent) =>
+    public async Task<CalendarEventDTO?> Retrieve(Guid idCalendarEvent) =>
         _mapper.Map<CalendarEventDTO>(await _calendarEventDAL.Retrieve(idCalendarEvent));
 
     public async Task<List<CalendarEventDTO>> RetrieveAll() =>
         _mapper.Map<List<CalendarEventDTO>>(await _calendarEventDAL.RetrieveAll());
 
-    private async Task<CalendarEvent> GetRecordAndCheckExistence(int idCalendarEvent)
+    private async Task<CalendarEvent> GetRecordAndCheckExistence(Guid idCalendarEvent)
     {
         var calendarEvent = await _calendarEventDAL.Retrieve(idCalendarEvent);
         if (calendarEvent is null)

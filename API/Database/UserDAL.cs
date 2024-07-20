@@ -23,7 +23,7 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
 
     public async Task Delete(User user) => await base.Delete(user);
 
-    public async Task<User?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<User?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(u => u.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 
@@ -33,15 +33,18 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
 
     public async Task<User?> RetrieveByDNIWithProfiles(string rut, bool trackChanges = false) =>
         await FindByCondition(u => u.Rut == rut, trackChanges)
-                .Include(t => t.Profiles)
+                .Include(u => u.UserProfiles)
+                .ThenInclude(up => up.Profile)
                 .FirstOrDefaultAsync();
 
     public async Task<List<User>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<User?> RetrieveByCredentials(string username, string password, int profileId)
+    public async Task<User?> RetrieveByCredentials(string username, string password, Guid profileId)
         => await FindByCondition(
                 u => u.UserName.Equals(username)
                 && u.Password.Equals(password), trackChanges: false)
-                .Include(u => u.Profiles) // TODO: Filter by profileId
+                .Include(u => u.UserProfiles)
+                .ThenInclude(up => up.Profile)
+                // .Where(u=>u.UserProfiles) // TODO: Filter by profileId
                 .FirstOrDefaultAsync();
 }

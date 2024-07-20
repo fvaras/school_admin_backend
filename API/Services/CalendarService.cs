@@ -23,30 +23,30 @@ public class CalendarService : ICalendarService
         _mapper = mapper;
     }
 
-    public async Task<int> Create(CalendarForCreationDTO calendarDTO)
+    public async Task<Guid> Create(CalendarForCreationDTO calendarDTO)
     {
         Calendar calendar = _mapper.Map<Calendar>(calendarDTO);
         return await _calendarDAL.Create(calendar);
     }
 
-    public async Task Update(int id, CalendarForUpdateDTO calendarDTO)
+    public async Task Update(Guid id, CalendarForUpdateDTO calendarDTO)
     {
         Calendar calendar = await GetRecordAndCheckExistence(id);
         _mapper.Map(calendarDTO, calendar);
         await _calendarDAL.Update(calendar);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Calendar calendar = await GetRecordAndCheckExistence(id);
         await _calendarDAL.Delete(calendar);
     }
 
-    public async Task<CalendarDTO?> Retrieve(int id) => _mapper.Map<CalendarDTO>(await _calendarDAL.Retrieve(id));
+    public async Task<CalendarDTO?> Retrieve(Guid id) => _mapper.Map<CalendarDTO>(await _calendarDAL.Retrieve(id));
 
     public async Task<List<CalendarDTO>> RetrieveAll() => _mapper.Map<List<CalendarDTO>>(await _calendarDAL.RetrieveAll());
 
-    private async Task<Calendar> GetRecordAndCheckExistence(int id)
+    private async Task<Calendar> GetRecordAndCheckExistence(Guid id)
     {
         Calendar calendar = await _calendarDAL.Retrieve(id, trackChanges: false);
         if (calendar == null)

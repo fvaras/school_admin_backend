@@ -13,7 +13,7 @@ public class CalendarEventDAL : RepositoryBase<CalendarEvent>, ICalendarEventDAL
         _context = context;
     }
 
-    public async Task<int> Create(CalendarEvent calendarEvent)
+    public async Task<Guid> Create(CalendarEvent calendarEvent)
     {
         await base.Create(calendarEvent);
         return calendarEvent.Id;
@@ -23,7 +23,7 @@ public class CalendarEventDAL : RepositoryBase<CalendarEvent>, ICalendarEventDAL
 
     public async Task Delete(CalendarEvent calendarEvent) => await base.Delete(calendarEvent);
 
-    public async Task<CalendarEvent?> Retrieve(int idCalendarEvent, bool trackChanges = false) =>
+    public async Task<CalendarEvent?> Retrieve(Guid idCalendarEvent, bool trackChanges = false) =>
         await FindByCondition(e => e.Id == idCalendarEvent, trackChanges).SingleOrDefaultAsync();
 
     public async Task<List<CalendarEvent>> RetrieveAll() => await FindAll().ToListAsync();

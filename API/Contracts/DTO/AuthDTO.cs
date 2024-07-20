@@ -8,6 +8,5 @@ public record ValidateUserDTO
     
     public string Password { get; init; }
     
-    [Range(1, 4)]
-    public byte ProfileId { get; init; }
+    public Guid ProfileId { get; init; }
 }

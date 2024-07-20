@@ -5,10 +5,10 @@ namespace school_admin_api.Contracts.Services;
 public interface ISubjectService
 {
     Task<SubjectTableRowDTO> Create(SubjectForCreationDTO subjectDTO);
-    Task<SubjectTableRowDTO> Update(int id, SubjectForUpdateDTO subjectDTO);
-    Task Delete(int id);
-    Task<SubjectDTO?> Retrieve(int id);
+    Task<SubjectTableRowDTO> Update(Guid id, SubjectForUpdateDTO subjectDTO);
+    Task Delete(Guid id);
+    Task<SubjectDTO?> Retrieve(Guid id);
     Task<List<SubjectTableRowDTO>> RetrieveAll();
-    // Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId);
-    Task<List<LabelValueDTO<int>>> RetrieveByGradeAndTeacher(int gradeId, int teacherId);
+    // Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId);
+    Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndTeacher(Guid gradeId, Guid teacherId);
 }

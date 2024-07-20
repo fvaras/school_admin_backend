@@ -2,7 +2,7 @@ namespace school_admin_api.Contracts.DTO;
 
 public class PlanningBaseDTO
 {
-    public int SubjectId { get; init; }
+    public Guid SubjectId { get; init; }
     public string Title { get; init; }
     public string? Description { get; init; }
     public string? ExpectedLearning { get; init; }
@@ -21,20 +21,20 @@ public class PlanningForCreationDTO : PlanningBaseDTO
 
 public class PlanningForUpdateDTO : PlanningBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class PlanningDTO : PlanningBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }
 
 public class PlanningTableRowDTO
 {
-    public int Id { get; set; }
-    public int GradeId { get; set; }
+    public Guid Id { get; set; }
+    public Guid GradeId { get; set; }
     public string GradeName { get; set; }
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
     public string SubjectName { get; set; }
     public string Title { get; set; }
     public string? Description { get; set; }
@@ -49,15 +49,15 @@ public class PlanningTableRowDTO
     // public string SubjectName { get; set; }
     // public DateTime CreateAt { get; set; }
     // public DateTime UpdatedAt { get; set; }
-    // public int CreatedBy { get; set; }
-    // public int LastUpdatedBy { get; set; }
+    // public Guid CreatedBy { get; set; }
+    // public Guid LastUpdatedBy { get; set; }
     public byte StateId { get; set; }
 }
 
 public class PlanningWithTimeBlocksForUpdateDTO : PlanningForUpdateDTO
 {
-    public int TimeBlockId { get; set; }
-    public int OriginalPlanningId { get; set; }
+    public Guid TimeBlockId { get; set; }
+    public Guid OriginalPlanningId { get; set; }
     public DateTime Date { get; set; }
     // public bool IsAddition { get; set; } = true;
 }

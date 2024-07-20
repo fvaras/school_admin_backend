@@ -13,7 +13,7 @@ public class ProfileDAL : RepositoryBase<Profile>, IProfileDAL
         _context = context;
     }
 
-    public async Task<Profile?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Profile?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(u => u.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 

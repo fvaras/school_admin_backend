@@ -13,7 +13,7 @@ public class CalendarDAL : RepositoryBase<Calendar>, ICalendarDAL
         _context = context;
     }
 
-    public async Task<int> Create(Calendar calendar)
+    public async Task<Guid> Create(Calendar calendar)
     {
         await base.Create(calendar);
         return calendar.Id; // Assuming Id is auto-generated
@@ -23,7 +23,7 @@ public class CalendarDAL : RepositoryBase<Calendar>, ICalendarDAL
 
     public async Task Delete(Calendar calendar) => await base.Delete(calendar);
 
-    public async Task<Calendar?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Calendar?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(c => c.Id == id, trackChanges).SingleOrDefaultAsync();
 
     public async Task<List<Calendar>> RetrieveAll() => await FindAll().ToListAsync();

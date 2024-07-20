@@ -24,19 +24,19 @@ public class GuardianController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<GuardianTableRowDTO> Update(int id, [FromBody] GuardianForUpdateDTO guardianDTO)
+    public async Task<GuardianTableRowDTO> Update(Guid id, [FromBody] GuardianForUpdateDTO guardianDTO)
     {
         return await _guardianService.Update(id, guardianDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _guardianService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<GuardianDTO> Retrieve(int id)
+    public async Task<GuardianDTO> Retrieve(Guid id)
     {
         return await _guardianService.Retrieve(id);
     }

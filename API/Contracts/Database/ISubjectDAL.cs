@@ -8,8 +8,8 @@ public interface ISubjectDAL
     Task Create(Subject subject);
     Task Update(Subject subject);
     Task Delete(Subject subject);
-    Task<Subject?> Retrieve(int id, bool trackChanges = false);
-    Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(int id = 0);
+    Task<Subject?> Retrieve(Guid id, bool trackChanges = false);
+    Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(Guid id);
 
-    Task<List<LabelValueFromDB<int>>> RetrieveByGradeAndTeacherForList(int gradeId, int teacherId);
+    Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndTeacherForList(Guid gradeId, Guid teacherId);
 }

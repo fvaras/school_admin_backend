@@ -29,21 +29,21 @@ public class TimeBlockService : ITimeBlockService
 
     public async Task<TimeBlockTableRowDTO> Create(TimeBlockForCreationDTO timeBlockDTO)
     {
-        if (timeBlockDTO.SubjectId == 0) timeBlockDTO.SubjectId = null;
+        if (timeBlockDTO.SubjectId == Guid.Empty) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = _mapper.Map<TimeBlock>(timeBlockDTO);
         await _timeBlockDAL.Create(timeBlock);
         return await RetrieveForTable(timeBlock.Id);
     }
 
-    public async Task<TimeBlockTableRowDTO> Update(int id, TimeBlockForUpdateDTO timeBlockDTO)
+    public async Task<TimeBlockTableRowDTO> Update(Guid id, TimeBlockForUpdateDTO timeBlockDTO)
     {
-        if (timeBlockDTO.SubjectId == 0) timeBlockDTO.SubjectId = null;
+        if (timeBlockDTO.SubjectId == Guid.Empty) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
 
         // Update blockName with Subject name
         if (timeBlockDTO.SubjectId != null)
         {
-            Subject subject = await _subjectDAL.Retrieve((int)timeBlockDTO.SubjectId, trackChanges: false);
+            Subject subject = await _subjectDAL.Retrieve((Guid)timeBlockDTO.SubjectId, trackChanges: false);
             timeBlockDTO.BlockName = subject.Name;
         }
 
@@ -52,18 +52,18 @@ public class TimeBlockService : ITimeBlockService
         return await RetrieveForTable(timeBlock.Id);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
         await _timeBlockDAL.Delete(timeBlock);
     }
 
-    public async Task<TimeBlockDTO?> Retrieve(int id) => _mapper.Map<TimeBlockDTO>(await _timeBlockDAL.Retrieve(id));
+    public async Task<TimeBlockDTO?> Retrieve(Guid id) => _mapper.Map<TimeBlockDTO>(await _timeBlockDAL.Retrieve(id));
 
-    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(int gradeId, int teacherId) =>
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(Guid gradeId, Guid teacherId) =>
         _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockDAL.RetrieveAll(gradeId, teacherId));
 
-    private async Task<TimeBlock> GetRecordAndCheckExistence(int id)
+    private async Task<TimeBlock> GetRecordAndCheckExistence(Guid id)
     {
         TimeBlock timeBlock = await _timeBlockDAL.Retrieve(id);
         if (timeBlock is null)
@@ -71,15 +71,15 @@ public class TimeBlockService : ITimeBlockService
         return timeBlock;
     }
 
-    private async Task<TimeBlockTableRowDTO?> RetrieveForTable(int id)
+    private async Task<TimeBlockTableRowDTO?> RetrieveForTable(Guid id)
     {
-        if (id == 0) return null;
+        if (id == Guid.Empty) return null;
         var rows = await _timeBlockDAL.RetrieveForMainTable(id);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<TimeBlockTableRowDTO>(rows.FirstOrDefault());
     }
 
-    public async Task CreateAllWeekTimeBlocksBase(int gradeId)
+    public async Task CreateAllWeekTimeBlocksBase(Guid gradeId)
     {
         DateTime now = DateTime.Now;
         var timeBlockDayList = new List<TimeBlock>() {

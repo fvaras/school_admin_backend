@@ -20,7 +20,7 @@ public class TeacherForUpdateDTO : TeacherBaseDTO
 
 public class TeacherDTO : TeacherBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
     public UserDTO User { get; set; }
@@ -28,7 +28,7 @@ public class TeacherDTO : TeacherBaseDTO
 
 public class TeacherTableRowDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public string UserName { get; set; }
     public string UserId { get; set; }
     public string Rut { get; set; }
@@ -46,6 +46,6 @@ public class TeacherTableRowDTO
     // public DateTime CreatedAt { get; init; }
     // public DateTime? UpdatedAt { get; init; }
     // public string UserName { get; set; }
-    // public int UserId { get; init; }
+    // public Guid UserId { get; init; }
     // public byte UserStateId { get; init; }
 }

@@ -9,8 +9,8 @@ public class HomeworkTableRowDbDTO
     public DateTimeOffset UpdatedAt { get; set; }
     public DateTimeOffset EndsAt { get; set; }
     public byte StateId { get; set; }
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
     public string SubjectName { get; set; }
-    public int GradeId { get; set; }
+    public Guid GradeId { get; set; }
     public string GradeName { get; set; }
 }

@@ -12,6 +12,6 @@ public class Homework
     public DateTimeOffset UpdatedAt { get; set; }
     public DateTimeOffset EndsAt { get; set; }
     public byte StateId { get; set; }
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
     public Subject Subject { get; set; }
 }

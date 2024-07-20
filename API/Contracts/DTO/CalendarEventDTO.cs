@@ -8,7 +8,7 @@ public class CalendarEventBaseDTO
     public int Type { get; init; }
     public string Details { get; init; }
     public byte StateId { get; init; }
-    public int CalendarId { get; init; }
+    public Guid CalendarId { get; init; }
 }
 
 public class CalendarEventForCreationDTO : CalendarEventBaseDTO
@@ -25,5 +25,5 @@ public class CalendarEventForUpdateDTO : CalendarEventBaseDTO
 
 public class CalendarEventDTO : CalendarEventBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }

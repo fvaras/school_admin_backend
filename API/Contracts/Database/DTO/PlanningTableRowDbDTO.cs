@@ -2,10 +2,10 @@ namespace school_admin_api.Contracts.Database.DTO;
 
 public class PlanningTableRowDbDTO
 {
-    public int Id { get; set; }
-    public int GradeId { get; set; }
+    public Guid Id { get; set; }
+    public Guid GradeId { get; set; }
     public string GradeName { get; set; }
-    public int SubjectId { get; set; }
+    public Guid SubjectId { get; set; }
     public string SubjectName { get; set; }
     public string Title { get; set; }
     public string? Description { get; set; }
@@ -20,7 +20,7 @@ public class PlanningTableRowDbDTO
     // public string SubjectName { get; set; }
     // public DateTime CreateAt { get; set; }
     // public DateTime UpdatedAt { get; set; }
-    // public int CreatedBy { get; set; }
-    // public int LastUpdatedBy { get; set; }
+    // public Guid CreatedBy { get; set; }
+    // public Guid LastUpdatedBy { get; set; }
     public byte StateId { get; set; }
 }

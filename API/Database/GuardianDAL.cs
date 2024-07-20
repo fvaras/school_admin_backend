@@ -13,7 +13,7 @@ public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
         _context = context;
     }
 
-    public async Task<int> Create(Guardian guardian)
+    public async Task<Guid> Create(Guardian guardian)
     {
         await base.Create(guardian);
         return guardian.Id; // Assuming Id is auto-generated
@@ -23,11 +23,12 @@ public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
 
     public async Task Delete(Guardian guardian) => await base.Delete(guardian);
 
-    public async Task<Guardian?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Guardian?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(sg => sg.Id == id, trackChanges)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-    public async Task<Guardian?> RetrieveForMainTable(int id) =>
+    public async Task<Guardian?> RetrieveForMainTable(Guid id) =>
         await FindByCondition(a => a.Id == id, trackChanges: false)
                 .Include(t => t.User)
                 .FirstOrDefaultAsync();

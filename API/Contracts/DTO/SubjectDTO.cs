@@ -4,8 +4,8 @@ public class SubjectBaseDTO
 {
     public string Name { get; init; }
     public string? Color { get; set; }
-    public int GradeId { get; init; }
-    public int TeacherId { get; init; }
+    public Guid GradeId { get; init; }
+    public Guid TeacherId { get; init; }
     public int StateId { get; init; }
 }
 
@@ -19,5 +19,5 @@ public class SubjectForUpdateDTO : SubjectBaseDTO
 
 public class SubjectDTO : SubjectBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
 }

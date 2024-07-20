@@ -5,12 +5,12 @@ namespace school_admin_api.Contracts.Services;
 public interface IGradeService
 {
     Task<GradeDTO> Create(GradeForCreationDTO gradeDTO);
-    Task<GradeDTO> Update(int id, GradeForUpdateDTO gradeDTO);
-    Task Delete(int id);
-    Task<GradeDTO?> Retrieve(int id);
+    Task<GradeDTO> Update(Guid id, GradeForUpdateDTO gradeDTO);
+    Task Delete(Guid id);
+    Task<GradeDTO?> Retrieve(Guid id);
     Task<List<GradeDTO>> RetrieveAll();
-    Task<List<LabelValueDTO<int>>> RetrieveForList();
-    Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher(int teacherId);
+    Task<List<LabelValueDTO<Guid>>> RetrieveForList();
+    Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher(Guid teacherId);
 
-    Task<List<int>> RetrieveTeachersId(int id);
+    Task<List<Guid>> RetrieveTeachersId(Guid id);
 }

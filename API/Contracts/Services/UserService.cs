@@ -34,7 +34,7 @@ public class UserService : IUserService
         return await _userDAL.Create(user);
     }
 
-    public async Task<User> Update(int id, UserForUpdateDTO userDTO)
+    public async Task<User> Update(Guid id, UserForUpdateDTO userDTO)
     {
         User user = await GetRecordAndCheckExistence(id);
         _mapper.Map(userDTO, user);
@@ -43,19 +43,19 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         User user = await GetRecordAndCheckExistence(id);
         await _userDAL.Delete(user);
     }
 
-    public async Task<UserDTO?> Retrieve(int id) =>
+    public async Task<UserDTO?> Retrieve(Guid id) =>
         _mapper.Map<UserDTO>(await _userDAL.Retrieve(id));
 
     public async Task<List<UserDTO>> RetrieveAll() =>
         _mapper.Map<List<UserDTO>>(await _userDAL.RetrieveAll());
 
-    private async Task<User> GetRecordAndCheckExistence(int id)
+    private async Task<User> GetRecordAndCheckExistence(Guid id)
     {
         User user = await _userDAL.Retrieve(id);
         if (user == null)
@@ -68,10 +68,10 @@ public class UserService : IUserService
     public async Task<User?> RetrieveByRutWithProfiles(string rut, bool trackChanges = false) =>
         await _userDAL.RetrieveByDNIWithProfiles(rut, trackChanges);
 
-    public async Task<UserInfoDTO?> Validate(string username, string password, int profileId)
+    public async Task<UserInfoDTO?> Validate(string username, string password, Guid profileId)
     {
         User? user = await _userDAL.RetrieveByCredentials(username.ToLower(), password, profileId);
-        if (user is null || !user.Profiles.Select(p => p.Id).Contains(profileId))  // TODO: Remove when filter by profileId in _userDAL.RetrieveByCredentials
+        if (user is null || !user.UserProfiles.Select(p => p.ProfileId).Contains(profileId))  // TODO: Remove when filter by profileId in _userDAL.RetrieveByCredentials
             return null;
         return _mapper.Map<UserInfoDTO?>(user);
     }

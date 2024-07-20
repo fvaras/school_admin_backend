@@ -20,20 +20,20 @@ public class TimeBlockDAL : RepositoryBase<TimeBlock>, ITimeBlockDAL
 
     public async Task Delete(TimeBlock timeBlock) => await base.Delete(timeBlock);
 
-    public async Task<TimeBlock?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<TimeBlock?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-    public async Task<List<TimeBlock>> RetrieveAll(int gradeId, int teacherId) =>
+    public async Task<List<TimeBlock>> RetrieveAll(Guid gradeId, Guid teacherId) =>
         await FindAll()
                 // .Include(t => t.Subject) // TODO: Teacher can only view scoped plannings
                 // .Where(t => t.GradeId == gradeId && t.Subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && t.Subject.TeacherId == teacherId)
                 .Where(t => t.GradeId == gradeId)
                 .ToListAsync();
 
-    public async Task<List<TimeBlockTableRowDbDTO>> RetrieveForMainTable(int id = 0) =>
+    public async Task<List<TimeBlockTableRowDbDTO>> RetrieveForMainTable(Guid id) =>
         await FindAll(trackChanges: false)
-            .Where(t => t.Id == id || id == 0)
+            .Where(t => t.Id == id || id == Guid.Empty)
             .Include(t => t.Grade)
             .Select(t => new TimeBlockTableRowDbDTO()
             {

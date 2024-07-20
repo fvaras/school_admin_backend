@@ -6,9 +6,9 @@ public class StudentBaseDTO
     public string Allergies { get; init; }
     public DateTime? JoiningDate { get; init; }
     public byte StateId { get; init; }
-    public int? GradeId { get; set; }
-    public int Guardian1Id { get; set; }
-    public int Guardian2Id { get; set; }
+    public Guid? GradeId { get; set; }
+    public Guid Guardian1Id { get; set; }
+    public Guid Guardian2Id { get; set; }
 }
 
 public class StudentForCreationDTO : StudentBaseDTO
@@ -22,7 +22,7 @@ public class StudentForUpdateDTO : StudentBaseDTO
 
 public class StudentDTO : StudentBaseDTO
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public UserDTO User { get; set; }
@@ -30,7 +30,7 @@ public class StudentDTO : StudentBaseDTO
 
 public class StudentTableRowDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public string UserName { get; set; }
     public string UserId { get; set; }
     public string Rut { get; set; }
@@ -45,11 +45,11 @@ public class StudentTableRowDTO
     public string Allergies { get; set; }
     public DateTime? JoiningDate { get; set; }
     public byte StateId { get; set; }
-    public int GradeId { get; init; }
+    public Guid GradeId { get; init; }
     public string GradeName { get; init; }
     // public DateTime CreatedAt { get; init; }
     // public DateTime? UpdatedAt { get; init; }
     // public string UserName { get; set; }
-    // public int UserId { get; init; }
+    // public Guid UserId { get; init; }
     // public byte UserStateId { get; init; }
 }

@@ -12,7 +12,7 @@ public class GradeBaseDTO
 
 public class GradeForManipulationDTO : GradeBaseDTO
 {
-    public List<int> TeachersId { get; set; }
+    public List<Guid> TeachersId { get; set; }
 }
 
 public class GradeForCreationDTO : GradeForManipulationDTO
@@ -25,7 +25,7 @@ public class GradeForUpdateDTO : GradeForManipulationDTO
 
 public class GradeDTO : GradeBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     public DateTime CreatedAt { get; init; }
     public DateTime? UpdatedAt { get; init; }
 }

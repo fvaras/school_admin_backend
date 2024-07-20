@@ -50,7 +50,7 @@ if (app.Environment.IsDevelopment())
 else
     app.UseHttpsRedirection();
 
-app.UseCors(ServiceExtensions.CorsPolicyString);
+app.UseCors();
 
 app.UseAuthorization();
 app.ConfigureCustomAuthorizationMiddleware();

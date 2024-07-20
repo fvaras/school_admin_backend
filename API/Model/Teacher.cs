@@ -6,7 +6,7 @@ namespace school_admin_api.Model;
 public class Teacher
 {
     [Column("Id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string ContactEmail { get; set; }
     public string ContactPhone { get; set; }
     public string Education { get; set; }

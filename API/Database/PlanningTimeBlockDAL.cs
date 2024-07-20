@@ -13,7 +13,7 @@ public class PlanningTimeBlockDAL : RepositoryBase<PlanningTimeBlock>, IPlanning
         _context = context;
     }
 
-    public async Task<List<PlanningTimeBlock>> GetPlanningTimeBlocks(int timeBlockId, DateTime date) =>
+    public async Task<List<PlanningTimeBlock>> GetPlanningTimeBlocks(Guid timeBlockId, DateTime date) =>
         await FindAll(trackChanges: true)
             .Where(t => t.TimeBlockId == timeBlockId && t.Date.Date == date.Date)
             .ToListAsync();

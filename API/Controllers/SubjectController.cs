@@ -26,19 +26,19 @@ public class SubjectController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<SubjectTableRowDTO> Update(int id, [FromBody] SubjectForUpdateDTO subjectDTO)
+    public async Task<SubjectTableRowDTO> Update(Guid id, [FromBody] SubjectForUpdateDTO subjectDTO)
     {
         return await _subjectService.Update(id, subjectDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _subjectService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<SubjectDTO> Retrieve(int id)
+    public async Task<SubjectDTO> Retrieve(Guid id)
     {
         return await _subjectService.Retrieve(id);
     }
@@ -50,16 +50,16 @@ public class SubjectController : ControllerBase
     }
 
     // [HttpGet("byGradeForList")]
-    // public async Task<List<LabelValueDTO<int>>> RetrieveForList()
+    // public async Task<List<LabelValueDTO<Guid>>> RetrieveForList()
     // {
     //     int gradeId = 1; // TODO: Get from tkn or session
     //     return await _subjectService.RetrieveByGrade(gradeId);
     // }
 
     [HttpGet("byGradeAndTeacherForList/{gradeId}")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveForListByTeacher([FromRoute] int gradeId)
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher([FromRoute] Guid gradeId)
     {
-        int teacherId = 74; // TODO: Get from token
+        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
         return await _subjectService.RetrieveByGradeAndTeacher(gradeId, teacherId);
     }
 }

@@ -18,25 +18,25 @@ public class CalendarController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<int> Create([FromBody] CalendarForCreationDTO calendarDTO)
+    public async Task<Guid> Create([FromBody] CalendarForCreationDTO calendarDTO)
     {
         return await _calendarService.Create(calendarDTO);
     }
 
     [HttpPut("{id:int}")]
-    public async Task Update(int id, [FromBody] CalendarForUpdateDTO calendarDTO)
+    public async Task Update(Guid id, [FromBody] CalendarForUpdateDTO calendarDTO)
     {
         await _calendarService.Update(id, calendarDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _calendarService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<CalendarDTO> Retrieve(int id)
+    public async Task<CalendarDTO> Retrieve(Guid id)
     {
         return await _calendarService.Retrieve(id);
     }

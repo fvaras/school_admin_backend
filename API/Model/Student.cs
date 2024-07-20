@@ -6,7 +6,7 @@ namespace school_admin_api.Model;
 public class Student
 {
     [Column("Id")]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string BloodGroup { get; set; }
     public string Allergies { get; set; }
     public DateTime? JoiningDate { get; set; }
@@ -16,7 +16,7 @@ public class Student
 
     public User User { get; set; }
 
-    public int? GradeId { get; set; }
+    public Guid? GradeId { get; set; }
     public Grade? Grade { get; set; }
 
     public ICollection<Guardian> Guardians { get; set; } = new List<Guardian>();

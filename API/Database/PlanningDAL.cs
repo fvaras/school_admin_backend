@@ -20,22 +20,22 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
 
     public async Task Delete(Planning planning) => await base.Delete(planning);
 
-    public async Task<Planning?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Planning?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-    public async Task<Planning?> RetrieveWithTimeBlocks(int id, bool trackChanges = true) =>
+    public async Task<Planning?> RetrieveWithTimeBlocks(Guid id, bool trackChanges = true) =>
         await FindByCondition(p => p.Id == id, trackChanges)
                 .Include(p => p.PlanningTimeBlocks)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
     public async Task<List<Planning>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(int id = 0, int teacherId = 0) =>
+    public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(Guid id, Guid teacherId) =>
         await FindAll(trackChanges: false)
             .Include(p => p.Subject)
                 .ThenInclude(s => s.Grade)
-            .Where(p => (p.Id == id || id == 0) && (p.Subject.TeacherId == teacherId || teacherId == 0))
+            .Where(p => (p.Id == id || id == Guid.Empty) && (p.Subject.TeacherId == teacherId || teacherId == Guid.Empty))
             .Select(p => new PlanningTableRowDbDTO()
             {
                 Id = p.Id,
@@ -57,18 +57,18 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
             })
             .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<int>>> RetrieveByGradeAndSubject(int gradeId, int subjectId) =>
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId) =>
         await FindAll(trackChanges: false)
             .Include(p => p.Subject)
             .Where(p => p.Subject.GradeId == gradeId && p.SubjectId == subjectId)
-            .Select(p => new LabelValueFromDB<int>()
+            .Select(p => new LabelValueFromDB<Guid>()
             {
                 Label = p.Title,
                 Value = p.Id
             })
             .ToListAsync();
 
-    public async Task<Planning?> RetrieveBySubjectTimeBlockAndDate(int subjectId, int timeBlockId, DateTime date) =>
+    public async Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTime date) =>
         await FindAll(trackChanges: false)
             .Include(p => p.PlanningTimeBlocks)
             .Where(p => p.PlanningTimeBlocks.Any(t => t.TimeBlockId == timeBlockId && t.Date.Date == date.Date) && p.SubjectId == subjectId)

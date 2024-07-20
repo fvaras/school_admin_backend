@@ -50,11 +50,15 @@ public class GuardianService : IGuardianService
         }
 
         // Get Guardian Profile
-        Profile guardianProfile = await _profileDAL.Retrieve((int)Profile.PROFILES_TYPES.STUDENT_GUARDIAN, trackChanges: true);
+        Profile guardianProfile = await _profileDAL.Retrieve(Profile.STUDENT_GUARDIAN, trackChanges: true);
 
         // Check if the user already has the guardian profile associated
-        if (!user.Profiles.Any(p => p.Id == guardianProfile.Id))
-            user.Profiles.Add(guardianProfile);
+        if (!user.UserProfiles.Any(p => p.ProfileId == guardianProfile.Id))
+            user.UserProfiles.Add(new()
+            {
+                User = user,
+                Profile = guardianProfile
+            });
 
         Guardian guardian = _mapper.Map<Guardian>(guardianDTO);
         guardian.User = user;
@@ -66,7 +70,7 @@ public class GuardianService : IGuardianService
         return _mapper.Map<GuardianTableRowDTO>(guardianForMainTable);
     }
 
-    public async Task<GuardianTableRowDTO> Update(int id, GuardianForUpdateDTO guardianDTO)
+    public async Task<GuardianTableRowDTO> Update(Guid id, GuardianForUpdateDTO guardianDTO)
     {
         Guardian guardian = await GetRecordAndCheckExistence(id);
         _mapper.Map(guardianDTO, guardian);
@@ -77,22 +81,22 @@ public class GuardianService : IGuardianService
         return _mapper.Map<GuardianTableRowDTO>(guardianForMainTable);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Guardian guardian = await GetRecordAndCheckExistence(id);
         if (guardian == null)
             throw new EntityNotFoundException();
 
-        if (guardian != null && guardian.User != null && guardian.User.Profiles != null)
+        if (guardian != null && guardian.User != null && guardian.User.UserProfiles != null)
         {
-            var guardianProfile = guardian.User.Profiles.SingleOrDefault(p => p.Id == (int)Profile.PROFILES_TYPES.STUDENT_GUARDIAN);
+            var guardianProfile = guardian.User.UserProfiles.SingleOrDefault(p => p.ProfileId == Profile.STUDENT_GUARDIAN);
             if (guardianProfile != null)
-                guardian.User.Profiles.Remove(guardianProfile);
+                guardian.User.UserProfiles.Remove(guardianProfile);
         }
         await _guardianDAL.Delete(guardian);
     }
 
-    public async Task<GuardianDTO?> Retrieve(int id) =>
+    public async Task<GuardianDTO?> Retrieve(Guid id) =>
         _mapper.Map<GuardianDTO>(await _guardianDAL.Retrieve(id));
 
     public async Task<List<GuardianTableRowDTO>> RetrieveAll() =>
@@ -101,7 +105,7 @@ public class GuardianService : IGuardianService
     public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text) =>
         _mapper.Map<List<GuardianTableRowDTO>>(await _guardianDAL.RetrieveByNamesOrRut(text.Trim()));
 
-    private async Task<Guardian> GetRecordAndCheckExistence(int id)
+    private async Task<Guardian> GetRecordAndCheckExistence(Guid id)
     {
         Guardian guardian = await _guardianDAL.Retrieve(id);
         if (guardian is null)

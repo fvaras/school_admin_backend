@@ -11,7 +11,7 @@ public class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
         builder.HasData(
             new Calendar()
             {
-                Id = 1,
+                Id = Guid.Parse("0cd91eac-3acb-4538-9377-d6be9bf5a7ec"),
                 Title = "General",
                 StateId = (byte)Calendar.CALENDAR_STATES.ACTIVE
             }

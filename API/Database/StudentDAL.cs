@@ -13,7 +13,7 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
         _context = context;
     }
 
-    public async Task<int> Create(Student student)
+    public async Task<Guid> Create(Student student)
     {
         await base.Create(student);
         return student.Id;
@@ -23,22 +23,23 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
 
     public async Task Delete(Student student) => await base.Delete(student);
 
-    public async Task<Student?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Student?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(a => a.Id == id, trackChanges)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
-    public async Task<Student?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true) =>
+    public async Task<Student?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true) =>
         await FindByCondition(a => a.Id == id, trackChanges)
                 .Include(t => t.User)
-                    .ThenInclude(u => u.Profiles)
+                    .ThenInclude(u => u.UserProfiles)
                 .FirstOrDefaultAsync();
 
-    public async Task<Student?> RetrieveWithGuardians(int id, bool trackChanges = true) =>
+    public async Task<Student?> RetrieveWithGuardians(Guid id, bool trackChanges = true) =>
         await FindByCondition(a => a.Id == id, trackChanges)
                 .Include(t => t.Guardians)
                 .FirstOrDefaultAsync();
 
-    public async Task<Student?> RetrieveForMainTable(int id) =>
+    public async Task<Student?> RetrieveForMainTable(Guid id) =>
         await FindByCondition(a => a.Id == id, trackChanges: false)
                 .Include(p => p.Grade)
                 .Include(t => t.User)
@@ -51,7 +52,7 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
                 .Include(t => t.Grade)
                 .ToListAsync();
 
-    public async Task<List<int>> RetrieveGuardiansId(int id) =>
+    public async Task<List<Guid>> RetrieveGuardiansId(Guid id) =>
         await FindByCondition(c => c.Id == id, trackChanges: false)
                 .SelectMany(p => p.Guardians)
                 .Select(p => p.Id)

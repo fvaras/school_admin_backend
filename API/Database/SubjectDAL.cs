@@ -23,13 +23,13 @@ public class SubjectDAL : RepositoryBase<Subject>, ISubjectDAL
 
     public async Task Delete(Subject subject) => await base.Delete(subject);
 
-    public async Task<Subject?> Retrieve(int id, bool trackChanges = false) =>
+    public async Task<Subject?> Retrieve(Guid id, bool trackChanges = false) =>
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 
-    public async Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(int id = 0) =>
+    public async Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(Guid id) =>
         await FindAll(trackChanges: false)
-            .Where(t => t.Id == id || id == 0)
+            .Where(t => t.Id == id || id == Guid.Empty)
             .Include(t => t.Grade)
             .Include(t => t.Teacher)
                 .ThenInclude(t => t.User)
@@ -47,11 +47,11 @@ public class SubjectDAL : RepositoryBase<Subject>, ISubjectDAL
             })
             .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<int>>> RetrieveByGradeAndTeacherForList(int gradeId, int teacherId) =>
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndTeacherForList(Guid gradeId, Guid teacherId) =>
         await FindByCondition(t => t.StateId == 1, false)
                 .Where(subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.GradeId == gradeId
-                    && (subject.TeacherId == teacherId || teacherId == 0))
-                .Select(subject => new LabelValueFromDB<int>()
+                    && (subject.TeacherId == teacherId || teacherId == Guid.Empty))
+                .Select(subject => new LabelValueFromDB<Guid>()
                 {
                     Value = subject.Id,
                     Label = $"{subject.Name}"

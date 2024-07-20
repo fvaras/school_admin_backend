@@ -26,25 +26,25 @@ public class PlanningController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<PlanningTableRowDTO> Update(int id, [FromBody] PlanningForUpdateDTO planningDTO)
+    public async Task<PlanningTableRowDTO> Update(Guid id, [FromBody] PlanningForUpdateDTO planningDTO)
     {
         return await _planningService.Update(id, planningDTO);
     }
 
     [HttpPut("withTimeBlock/{id:int}")]
-    public async Task<PlanningTableRowDTO> UpdateWithTimeBlocks(int id, [FromBody] PlanningWithTimeBlocksForUpdateDTO planningDTO)
+    public async Task<PlanningTableRowDTO> UpdateWithTimeBlocks(Guid id, [FromBody] PlanningWithTimeBlocksForUpdateDTO planningDTO)
     {
         return await _planningService.UpdateWithTimeBlocks(id, planningDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _planningService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<PlanningDTO> Retrieve(int id)
+    public async Task<PlanningDTO> Retrieve(Guid id)
     {
         return await _planningService.Retrieve(id);
     }
@@ -52,19 +52,19 @@ public class PlanningController : ControllerBase
     [HttpGet]
     public async Task<List<PlanningTableRowDTO>> RetrieveAll()
     {
-        int teacherId = 74; // TODO: Get from token
+        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
         return await _planningService.RetrieveAll(teacherId);
     }
 
     [HttpGet("byGradeAndSubject/{gradeId:int}/{subjectId:int}")]
-    public async Task<List<LabelValueDTO<int>>> RetrieveByGradeAndSubject(int gradeId, int subjectId)
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId)
     {
         // int gradeId = 1; // TODO: Get from token
         return await _planningService.RetrieveByGradeAndSubject(gradeId, subjectId);
     }
 
     [HttpGet("bySubjectAndTimeBlock/{subjectId:int}/{timeBlockId:int}/{dateString}")]
-    public async Task<PlanningDTO> RetrievePlanningBySubjectAndTimeBlock(int subjectId, int timeBlockId, string dateString)
+    public async Task<PlanningDTO> RetrievePlanningBySubjectAndTimeBlock(Guid subjectId, Guid timeBlockId, string dateString)
     {
         return await _planningService.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, dateString);
     }

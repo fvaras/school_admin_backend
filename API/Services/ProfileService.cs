@@ -19,7 +19,7 @@ public class ProfileService : IProfileService
         _cache = cache;
     }
 
-    public async Task<Profile?> Retrieve(int id, bool trackChanges = false)
+    public async Task<Profile?> Retrieve(Guid id, bool trackChanges = false)
     {
         List<Profile> profilesList = (await _cache.GetOrCreateAsync("Profiles", async entry =>
         {

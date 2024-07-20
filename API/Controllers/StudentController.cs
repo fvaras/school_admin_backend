@@ -26,19 +26,19 @@ public class StudentController : ControllerBase
     }
 
     [HttpPut("{id:int}")]
-    public async Task<StudentTableRowDTO> Update(int id, [FromBody] StudentForUpdateDTO studentDTO)
+    public async Task<StudentTableRowDTO> Update(Guid id, [FromBody] StudentForUpdateDTO studentDTO)
     {
         return await _studentService.Update(id, studentDTO);
     }
 
     [HttpDelete("{id:int}")]
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         await _studentService.Delete(id);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<StudentDTO> Retrieve(int id)
+    public async Task<StudentDTO> Retrieve(Guid id)
     {
         return await _studentService.Retrieve(id);
     }

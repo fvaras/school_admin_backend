@@ -17,7 +17,7 @@ public class AuthService : IAuthService
         _jwtService = jwtService;
     }
 
-    public async Task<AuthInfoDTO?> ValidateUser(string username, string password, int profileId)
+    public async Task<AuthInfoDTO?> ValidateUser(string username, string password, Guid profileId)
     {
         UserInfoDTO? user = await _userService.Validate(username, password, profileId);
         if (user == null)

@@ -16,7 +16,7 @@ public class TimeBlock
         SUNDAY = 7,
     }
 
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public int Year { get; set; }
     public byte Day { get; set; } // ACADEMIC_WEEK_DAY
     public TimeSpan Start { get; set; }
@@ -26,10 +26,10 @@ public class TimeBlock
 
     public string? Color { get; set; }
 
-    public int GradeId { get; set; }
+    public Guid GradeId { get; set; }
     public Grade Grade { get; set; }
 
-    public int? SubjectId { get; set; }
+    public Guid? SubjectId { get; set; }
     public Subject? Subject { get; set; }
 
     public List<PlanningTimeBlock> PlanningTimeBlocks { get; set; }

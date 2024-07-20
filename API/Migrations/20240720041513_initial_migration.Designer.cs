@@ -12,8 +12,8 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240523235530_homeworks")]
-    partial class homeworks
+    [Migration("20240720041513_initial_migration")]
+    partial class initial_migration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,11 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("GradeTeacher", b =>
                 {
-                    b.Property<int>("GradesId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("GradesId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("TeachersId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TeachersId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("GradesId", "TeachersId");
 
@@ -41,11 +41,11 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("GuardianStudent", b =>
                 {
-                    b.Property<int>("GuardiansId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("GuardiansId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("StudentsId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("GuardiansId", "StudentsId");
 
@@ -54,36 +54,12 @@ namespace school_admin_api.Migrations
                     b.ToTable("GuardianStudent", "public");
                 });
 
-            modelBuilder.Entity("UserProfiles", b =>
-                {
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("ProfileId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserProfiles", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            ProfileId = 1,
-                            UserId = 1
-                        });
-                });
-
             modelBuilder.Entity("school_admin_api.Model.Calendar", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<byte>("StateId")
                         .HasColumnType("smallint");
@@ -95,27 +71,17 @@ namespace school_admin_api.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Calendars", "public");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            StateId = (byte)1,
-                            Title = "General"
-                        });
                 });
 
             modelBuilder.Entity("school_admin_api.Model.CalendarEvent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CalendarId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("CalendarId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Details")
                         .IsRequired()
@@ -146,12 +112,10 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Grade", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<bool>("Active")
                         .HasColumnType("boolean");
@@ -161,25 +125,29 @@ namespace school_admin_api.Migrations
 
                     b.Property<string>("ContactEmail")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("ContactPhone")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("timestamp without time zone");
+                    b.Property<DateTimeOffset?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -188,12 +156,10 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Guardian", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -208,8 +174,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -234,15 +200,15 @@ namespace school_admin_api.Migrations
                     b.Property<DateTimeOffset>("EndsAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<byte>("StateId")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -256,11 +222,9 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Planning", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Activities")
                         .HasColumnType("text");
@@ -271,8 +235,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime>("CreateAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("CreatedBy")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -289,8 +253,8 @@ namespace school_admin_api.Migrations
                     b.Property<string>("ExpectedLearning")
                         .HasColumnType("text");
 
-                    b.Property<int>("LastUpdatedBy")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("LastUpdatedBy")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Resources")
                         .HasColumnType("text");
@@ -301,8 +265,8 @@ namespace school_admin_api.Migrations
                     b.Property<byte>("StateId")
                         .HasColumnType("smallint");
 
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("SubjectId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -320,20 +284,18 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.PlanningTimeBlock", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("PlanningId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("PlanningId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("TimeBlockId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TimeBlockId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -347,12 +309,10 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Profile", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -365,34 +325,32 @@ namespace school_admin_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("ccd8f71e-b6a6-4b04-84cf-ee3bcea3999c"),
                             Name = "Administrator"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("398d52f1-0d94-40f9-8ef2-bc801c714490"),
                             Name = "Teacher"
                         },
                         new
                         {
-                            Id = 3,
+                            Id = new Guid("521c2799-f386-4ea2-ba2f-64a81f86fd9d"),
                             Name = "Student"
                         },
                         new
                         {
-                            Id = 4,
+                            Id = new Guid("9282b9d9-4c59-41c9-859a-58d37551fcae"),
                             Name = "Guardian"
                         });
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Student", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Allergies")
                         .IsRequired()
@@ -405,8 +363,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int?>("GradeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("GradeId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime?>("JoiningDate")
                         .HasColumnType("timestamp without time zone");
@@ -417,8 +375,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -431,11 +389,9 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Subject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Color")
                         .HasColumnType("text");
@@ -443,8 +399,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("GradeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("GradeId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -453,8 +409,8 @@ namespace school_admin_api.Migrations
                     b.Property<int>("StateId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -470,12 +426,10 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.Teacher", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ContactEmail")
                         .IsRequired()
@@ -498,8 +452,8 @@ namespace school_admin_api.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
@@ -510,11 +464,9 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.TimeBlock", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<string>("BlockName")
                         .IsRequired()
@@ -529,8 +481,8 @@ namespace school_admin_api.Migrations
                     b.Property<TimeSpan>("End")
                         .HasColumnType("interval");
 
-                    b.Property<int>("GradeId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("GradeId")
+                        .HasColumnType("uuid");
 
                     b.Property<bool>("IsRecess")
                         .HasColumnType("boolean");
@@ -538,8 +490,8 @@ namespace school_admin_api.Migrations
                     b.Property<TimeSpan>("Start")
                         .HasColumnType("interval");
 
-                    b.Property<int?>("SubjectId")
-                        .HasColumnType("integer");
+                    b.Property<Guid?>("SubjectId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Year")
                         .HasColumnType("integer");
@@ -555,12 +507,10 @@ namespace school_admin_api.Migrations
 
             modelBuilder.Entity("school_admin_api.Model.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("uuid")
                         .HasColumnName("Id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -616,10 +566,10 @@ namespace school_admin_api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("845900f3-b438-4461-9ef0-3aa846085000"),
                             Address = "",
-                            BirthDate = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8120),
-                            CreatedAt = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8177),
+                            BirthDate = new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8514),
+                            CreatedAt = new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8559),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -628,8 +578,57 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTime(2024, 5, 23, 19, 55, 29, 627, DateTimeKind.Local).AddTicks(8179),
+                            UpdatedAt = new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8561),
                             UserName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
+                            Address = "",
+                            BirthDate = new DateTime(1983, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8596),
+                            CreatedAt = new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8603),
+                            Email = "fdovarasc@gmail.com",
+                            FirstName = "Fernando",
+                            Gender = (byte)0,
+                            LastName = "Varas",
+                            Password = "fvaras",
+                            Phone = "",
+                            Rut = "15111222K",
+                            StateId = (byte)1,
+                            UpdatedAt = new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8605),
+                            UserName = "fvaras"
+                        });
+                });
+
+            modelBuilder.Entity("school_admin_api.Model.UserProfile", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "ProfileId");
+
+                    b.HasIndex("ProfileId");
+
+                    b.ToTable("UserProfiles");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("845900f3-b438-4461-9ef0-3aa846085000"),
+                            ProfileId = new Guid("ccd8f71e-b6a6-4b04-84cf-ee3bcea3999c")
+                        },
+                        new
+                        {
+                            UserId = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
+                            ProfileId = new Guid("ccd8f71e-b6a6-4b04-84cf-ee3bcea3999c")
+                        },
+                        new
+                        {
+                            UserId = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
+                            ProfileId = new Guid("398d52f1-0d94-40f9-8ef2-bc801c714490")
                         });
                 });
 
@@ -659,21 +658,6 @@ namespace school_admin_api.Migrations
                     b.HasOne("school_admin_api.Model.Student", null)
                         .WithMany()
                         .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("UserProfiles", b =>
-                {
-                    b.HasOne("school_admin_api.Model.Profile", null)
-                        .WithMany()
-                        .HasForeignKey("ProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("school_admin_api.Model.User", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -805,6 +789,25 @@ namespace school_admin_api.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("school_admin_api.Model.UserProfile", b =>
+                {
+                    b.HasOne("school_admin_api.Model.Profile", "Profile")
+                        .WithMany("UserProfiles")
+                        .HasForeignKey("ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("school_admin_api.Model.User", "User")
+                        .WithMany("UserProfiles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("school_admin_api.Model.Calendar", b =>
                 {
                     b.Navigation("CalendarEvents");
@@ -815,9 +818,19 @@ namespace school_admin_api.Migrations
                     b.Navigation("PlanningTimeBlocks");
                 });
 
+            modelBuilder.Entity("school_admin_api.Model.Profile", b =>
+                {
+                    b.Navigation("UserProfiles");
+                });
+
             modelBuilder.Entity("school_admin_api.Model.TimeBlock", b =>
                 {
                     b.Navigation("PlanningTimeBlocks");
+                });
+
+            modelBuilder.Entity("school_admin_api.Model.User", b =>
+                {
+                    b.Navigation("UserProfiles");
                 });
 #pragma warning restore 612, 618
         }

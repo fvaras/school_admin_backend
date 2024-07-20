@@ -16,6 +16,6 @@ public class CalendarForUpdateDTO : CalendarBaseDTO
 
 public class CalendarDTO : CalendarBaseDTO
 {
-    public int Id { get; init; }
+    public Guid Id { get; init; }
     // Include CalendarEvents here if necessary, represented as DTOs
 }

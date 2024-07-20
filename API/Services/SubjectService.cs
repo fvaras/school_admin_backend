@@ -30,7 +30,7 @@ public class SubjectService : ISubjectService
         return await RetrieveForTable(subject.Id);
     }
 
-    public async Task<SubjectTableRowDTO> Update(int id, SubjectForUpdateDTO subjectDTO)
+    public async Task<SubjectTableRowDTO> Update(Guid id, SubjectForUpdateDTO subjectDTO)
     {
         Subject subject = await _subjectDAL.Retrieve(id) ?? throw new EntityNotFoundException();
         subject.UpdatedAt = DateTime.Now;
@@ -39,27 +39,27 @@ public class SubjectService : ISubjectService
         return await RetrieveForTable(subject.Id);
     }
 
-    public async Task Delete(int id)
+    public async Task Delete(Guid id)
     {
         Subject subject = await _subjectDAL.Retrieve(id) ?? throw new EntityNotFoundException();
         await _subjectDAL.Delete(subject);
     }
 
-    public async Task<SubjectDTO?> Retrieve(int id) => _mapper.Map<SubjectDTO>(await _subjectDAL.Retrieve(id));
+    public async Task<SubjectDTO?> Retrieve(Guid id) => _mapper.Map<SubjectDTO>(await _subjectDAL.Retrieve(id));
 
-    public async Task<List<SubjectTableRowDTO>> RetrieveAll() => _mapper.Map<List<SubjectTableRowDTO>>(await _subjectDAL.RetrieveAllForTable());
+    public async Task<List<SubjectTableRowDTO>> RetrieveAll() => _mapper.Map<List<SubjectTableRowDTO>>(await _subjectDAL.RetrieveAllForTable(Guid.Empty));
 
-    private async Task<SubjectTableRowDTO?> RetrieveForTable(int id)
+    private async Task<SubjectTableRowDTO?> RetrieveForTable(Guid id)
     {
-        if (id == 0) return null;
+        if (id == Guid.Empty) return null;
         var rows = await _subjectDAL.RetrieveAllForTable(id);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<SubjectTableRowDTO>(rows.FirstOrDefault());
     }
 
-    // public async Task<List<LabelValueDTO<int>>> RetrieveByGrade(int gradeId) =>
-    //     _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
+    // public async Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId) =>
+    //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
 
-    public async Task<List<LabelValueDTO<int>>> RetrieveByGradeAndTeacher(int gradeId, int teacherId) =>
-        _mapper.Map<List<LabelValueDTO<int>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId));
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndTeacher(Guid gradeId, Guid teacherId) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId));
 }

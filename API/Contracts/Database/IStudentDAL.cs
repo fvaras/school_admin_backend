@@ -4,13 +4,13 @@ namespace school_admin_api.Contracts.Database;
 
 public interface IStudentDAL
 {
-    Task<int> Create(Student student);
+    Task<Guid> Create(Student student);
     Task Update(Student student);
     Task Delete(Student student);
-    Task<Student?> Retrieve(int id, bool trackChanges = false);
-    Task<Student?> RetrieveWithUserAndProfiles(int id, bool trackChanges = true);
-    Task<Student?> RetrieveWithGuardians(int id, bool trackChanges = true);
-    Task<Student?> RetrieveForMainTable(int id);
+    Task<Student?> Retrieve(Guid id, bool trackChanges = false);
+    Task<Student?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true);
+    Task<Student?> RetrieveWithGuardians(Guid id, bool trackChanges = true);
+    Task<Student?> RetrieveForMainTable(Guid id);
     Task<List<Student>> RetrieveAll();
-    Task<List<int>> RetrieveGuardiansId(int id);
+    Task<List<Guid>> RetrieveGuardiansId(Guid id);
 }
