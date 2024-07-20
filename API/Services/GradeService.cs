@@ -29,8 +29,8 @@ public class GradeService : IGradeService
     public async Task<GradeDTO> Create(GradeForCreationDTO gradeDTO)
     {
         Grade grade = _mapper.Map<Grade>(gradeDTO);
-        grade.CreatedAt = DateTime.Now;
-        grade.UpdatedAt = DateTime.Now;
+        grade.CreatedAt = DateTimeOffset.UtcNow;
+        grade.UpdatedAt = DateTimeOffset.UtcNow;
 
         foreach (Guid teacherId in gradeDTO.TeachersId)
             grade.Teachers.Add(await _teacherDAL.Retrieve(teacherId, trackChanges: true));
@@ -44,7 +44,7 @@ public class GradeService : IGradeService
         Grade grade = await GetRecordAndCheckExistence(id);
 
         _mapper.Map(gradeDTO, grade);
-        grade.UpdatedAt = DateTime.Now;
+        grade.UpdatedAt = DateTimeOffset.UtcNow;
 
         // Retrieve current teacher associations for comparison
         var currentTeacherIds = await _gradeDAL.RetrieveTeachersId(id);
