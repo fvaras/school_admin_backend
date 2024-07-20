@@ -68,7 +68,7 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
             })
             .ToListAsync();
 
-    public async Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTime date) =>
+    public async Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTimeOffset date) =>
         await FindAll(trackChanges: false)
             .Include(p => p.PlanningTimeBlocks)
             .Where(p => p.PlanningTimeBlocks.Any(t => t.TimeBlockId == timeBlockId && t.Date.Date == date.Date) && p.SubjectId == subjectId)

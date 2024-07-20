@@ -4,7 +4,7 @@ public class StudentBaseDTO
 {
     public string BloodGroup { get; init; }
     public string Allergies { get; init; }
-    public DateTime? JoiningDate { get; init; }
+    public DateTimeOffset? JoiningDate { get; init; }
     public byte StateId { get; init; }
     public Guid? GradeId { get; set; }
     public Guid Guardian1Id { get; set; }
@@ -23,8 +23,8 @@ public class StudentForUpdateDTO : StudentBaseDTO
 public class StudentDTO : StudentBaseDTO
 {
     public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
     public UserDTO User { get; set; }
 }
 
@@ -40,15 +40,15 @@ public class StudentTableRowDTO
     public string Phone { get; set; }
     public string Address { get; set; }
     public byte Gender { get; set; }
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     public string BloodGroup { get; set; }
     public string Allergies { get; set; }
-    public DateTime? JoiningDate { get; set; }
+    public DateTimeOffset? JoiningDate { get; set; }
     public byte StateId { get; set; }
     public Guid GradeId { get; init; }
     public string GradeName { get; init; }
-    // public DateTime CreatedAt { get; init; }
-    // public DateTime? UpdatedAt { get; init; }
+    // public DateTimeOffset CreatedAt { get; init; }
+    // public DateTimeOffset? UpdatedAt { get; init; }
     // public string UserName { get; set; }
     // public Guid UserId { get; init; }
     // public byte UserStateId { get; init; }

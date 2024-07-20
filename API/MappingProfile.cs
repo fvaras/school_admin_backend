@@ -134,15 +134,15 @@ public class MappingProfile : AutoMapper.Profile
 
     }
 
-    private DateTime ISODt2DateTime(string ISODateTime)
+    private DateTimeOffset ISODt2DateTime(string ISODateTime)
     {
-        return DateTime.ParseExact(ISODateTime, "yyyyMMddHHmmss", null);
+        return DateTimeOffset.ParseExact(ISODateTime, "yyyyMMddHHmmss", null);
     }
 
     private TimeSpan ParseTimeSpanFromString(string time, string format)
     {
         if (string.IsNullOrWhiteSpace(time)) return TimeSpan.MinValue;
-        return DateTime.ParseExact(time, format, null).TimeOfDay;
+        return DateTimeOffset.ParseExact(time, format, null).TimeOfDay;
     }
     private string? ParseTimeSpanToString(TimeSpan? time, string format)
     {

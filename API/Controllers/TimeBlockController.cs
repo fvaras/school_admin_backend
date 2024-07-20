@@ -22,14 +22,14 @@ public class TimeBlockController : ControllerBase
     [HttpPost]
     public async Task<TimeBlockTableRowDTO> Create([FromBody] TimeBlockForCreationDTO timeBlockDTO)
     {
-        timeBlockDTO.Year = DateTime.Now.Year; // TODO: Configure current Year Operation
+        timeBlockDTO.Year = DateTimeOffset.UtcNow.Year; // TODO: Configure current Year Operation
         return await _timeBlockService.Create(timeBlockDTO);
     }
 
     [HttpPut("{id:Guid}")]
     public async Task<TimeBlockTableRowDTO> Update(Guid id, [FromBody] TimeBlockForUpdateDTO timeBlockDTO)
     {
-        timeBlockDTO.Year = DateTime.Now.Year; // TODO: Configure current Year Operation
+        timeBlockDTO.Year = DateTimeOffset.UtcNow.Year; // TODO: Configure current Year Operation
         return await _timeBlockService.Update(id, timeBlockDTO);
     }
 

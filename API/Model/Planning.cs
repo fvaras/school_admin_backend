@@ -15,11 +15,11 @@ public class Planning
     public string? Resources { get; set; } = null;
     public string? EvaluationPlan { get; set; } = null;
     public TimeSpan? EstimatedDuration { get; set; } = null;
-    public DateTime? StartDate { get; set; } = null;
-    public DateTime? EndDate { get; set; } = null;
+    public DateTimeOffset? StartDate { get; set; } = null;
+    public DateTimeOffset? EndDate { get; set; } = null;
     public Subject Subject { get; set; }
-    public DateTime CreateAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
+    public DateTimeOffset CreateAt { get; set; }
+    public DateTimeOffset UpdatedAt { get; set; }
     public Guid CreatedBy { get; set; }
     public Guid LastUpdatedBy { get; set; }
     public byte StateId { get; set; }

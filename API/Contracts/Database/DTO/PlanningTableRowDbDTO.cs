@@ -15,11 +15,11 @@ public class PlanningTableRowDbDTO
     // public string? Resources { get; set; }
     // public string? EvaluationPlan { get; set; }
     public TimeSpan? EstimatedDuration { get; set; }
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
+    public DateTimeOffset? StartDate { get; set; }
+    public DateTimeOffset? EndDate { get; set; }
     // public string SubjectName { get; set; }
-    // public DateTime CreateAt { get; set; }
-    // public DateTime UpdatedAt { get; set; }
+    // public DateTimeOffset CreateAt { get; set; }
+    // public DateTimeOffset UpdatedAt { get; set; }
     // public Guid CreatedBy { get; set; }
     // public Guid LastUpdatedBy { get; set; }
     public byte StateId { get; set; }

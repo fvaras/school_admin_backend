@@ -5,8 +5,8 @@ public class SubjectTableRowDbDTO
     public Guid Id { get; set; }
     public string Name { get; set; }
     public int StateId { get; set; }
-    // public DateTime CreatedAt { get; set; }
-    // public DateTime UpdatedAt { get; set; }
+    // public DateTimeOffset CreatedAt { get; set; }
+    // public DateTimeOffset UpdatedAt { get; set; }
 
     public Guid GradeId { get; set; }
     public string GradeName { get; set; }

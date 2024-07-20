@@ -19,8 +19,8 @@ public class GuardianDTO : GuardianBaseDTO
 {
     public Guid Id { get; init; }
     public byte StateId { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset? UpdatedAt { get; init; }
     public UserDTO User { get; set; }
 }
 
@@ -36,7 +36,7 @@ public class GuardianTableRowDTO
     public string Phone { get; set; }
     public string Address { get; set; }
     // public byte Gender { get; set; }
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     public byte StateId { get; set; }
     public string Relation { get; set; }
 }

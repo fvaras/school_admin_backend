@@ -16,10 +16,10 @@ public class User
     public string Phone { get; set; }
     public string Address { get; set; }
     public byte Gender { get; set; }
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     public byte StateId { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 
     // public ICollection<Profile> Profiles { get; set; } = new List<Profile>();
     public ICollection<UserProfile> UserProfiles { get; set; } = new List<UserProfile>();

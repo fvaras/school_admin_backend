@@ -96,7 +96,7 @@ public class PlanningService : IPlanningService
 
     public async Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString)
     {
-        DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", null);
+        DateTimeOffset date = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", null);
         var planning = await _planningDAL.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, date.Date);
         return _mapper.Map<PlanningDTO>(planning);
     }

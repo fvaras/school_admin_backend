@@ -4,7 +4,7 @@ public class HomeworkBaseDTO
 {
     public string Title { get; init; }
     public string Description { get; init; } = string.Empty;
-    public DateTime EndsAt { get; init; }
+    public DateTimeOffset EndsAt { get; init; }
     public byte StateId { get; set; }
     public Guid SubjectId { get; init; }
 }

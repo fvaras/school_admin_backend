@@ -69,8 +69,8 @@ public class StudentService : IStudentService
 
         Student student = _mapper.Map<Student>(studentDTO);
         student.User = user;
-        student.CreatedAt = DateTime.Now;
-        student.UpdatedAt = DateTime.Now;
+        student.CreatedAt = DateTimeOffset.UtcNow;
+        student.UpdatedAt = DateTimeOffset.UtcNow;
 
         /********* GUARDIANS *********/
         List<Guid> guardiansIds = new List<Guid>();
@@ -92,7 +92,7 @@ public class StudentService : IStudentService
     {
         Student student = await _studentDAL.RetrieveWithGuardians(id);
         _mapper.Map(studentDTO, student);
-        student.UpdatedAt = DateTime.Now;
+        student.UpdatedAt = DateTimeOffset.UtcNow;
 
         /********* GUARDIANS *********/
         List<Guid> guardiansIds = new List<Guid>();

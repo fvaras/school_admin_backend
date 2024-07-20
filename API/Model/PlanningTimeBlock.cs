@@ -15,5 +15,5 @@ public class PlanningTimeBlock
     public Guid TimeBlockId { get; set; }
     public TimeBlock TimeBlock { get; set; }
 
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; }
 }

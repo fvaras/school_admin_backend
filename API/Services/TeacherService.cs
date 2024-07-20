@@ -59,15 +59,16 @@ public class TeacherService : ITeacherService
 
         // Check if the user already has the teacher profile associated
         if (!user.UserProfiles.Any(p => p.ProfileId == teacherProfile.Id))
-            user.UserProfiles.Add(new () {
-                 Profile = teacherProfile,
-                 User = user
+            user.UserProfiles.Add(new()
+            {
+                Profile = teacherProfile,
+                User = user
             });
 
         Teacher teacher = _mapper.Map<Teacher>(teacherDTO);
         teacher.User = user;
-        teacher.CreatedAt = DateTime.Now;
-        teacher.UpdatedAt = DateTime.Now;
+        teacher.CreatedAt = DateTimeOffset.UtcNow;
+        teacher.UpdatedAt = DateTimeOffset.UtcNow;
         await _teacherDAL.Create(teacher);
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
@@ -76,7 +77,7 @@ public class TeacherService : ITeacherService
     {
         Teacher teacher = await GetRecordAndCheckExistence(id);
         _mapper.Map(teacherDTO, teacher);
-        teacher.UpdatedAt = DateTime.Now;
+        teacher.UpdatedAt = DateTimeOffset.UtcNow;
         await _teacherDAL.Update(teacher);
         teacher = await _teacherDAL.RetrieveForMainTable(id);
         return _mapper.Map<TeacherTableRowDTO>(teacher);

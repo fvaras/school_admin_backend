@@ -24,8 +24,8 @@ public class SubjectService : ISubjectService
     public async Task<SubjectTableRowDTO> Create(SubjectForCreationDTO subjectDTO)
     {
         Subject subject = _mapper.Map<Subject>(subjectDTO);
-        subject.CreatedAt = DateTime.Now;
-        subject.UpdatedAt = DateTime.Now;
+        subject.CreatedAt = DateTimeOffset.UtcNow;
+        subject.UpdatedAt = DateTimeOffset.UtcNow;
         await _subjectDAL.Create(subject);
         return await RetrieveForTable(subject.Id);
     }
@@ -33,7 +33,7 @@ public class SubjectService : ISubjectService
     public async Task<SubjectTableRowDTO> Update(Guid id, SubjectForUpdateDTO subjectDTO)
     {
         Subject subject = await _subjectDAL.Retrieve(id) ?? throw new EntityNotFoundException();
-        subject.UpdatedAt = DateTime.Now;
+        subject.UpdatedAt = DateTimeOffset.UtcNow;
         _mapper.Map(subjectDTO, subject);
         await _subjectDAL.Update(subject);
         return await RetrieveForTable(subject.Id);

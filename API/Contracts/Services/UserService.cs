@@ -27,8 +27,8 @@ public class UserService : IUserService
     {
         User user = _mapper.Map<User>(userDTO);
         user.UserName = user.UserName.ToLower();
-        user.CreatedAt = DateTime.Now;
-        user.UpdatedAt = DateTime.Now;
+        user.CreatedAt = DateTimeOffset.UtcNow;
+        user.UpdatedAt = DateTimeOffset.UtcNow;
         // await _userDAL.Create(user);
         // return user;
         return await _userDAL.Create(user);
@@ -38,7 +38,7 @@ public class UserService : IUserService
     {
         User user = await GetRecordAndCheckExistence(id);
         _mapper.Map(userDTO, user);
-        user.UpdatedAt = DateTime.Now;
+        user.UpdatedAt = DateTimeOffset.UtcNow;
         await _userDAL.Update(user);
         return user;
     }

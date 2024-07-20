@@ -13,5 +13,5 @@ public interface IPlanningDAL
     Task<List<Planning>> RetrieveAll();
     Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(Guid id, Guid teacherId);
     Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId);
-    Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTime date);
+    Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTimeOffset date);
 }

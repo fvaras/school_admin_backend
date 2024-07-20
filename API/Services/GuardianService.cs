@@ -62,8 +62,8 @@ public class GuardianService : IGuardianService
 
         Guardian guardian = _mapper.Map<Guardian>(guardianDTO);
         guardian.User = user;
-        guardian.CreatedAt = DateTime.Now;
-        guardian.UpdatedAt = DateTime.Now;
+        guardian.CreatedAt = DateTimeOffset.UtcNow;
+        guardian.UpdatedAt = DateTimeOffset.UtcNow;
         await _guardianDAL.Create(guardian);
 
         var guardianForMainTable = await _guardianDAL.RetrieveForMainTable(guardian.Id);
@@ -74,7 +74,7 @@ public class GuardianService : IGuardianService
     {
         Guardian guardian = await GetRecordAndCheckExistence(id);
         _mapper.Map(guardianDTO, guardian);
-        guardian.UpdatedAt = DateTime.Now;
+        guardian.UpdatedAt = DateTimeOffset.UtcNow;
         await _guardianDAL.Update(guardian);
 
         var guardianForMainTable = await _guardianDAL.RetrieveForMainTable(id);

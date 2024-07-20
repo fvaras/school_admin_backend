@@ -9,8 +9,8 @@ public class Guardian
     public Guid Id { get; set; }
     public string Relation { get; set; }
     public byte StateId { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
+    public DateTimeOffset CreatedAt { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
 
     public User User { get; set; }
 

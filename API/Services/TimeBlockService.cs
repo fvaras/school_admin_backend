@@ -81,7 +81,7 @@ public class TimeBlockService : ITimeBlockService
 
     public async Task CreateAllWeekTimeBlocksBase(Guid gradeId)
     {
-        DateTime now = DateTime.Now;
+        DateTimeOffset now = DateTimeOffset.Now;
         var timeBlockDayList = new List<TimeBlock>() {
             new TimeBlock() { Year = now.Year, Day = 1, IsRecess = true, GradeId = gradeId,
                 BlockName = "Línea", Start = new TimeSpan(8, 30, 0), End = new TimeSpan(9, 0, 0) },

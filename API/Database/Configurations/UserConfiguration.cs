@@ -21,10 +21,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 Phone = "",
                 Address = "",
                 Gender = 0,
-                BirthDate = DateTime.Now,
+                BirthDate = DateTimeOffset.UtcNow,
                 StateId = 1,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow,
             }
         );
 
@@ -41,10 +41,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 Phone = "",
                 Address = "",
                 Gender = 0,
-                BirthDate = DateTime.Now.AddYears(-41),
+                BirthDate = DateTimeOffset.UtcNow.AddYears(-41),
                 StateId = 1,
-                CreatedAt = DateTime.Now,
-                UpdatedAt = DateTime.Now,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow,
             }
         );
     }

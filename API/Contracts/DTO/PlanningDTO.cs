@@ -11,8 +11,8 @@ public class PlanningBaseDTO
     public string? Resources { get; init; }
     public string? EvaluationPlan { get; init; }
     public TimeSpan? EstimatedDuration { get; init; }
-    // public DateTime? StartDate { get; init; }
-    // public DateTime? EndDate { get; init; }
+    // public DateTimeOffset? StartDate { get; init; }
+    // public DateTimeOffset? EndDate { get; init; }
 }
 
 public class PlanningForCreationDTO : PlanningBaseDTO
@@ -44,11 +44,11 @@ public class PlanningTableRowDTO
     // public string? Resources { get; set; }
     // public string? EvaluationPlan { get; set; }
     public TimeSpan? EstimatedDuration { get; set; }
-    public DateTime? StartDate { get; set; }
-    public DateTime? EndDate { get; set; }
+    public DateTimeOffset? StartDate { get; set; }
+    public DateTimeOffset? EndDate { get; set; }
     // public string SubjectName { get; set; }
-    // public DateTime CreateAt { get; set; }
-    // public DateTime UpdatedAt { get; set; }
+    // public DateTimeOffset CreateAt { get; set; }
+    // public DateTimeOffset UpdatedAt { get; set; }
     // public Guid CreatedBy { get; set; }
     // public Guid LastUpdatedBy { get; set; }
     public byte StateId { get; set; }
@@ -58,6 +58,6 @@ public class PlanningWithTimeBlocksForUpdateDTO : PlanningForUpdateDTO
 {
     public Guid TimeBlockId { get; set; }
     public Guid OriginalPlanningId { get; set; }
-    public DateTime Date { get; set; }
+    public DateTimeOffset Date { get; set; }
     // public bool IsAddition { get; set; } = true;
 }

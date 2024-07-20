@@ -9,8 +9,8 @@ public class CalendarEvent
     [Column("Id")]
     public Guid Id { get; set; }
     public string Title { get; set; }
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTimeOffset StartDate { get; set; }
+    public DateTimeOffset EndDate { get; set; }
     public int EventType { get; set; }
     public string Details { get; set; }
     public byte StateId { get; set; }

@@ -21,8 +21,8 @@ public class TeacherForUpdateDTO : TeacherBaseDTO
 public class TeacherDTO : TeacherBaseDTO
 {
     public Guid Id { get; init; }
-    public DateTime CreatedAt { get; init; }
-    public DateTime? UpdatedAt { get; init; }
+    public DateTimeOffset CreatedAt { get; init; }
+    public DateTimeOffset? UpdatedAt { get; init; }
     public UserDTO User { get; set; }
 }
 
@@ -40,11 +40,11 @@ public class TeacherTableRowDTO
     public byte Gender { get; set; }
     public string ContactEmail { get; set; }
     public string ContactPhone { get; set; }
-    public DateTime? BirthDate { get; set; }
+    public DateTimeOffset? BirthDate { get; set; }
     public string Education { get; set; }
     public byte StateId { get; set; }
-    // public DateTime CreatedAt { get; init; }
-    // public DateTime? UpdatedAt { get; init; }
+    // public DateTimeOffset CreatedAt { get; init; }
+    // public DateTimeOffset? UpdatedAt { get; init; }
     // public string UserName { get; set; }
     // public Guid UserId { get; init; }
     // public byte UserStateId { get; init; }
