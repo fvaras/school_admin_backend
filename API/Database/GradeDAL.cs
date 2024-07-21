@@ -29,6 +29,22 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
                 // .Include(g => g.Teachers)
                 .FirstOrDefaultAsync();
 
+    public async Task<Grade?> RetrieveWithTeachers(Guid id, bool trackChanges = false) =>
+        await FindByCondition(c => c.Id == id, trackChanges)
+                .Include(g => g.GradeTeachers)
+                .FirstOrDefaultAsync();
+
+    public async Task ClearTeacherAssociations(Guid id)
+    {
+        var grade = await RetrieveWithTeachers(id);
+        // Remove current associations explicitly
+        foreach (var teacher in grade.GradeTeachers.ToList())
+        {
+            _context.Entry(teacher).State = EntityState.Deleted;
+        }
+        await base.Delete(grade);
+    }
+
     public async Task<List<Grade>> RetrieveAll() => await FindAll().ToListAsync();
 
     public async Task<List<LabelValueFromDB<Guid>>> RetrieveForList() =>
@@ -73,8 +89,8 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
     public async Task<List<Guid>> RetrieveTeachersId(Guid id)
     {
         return await FindByCondition(c => c.Id == id, trackChanges: false)
-            .SelectMany(p => p.Teachers)
-            .Select(p => p.Id)
+            .SelectMany(p => p.GradeTeachers)
+            .Select(p => p.TeacherId)
             .ToListAsync();
     }
 }

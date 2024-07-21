@@ -9,6 +9,8 @@ public interface IGradeDAL
     Task Update(Grade grade);
     Task Delete(Grade grade);
     Task<Grade?> Retrieve(Guid id, bool trackChanges = false);
+    Task<Grade?> RetrieveWithTeachers(Guid id, bool trackChanges = false);
+    Task ClearTeacherAssociations(Guid id);
     Task<List<Grade>> RetrieveAll();
     Task<List<LabelValueFromDB<Guid>>> RetrieveForList();
     Task<List<LabelValueFromDB<Guid>>> RetrieveForListByTeacher(Guid teacherId);

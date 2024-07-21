@@ -16,7 +16,8 @@ public class Teacher
 
     public User User { get; set; }
 
-    public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+    // public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+    public ICollection<GradeTeacher> GradeTeachers { get; set; } = new List<GradeTeacher>();
 
     public enum TEACHER_STATES
     {

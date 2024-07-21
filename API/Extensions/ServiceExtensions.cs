@@ -49,6 +49,7 @@ public static class ServiceExtensions
         services.AddScoped<IStudentDAL, StudentDAL>();
         services.AddScoped<IGradeDAL, GradeDAL>();
         services.AddScoped<ITeacherDAL, TeacherDAL>();
+        services.AddScoped<IGradeTeachersRepository, GradeTeachersRepository>();
         services.AddScoped<IGuardianDAL, GuardianDAL>();
         services.AddScoped<ICalendarDAL, CalendarDAL>();
         services.AddScoped<ICalendarEventDAL, CalendarEventDAL>();

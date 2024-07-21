@@ -17,6 +17,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Grade> Grades { get; set; }
     public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<GradeTeacher> TeacherGrades { get; set; }
     public DbSet<Guardian> Guardians { get; set; }
     public DbSet<Calendar> Calendars { get; set; }
     public DbSet<CalendarEvent> CalendarEvents { get; set; }
@@ -36,6 +37,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());
         modelBuilder.ApplyConfiguration(new UserProfileConfiguration());
+        modelBuilder.ApplyConfiguration(new GradeTeacherConfiguration());
         // modelBuilder.ApplyConfiguration(new CalendarConfiguration());
 
         // modelBuilder.Entity<User>()
@@ -52,12 +54,6 @@ public class ApplicationDbContext : DbContext
         //                 new { UserId = 1, ProfileId = 1 } // Associates User with Id 1 to Profile with Id 1
         //             );
         //         });
-
-        // many-to-many relationship configuration for Teacher and Grade
-        modelBuilder.Entity<Teacher>()
-            .HasMany(t => t.Grades)
-            .WithMany(c => c.Teachers)
-            .UsingEntity(j => j.ToTable("TeacherGrades")); // Specify the join table name
 
         // // Configuring a one-to-many relationship with cascade delete
         // modelBuilder.Entity<Student>()

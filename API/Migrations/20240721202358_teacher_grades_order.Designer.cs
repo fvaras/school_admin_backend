@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using school_admin_api.Database;
@@ -11,9 +12,10 @@ using school_admin_api.Database;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240721202358_teacher_grades_order")]
+    partial class teacher_grades_order
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -152,7 +154,7 @@ namespace school_admin_api.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("GradeTeachers", "public");
+                    b.ToTable("TeacherGrades");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Guardian", b =>
@@ -569,8 +571,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = new Guid("845900f3-b438-4461-9ef0-3aa846085000"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9270), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9273), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4074), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4077), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -579,15 +581,15 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9274), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4077), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "admin"
                         },
                         new
                         {
                             Id = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(1983, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9307), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9373), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(1983, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4115), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4165), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "Fernando",
                             Gender = (byte)0,
@@ -596,7 +598,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "15111222K",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9374), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 23, 58, 180, DateTimeKind.Unspecified).AddTicks(4165), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "fvaras"
                         });
                 });
