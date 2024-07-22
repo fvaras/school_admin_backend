@@ -47,9 +47,16 @@ public class GuardianController : ControllerBase
         return await _guardianService.RetrieveAll();
     }
 
-    [HttpGet("byNamesOrRut")]
-    public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text)
+    [HttpGet("forList")]
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList(string? text)
     {
-        return await _guardianService.RetrieveByNamesOrRut(text);
+        return await _guardianService.RetrieveForList(text);
     }
+
+    [HttpGet("byNamesOrRut")]
+    public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string? text)
+    {
+        return await _guardianService.RetrieveByNamesOrRut(!string.IsNullOrEmpty(text) ? text.Trim() : "");
+    }
+
 }

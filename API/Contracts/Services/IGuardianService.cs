@@ -9,6 +9,7 @@ public interface IGuardianService
     Task Delete(Guid id);
     Task<GuardianDTO?> Retrieve(Guid id);
     Task<List<GuardianTableRowDTO>> RetrieveAll();
+    Task<List<LabelValueDTO<Guid>>> RetrieveForList(string? text);
     Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text);
 
 }

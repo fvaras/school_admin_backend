@@ -74,10 +74,10 @@ public class StudentService : IStudentService
 
         /********* GUARDIANS *********/
         List<Guid> guardiansIds = new List<Guid>();
-        if (studentDTO.Guardian1Id != Guid.Empty)
-            guardiansIds.Add(studentDTO.Guardian1Id);
-        if (studentDTO.Guardian2Id != Guid.Empty && !guardiansIds.Contains(studentDTO.Guardian2Id))
-            guardiansIds.Add(studentDTO.Guardian2Id);
+        if (studentDTO.Guardian1Id != Guid.Empty && studentDTO.Guardian1Id != null)
+            guardiansIds.Add((Guid)studentDTO.Guardian1Id);
+        if (studentDTO.Guardian2Id != Guid.Empty && studentDTO.Guardian2Id != null && !guardiansIds.Contains((Guid)studentDTO.Guardian2Id))
+            guardiansIds.Add((Guid)studentDTO.Guardian2Id);
         foreach (Guid guardianId in guardiansIds)
             student.Guardians.Add(await _guardianDAL.Retrieve(guardianId, trackChanges: true));
         /********* GUARDIANS *********/
@@ -96,10 +96,10 @@ public class StudentService : IStudentService
 
         /********* GUARDIANS *********/
         List<Guid> guardiansIds = new List<Guid>();
-        if (studentDTO.Guardian1Id != Guid.Empty)
-            guardiansIds.Add(studentDTO.Guardian1Id);
-        if (studentDTO.Guardian2Id != Guid.Empty && !guardiansIds.Contains(studentDTO.Guardian2Id))
-            guardiansIds.Add(studentDTO.Guardian2Id);
+        if (studentDTO.Guardian1Id != Guid.Empty && studentDTO.Guardian1Id != null)
+            guardiansIds.Add((Guid)studentDTO.Guardian1Id);
+        if (studentDTO.Guardian2Id != Guid.Empty && studentDTO.Guardian2Id != null && !guardiansIds.Contains((Guid)studentDTO.Guardian2Id))
+            guardiansIds.Add((Guid)studentDTO.Guardian2Id);
 
         // Retrieve current guardian associations for comparison
         List<Guid> currentGuardianIds = await _studentDAL.RetrieveGuardiansId(id);

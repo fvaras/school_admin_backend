@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api.Database;
@@ -38,6 +39,20 @@ public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
                 .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .ToListAsync();
+
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveForList(string text) =>
+            await FindByCondition(t => t.StateId == 1, false)
+                    .Where(t =>
+                        t.User.StateId == (int)User.USER_STATES.ACTIVE && t.StateId == (int)Teacher.TEACHER_STATES.ACTIVE
+                        && (t.User.FirstName.ToLower().Contains(text.ToLower()) || t.User.LastName.ToLower().Contains(text.ToLower()))
+                    )
+                    .Include(t => t.User)
+                    .Select(t => new LabelValueFromDB<Guid>()
+                    {
+                        Value = t.Id,
+                        Label = $"{t.User.FirstName} {t.User.LastName}"
+                    })
+                    .ToListAsync();
 
     public async Task<List<Guardian>> RetrieveByNamesOrRut(string text) =>
         await FindAll()

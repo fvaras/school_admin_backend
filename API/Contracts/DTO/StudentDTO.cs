@@ -7,8 +7,8 @@ public class StudentBaseDTO
     public DateTimeOffset? JoiningDate { get; init; }
     public byte StateId { get; init; }
     public Guid? GradeId { get; set; }
-    public Guid Guardian1Id { get; set; }
-    public Guid Guardian2Id { get; set; }
+    public Guid? Guardian1Id { get; set; } = Guid.Empty;
+    public Guid? Guardian2Id { get; set; } = Guid.Empty;
 }
 
 public class StudentForCreationDTO : StudentBaseDTO

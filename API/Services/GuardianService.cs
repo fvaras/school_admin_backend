@@ -102,6 +102,9 @@ public class GuardianService : IGuardianService
     public async Task<List<GuardianTableRowDTO>> RetrieveAll() =>
         _mapper.Map<List<GuardianTableRowDTO>>(await _guardianDAL.RetrieveAll());
 
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForList(string text) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _guardianDAL.RetrieveForList(!string.IsNullOrWhiteSpace(text) ? text.Trim() : ""));
+
     public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text) =>
         _mapper.Map<List<GuardianTableRowDTO>>(await _guardianDAL.RetrieveByNamesOrRut(text.Trim()));
 
