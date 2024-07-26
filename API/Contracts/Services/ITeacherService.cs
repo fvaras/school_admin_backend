@@ -8,6 +8,7 @@ public interface ITeacherService
     Task<TeacherTableRowDTO> Update(Guid id, TeacherForUpdateDTO teacherDTO);
     Task Delete(Guid id);
     Task<TeacherDTO?> Retrieve(Guid id);
+    Task<List<Guid>> RetrieveIdByUser(Guid userId);
     Task<List<TeacherTableRowDTO>> RetrieveAll();
 
     Task<List<LabelValueDTO<Guid>>> RetrieveForList();

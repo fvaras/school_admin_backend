@@ -40,11 +40,9 @@ public class UserDAL : RepositoryBase<User>, IUserDAL
     public async Task<List<User>> RetrieveAll() => await FindAll().ToListAsync();
 
     public async Task<User?> RetrieveByCredentials(string username, string password, Guid profileId)
-        => await FindByCondition(
-                u => u.UserName.Equals(username)
-                && u.Password.Equals(password), trackChanges: false)
+        => await FindByCondition(u => u.UserName.Equals(username) && u.Password.Equals(password), trackChanges: false)
                 .Include(u => u.UserProfiles)
                 .ThenInclude(up => up.Profile)
-                // .Where(u=>u.UserProfiles) // TODO: Filter by profileId
+                .Where(u => u.UserProfiles.Select(p => p.ProfileId).Contains(profileId)) // TODO: Filter by profileId
                 .FirstOrDefaultAsync();
 }

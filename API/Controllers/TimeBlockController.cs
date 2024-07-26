@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using school_admin_api.ActionFilters;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
+using school_admin_api.Helpers;
 
 namespace school_admin_api.Controllers;
 
@@ -11,12 +12,15 @@ namespace school_admin_api.Controllers;
 public class TimeBlockController : ControllerBase
 {
     private readonly ITimeBlockService _timeBlockService;
+    private readonly HttpContextHelper _httpContextHelper;
 
     public TimeBlockController(
-        ITimeBlockService timeBlockService
-        )
+        ITimeBlockService timeBlockService,
+        IHttpContextAccessor httpContextAccessor
+    )
     {
         _timeBlockService = timeBlockService;
+        _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
     [HttpPost]
@@ -48,7 +52,7 @@ public class TimeBlockController : ControllerBase
     [HttpGet("byGrade/{gradeId}")]
     public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(Guid gradeId)
     {
-        Guid teacherId = Guid.NewGuid(); // TODO: Get from tkn or session
+        Guid teacherId = _httpContextHelper.GetUserProfileId();
         return await _timeBlockService.RetrieveAll(gradeId, teacherId);
     }
 

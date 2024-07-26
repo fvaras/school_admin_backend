@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using school_admin_api.ActionFilters;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
+using school_admin_api.Helpers;
 
 namespace school_admin_api.Controllers;
 
@@ -11,10 +12,15 @@ namespace school_admin_api.Controllers;
 public class GradeController : ControllerBase
 {
     private readonly IGradeService _gradeService;
+    private readonly HttpContextHelper _httpContextHelper;
 
-    public GradeController(IGradeService gradeService)
+    public GradeController(
+        IGradeService gradeService,
+        IHttpContextAccessor httpContextAccessor
+    )
     {
         _gradeService = gradeService;
+        _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
     [HttpPost]
@@ -62,7 +68,7 @@ public class GradeController : ControllerBase
     [HttpGet("forListByTeacher")]
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher()
     {
-        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
+        Guid teacherId = _httpContextHelper.GetUserProfileId();
         return await _gradeService.RetrieveForListByTeacher(teacherId);
     }
 }

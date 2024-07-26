@@ -12,5 +12,6 @@ public class HttpContextHelper
     }
 
     public string GetUsername() => (string)_context.Items["username"];
-    public string GetProfile() => (string)_context.Items["profile"];
+    public string GetProfileId() => (string)_context.Items["profileId"];
+    public Guid GetUserProfileId() => (Guid)_context.Items["userProfileId"];
 }

@@ -99,8 +99,10 @@ public class TeacherService : ITeacherService
         await _teacherDAL.Delete(teacher);
     }
 
-    public async Task<TeacherDTO?> Retrieve(Guid id) =>
-        _mapper.Map<TeacherDTO>(await _teacherDAL.Retrieve(id));
+    public async Task<TeacherDTO?> Retrieve(Guid id) => _mapper.Map<TeacherDTO>(await _teacherDAL.Retrieve(id));
+
+    public async Task<List<Guid>> RetrieveIdByUser(Guid userId) => await _teacherDAL.RetrieveIdByUser(userId);
+
 
     public async Task<List<TeacherTableRowDTO>> RetrieveAll() =>
         _mapper.Map<List<TeacherTableRowDTO>>(await _teacherDAL.RetrieveAll());

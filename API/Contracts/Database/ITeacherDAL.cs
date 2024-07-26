@@ -9,6 +9,7 @@ public interface ITeacherDAL
     Task Update(Teacher teacher);
     Task Delete(Teacher teacher);
     Task<Teacher?> Retrieve(Guid id, bool trackChanges = false);
+    Task<List<Guid>> RetrieveIdByUser(Guid userId);
     Task<Teacher?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true);
     Task<Teacher?> RetrieveForMainTable(Guid id);
     Task<List<Teacher>> RetrieveAll();

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using school_admin_api.ActionFilters;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
+using school_admin_api.Helpers;
 
 namespace school_admin_api.Controllers;
 
@@ -11,12 +12,15 @@ namespace school_admin_api.Controllers;
 public class PlanningController : ControllerBase
 {
     private readonly IPlanningService _planningService;
+    private readonly HttpContextHelper _httpContextHelper;
 
     public PlanningController(
-        IPlanningService planningService
-        )
+        IPlanningService planningService,
+        IHttpContextAccessor httpContextAccessor
+    )
     {
         _planningService = planningService;
+        _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
     [HttpPost]
@@ -52,7 +56,7 @@ public class PlanningController : ControllerBase
     [HttpGet]
     public async Task<List<PlanningTableRowDTO>> RetrieveAll()
     {
-        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
+        Guid teacherId = _httpContextHelper.GetUserProfileId();
         return await _planningService.RetrieveAll(teacherId);
     }
 

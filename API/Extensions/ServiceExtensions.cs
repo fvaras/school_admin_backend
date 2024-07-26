@@ -42,7 +42,9 @@ public static class ServiceExtensions
 
     public static void AddServices(this IServiceCollection services)
     {
-        // DAL
+        services.AddHttpContextAccessor();
+
+        // Repository
         services.AddTransient<ConnectionsHelper>();
         services.AddScoped<IUserDAL, UserDAL>();
         services.AddScoped<IProfileDAL, ProfileDAL>();

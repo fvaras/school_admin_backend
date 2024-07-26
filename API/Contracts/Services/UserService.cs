@@ -68,11 +68,14 @@ public class UserService : IUserService
     public async Task<User?> RetrieveByRutWithProfiles(string rut, bool trackChanges = false) =>
         await _userDAL.RetrieveByDNIWithProfiles(rut, trackChanges);
 
-    public async Task<UserInfoDTO?> Validate(string username, string password, Guid profileId)
+    public async Task<(UserInfoDTO? userInfo, Guid userId)> Validate(string username, string password, Guid profileId)
     {
         User? user = await _userDAL.RetrieveByCredentials(username.ToLower(), password, profileId);
         if (user is null || !user.UserProfiles.Select(p => p.ProfileId).Contains(profileId))  // TODO: Remove when filter by profileId in _userDAL.RetrieveByCredentials
-            return null;
-        return _mapper.Map<UserInfoDTO?>(user);
+            return (null, Guid.Empty);
+        return (
+            userInfo: _mapper.Map<UserInfoDTO?>(user),
+            userId: user.Id
+        );
     }
 }

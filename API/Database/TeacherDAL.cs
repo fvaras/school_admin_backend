@@ -30,6 +30,13 @@ public class TeacherDAL : RepositoryBase<Teacher>, ITeacherDAL
                 .Include(t => t.User)
                 .FirstOrDefaultAsync();
 
+    public async Task<List<Guid>> RetrieveIdByUser(Guid userId) =>
+        await FindByCondition(t => t.StateId == (byte)Teacher.TEACHER_STATES.ACTIVE, trackChanges: false)
+                .Include(t => t.User)
+                .Where(t => t.User.Id == userId && t.User.StateId == (int)User.USER_STATES.ACTIVE)
+                .Select(t => t.Id)
+                .ToListAsync();
+
     public async Task<Teacher?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true) =>
         await FindByCondition(t => t.Id == id, trackChanges)
                 // .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)

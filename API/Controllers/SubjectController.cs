@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using school_admin_api.ActionFilters;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
+using school_admin_api.Helpers;
 
 namespace school_admin_api.Controllers;
 
@@ -11,12 +12,15 @@ namespace school_admin_api.Controllers;
 public class SubjectController : ControllerBase
 {
     private readonly ISubjectService _subjectService;
+    private readonly HttpContextHelper _httpContextHelper;
 
     public SubjectController(
-        ISubjectService subjectService
+        ISubjectService subjectService,
+        IHttpContextAccessor httpContextAccessor
     )
     {
         _subjectService = subjectService;
+        _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
     [HttpPost]
@@ -59,7 +63,7 @@ public class SubjectController : ControllerBase
     [HttpGet("byGradeAndTeacherForList/{gradeId}")]
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher([FromRoute] Guid gradeId)
     {
-        Guid teacherId = Guid.NewGuid(); // TODO: Get from token
+        Guid teacherId = _httpContextHelper.GetUserProfileId();
         return await _subjectService.RetrieveByGradeAndTeacher(gradeId, teacherId);
     }
 }

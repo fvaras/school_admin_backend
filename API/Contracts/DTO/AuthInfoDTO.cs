@@ -10,4 +10,5 @@ public record TokenInfoDTO
 {
     public string Username { get; set; }
     public Guid ProfileId { get; set; }
+    public Guid UserProfileId { get; set; }
 }
