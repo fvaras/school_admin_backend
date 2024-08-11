@@ -152,6 +152,9 @@ public class StudentService : IStudentService
 
     public async Task<StudentDTO?> Retrieve(Guid id) => _mapper.Map<StudentDTO>(await _studentRepository.Retrieve(id));
 
+    public async Task<StudentDTO?> RetrieveByUserId(Guid userId) =>
+        _mapper.Map<StudentDTO>(await _studentRepository.RetrieveByUserId(userId));
+
     public async Task<List<StudentTableRowDTO>> RetrieveAll() => _mapper.Map<List<StudentTableRowDTO>>(await _studentRepository.RetrieveAll());
 
     private async Task<Student> GetRecordAndCheckExistence(Guid id)
@@ -162,6 +165,6 @@ public class StudentService : IStudentService
         return student;
     }
 
-    public async Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId) => 
+    public async Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId) =>
         _mapper.Map<List<LabelValueDTO<Guid>>>(await _studentRepository.GetByGuardianForList(guardianId));
 }

@@ -8,6 +8,7 @@ public interface IStudentService
     Task<StudentTableRowDTO> Update(Guid id, StudentForUpdateDTO studentDTO);
     Task Delete(Guid id);
     Task<StudentDTO?> Retrieve(Guid id);
+    Task<StudentDTO?> RetrieveByUserId(Guid userId);
     Task<List<StudentTableRowDTO>> RetrieveAll();
 
     Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId);

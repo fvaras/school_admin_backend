@@ -31,6 +31,12 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
+    public async Task<Student?> RetrieveByUserId(Guid userId, bool trackChanges = false) =>
+        await FindByCondition(student => student.StateId == (byte)STUDENT_STATES.ACTIVE, trackChanges)
+                .Include(p => p.User)
+                .Where(guardian => guardian.User.Id == userId && guardian.User.StateId == (byte)USER_STATES.ACTIVE)
+                .FirstOrDefaultAsync();
+
     public async Task<Student?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true) =>
         await FindByCondition(a => a.Id == id, trackChanges)
                 .Include(t => t.User)

@@ -9,6 +9,7 @@ public class AuthService : IAuthService
 {
     private readonly IUserService _userService;
     private readonly ITeacherService _teacherService;
+    private readonly IStudentService _studentService;
     private readonly IGuardianService _guardianService;
     // private readonly IUserService _userService;
     private readonly IJWTService _jwtService;
@@ -17,12 +18,14 @@ public class AuthService : IAuthService
         IUserService userService,
         IJWTService jwtService,
         ITeacherService teacherService,
+        IStudentService studentService,
         IGuardianService guardianService
         )
     {
         _userService = userService;
         _jwtService = jwtService;
         _teacherService = teacherService;
+        _studentService = studentService;
         _guardianService = guardianService;
     }
 
@@ -34,18 +37,22 @@ public class AuthService : IAuthService
         userInfo.ProfileId = profileId;
 
         Guid userProfileId = Guid.Empty;
-        if (profileId == Profile.TEACHER || profileId == Profile.ADMINISTRATOR) // TODO: Remove Profile.ADMINISTRATOR for this condition and add futher validations (Student, Guardian, Admin)
+        if (profileId == Profile.ADMINISTRATOR)
+        {
+            userProfileId = userId;
+        }
+        if (profileId == Profile.TEACHER)
         {
             userProfileId = (await _teacherService.RetrieveIdByUser(userId)).FirstOrDefault();
+        }
+        else if (profileId == Profile.STUDENT)
+        {
+            userProfileId = (await _studentService.RetrieveByUserId(userId)).Id;
         }
         else if (profileId == Profile.GUARDIAN)
         {
             userProfileId = (await _guardianService.RetrieveByUserId(userId)).Id;
         }
-
-        // TODO: Remove it. Was written just for test
-        userProfileId = (await _guardianService.RetrieveByUserId(userId)).Id;
-
 
         TokenInfoDTO tokenInfo = new TokenInfoDTO()
         {

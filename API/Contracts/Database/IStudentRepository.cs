@@ -9,6 +9,7 @@ public interface IStudentRepository
     Task Update(Student student);
     Task Delete(Student student);
     Task<Student?> Retrieve(Guid id, bool trackChanges = false);
+    Task<Student?> RetrieveByUserId(Guid userId, bool trackChanges = false);
     Task<Student?> RetrieveWithUserAndProfiles(Guid id, bool trackChanges = true);
     Task<Student?> RetrieveWithGuardians(Guid id, bool trackChanges = true);
     Task<Student?> RetrieveForMainTable(Guid id);
