@@ -2,14 +2,15 @@ using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
+using static school_admin_api.Model.Planning;
 
 namespace school_admin_api.Database;
 
-public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
+public class PlanningRepository : RepositoryBase<Planning>, IPlanningRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public PlanningDAL(ApplicationDbContext context) : base(context)
+    public PlanningRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
@@ -57,14 +58,39 @@ public class PlanningDAL : RepositoryBase<Planning>, IPlanningDAL
             })
             .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId) =>
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId) =>
         await FindAll(trackChanges: false)
             .Include(p => p.Subject)
-            .Where(p => p.Subject.GradeId == gradeId && p.SubjectId == subjectId)
+            .Where(p => p.Subject.GradeId == gradeId && p.SubjectId == subjectId && (p.StateId == (byte)PLANNING_STATES.ACTIVE || p.StateId == (byte)PLANNING_STATES.IN_CREATION))
             .Select(p => new LabelValueFromDB<Guid>()
             {
                 Label = p.Title,
                 Value = p.Id
+            })
+            .ToListAsync();
+
+    public async Task<List<PlanningTableRowDbDTO>> RetrieveForTable(Guid subjectId) =>
+        await FindAll(trackChanges: false)
+            .Include(p => p.Subject)
+            .Where(p => p.SubjectId == subjectId && (p.StateId == (byte)PLANNING_STATES.ACTIVE || p.StateId == (byte)PLANNING_STATES.IN_CREATION))
+            .Select(p => new PlanningTableRowDbDTO()
+            {
+                Id = p.Id,
+                GradeId = p.Subject.Grade.Id,
+                GradeName = p.Subject.Grade.Name,
+                SubjectId = p.SubjectId,
+                SubjectName = p.Subject.Name,
+                Title = p.Title,
+                Description = p.Description,
+                // ExpectedLearning = t.ExpectedLearning,
+                // Contents = t.Contents,
+                // Activities = t.Activities,
+                // Resources = t.Resources,
+                // EvaluationPlan = t.EvaluationPlan,
+                EstimatedDuration = p.EstimatedDuration,
+                StartDate = p.StartDate,
+                EndDate = p.EndDate,
+                // SubjectName = t.Subject.Name
             })
             .ToListAsync();
 

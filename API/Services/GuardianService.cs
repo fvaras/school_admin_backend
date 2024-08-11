@@ -12,20 +12,20 @@ public class GuardianService : IGuardianService
 {
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
-    private readonly IGuardianDAL _guardianDAL;
+    private readonly IGuardianRepository _guardianRepository;
     private readonly IProfileDAL _profileDAL;
     private readonly IMapper _mapper;
 
     public GuardianService(
         ILoggerService logger,
         IUserService userService,
-        IGuardianDAL guardianDAL,
+        IGuardianRepository guardianDAL,
         IProfileDAL profileDAL,
         IMapper mapper)
     {
         _logger = logger;
         _userService = userService;
-        _guardianDAL = guardianDAL;
+        _guardianRepository = guardianDAL;
         _profileDAL = profileDAL;
         _mapper = mapper;
     }
@@ -50,7 +50,7 @@ public class GuardianService : IGuardianService
         }
 
         // Get Guardian Profile
-        Profile guardianProfile = await _profileDAL.Retrieve(Profile.STUDENT_GUARDIAN, trackChanges: true);
+        Profile guardianProfile = await _profileDAL.Retrieve(Profile.GUARDIAN, trackChanges: true);
 
         // Check if the user already has the guardian profile associated
         if (!user.UserProfiles.Any(p => p.ProfileId == guardianProfile.Id))
@@ -64,9 +64,9 @@ public class GuardianService : IGuardianService
         guardian.User = user;
         guardian.CreatedAt = DateTimeOffset.UtcNow;
         guardian.UpdatedAt = DateTimeOffset.UtcNow;
-        await _guardianDAL.Create(guardian);
+        await _guardianRepository.Create(guardian);
 
-        var guardianForMainTable = await _guardianDAL.RetrieveForMainTable(guardian.Id);
+        var guardianForMainTable = await _guardianRepository.RetrieveForMainTable(guardian.Id);
         return _mapper.Map<GuardianTableRowDTO>(guardianForMainTable);
     }
 
@@ -75,9 +75,9 @@ public class GuardianService : IGuardianService
         Guardian guardian = await GetRecordAndCheckExistence(id);
         _mapper.Map(guardianDTO, guardian);
         guardian.UpdatedAt = DateTimeOffset.UtcNow;
-        await _guardianDAL.Update(guardian);
+        await _guardianRepository.Update(guardian);
 
-        var guardianForMainTable = await _guardianDAL.RetrieveForMainTable(id);
+        var guardianForMainTable = await _guardianRepository.RetrieveForMainTable(id);
         return _mapper.Map<GuardianTableRowDTO>(guardianForMainTable);
     }
 
@@ -89,28 +89,38 @@ public class GuardianService : IGuardianService
 
         if (guardian != null && guardian.User != null && guardian.User.UserProfiles != null)
         {
-            var guardianProfile = guardian.User.UserProfiles.SingleOrDefault(p => p.ProfileId == Profile.STUDENT_GUARDIAN);
+            var guardianProfile = guardian.User.UserProfiles.SingleOrDefault(p => p.ProfileId == Profile.GUARDIAN);
             if (guardianProfile != null)
                 guardian.User.UserProfiles.Remove(guardianProfile);
         }
-        await _guardianDAL.Delete(guardian);
+        await _guardianRepository.Delete(guardian);
     }
 
     public async Task<GuardianDTO?> Retrieve(Guid id) =>
-        _mapper.Map<GuardianDTO>(await _guardianDAL.Retrieve(id));
+        _mapper.Map<GuardianDTO>(await _guardianRepository.Retrieve(id));
+
+    public async Task<GuardianDTO?> RetrieveByUserId(Guid userId) =>
+        _mapper.Map<GuardianDTO>(await _guardianRepository.RetrieveByUserId(userId));
 
     public async Task<List<GuardianTableRowDTO>> RetrieveAll() =>
-        _mapper.Map<List<GuardianTableRowDTO>>(await _guardianDAL.RetrieveAll());
+        _mapper.Map<List<GuardianTableRowDTO>>(await _guardianRepository.RetrieveAll());
 
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForList(string text) =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _guardianDAL.RetrieveForList(!string.IsNullOrWhiteSpace(text) ? text.Trim() : ""));
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _guardianRepository.RetrieveForList(!string.IsNullOrWhiteSpace(text) ? text.Trim() : ""));
 
     public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text) =>
-        _mapper.Map<List<GuardianTableRowDTO>>(await _guardianDAL.RetrieveByNamesOrRut(text.Trim()));
+        _mapper.Map<List<GuardianTableRowDTO>>(await _guardianRepository.RetrieveByNamesOrRut(text.Trim()));
+
+    public async Task CheckRelationWithStudent(Guid guardianId, Guid studentId)
+    {
+        List<Guid> studentIdList = await _guardianRepository.GetStudentIds(guardianId);
+        if (!studentIdList.Any(id => id == studentId))
+            throw new InconsistentDataException();
+    }
 
     private async Task<Guardian> GetRecordAndCheckExistence(Guid id)
     {
-        Guardian guardian = await _guardianDAL.Retrieve(id);
+        Guardian guardian = await _guardianRepository.Retrieve(id);
         if (guardian is null)
             throw new EntityNotFoundException();
         return guardian;

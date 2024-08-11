@@ -59,7 +59,7 @@ public class TimeBlockController : ControllerBase
     [HttpPost("weeklyBlocksBase")]
     public async Task CreateWeeklyBlocksBase()
     {
-        Guid gradeId = Guid.NewGuid(); // TODO: Get from tkn or session
+        Guid gradeId = Guid.Parse("f76b8fda-4cad-4141-a9fc-b3551871705b"); // TODO: Get from tkn or session
         await _timeBlockService.CreateAllWeekTimeBlocksBase(gradeId);
     }
 }

@@ -20,4 +20,10 @@ public class Student
     public Grade? Grade { get; set; }
 
     public ICollection<Guardian> Guardians { get; set; } = new List<Guardian>();
+
+    public enum STUDENT_STATES
+    {
+        ACTIVE = 1,
+        INACTIVE = 2,
+    }
 }

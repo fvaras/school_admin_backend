@@ -15,4 +15,10 @@ public class Guardian
     public User User { get; set; }
 
     public ICollection<Student> Students { get; set; } = new List<Student>();
+
+    public enum GUARDIAN_STATES
+    {
+        ACTIVE = 1,
+        INACTIVE = 2,
+    }
 }

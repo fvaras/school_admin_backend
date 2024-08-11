@@ -9,6 +9,6 @@ public interface IHomeworkRepository
     Task Update(Homework homework);
     Task Delete(Homework homework);
     Task<Homework?> Retrieve(Guid id, bool trackChanges = false);
-    Task<List<Homework>> RetrieveAll();
-    Task<List<HomeworkTableRowDbDTO>> RetrieveForMainTable(Guid id = default(Guid));
+    // Task<List<Homework>> RetrieveAll();
+    Task<List<HomeworkTableRowDbDTO>> RetrieveBySubjectForMainTable(Guid subjectId);
 }

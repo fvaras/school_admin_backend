@@ -2,14 +2,16 @@ using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
+using static school_admin_api.Model.Guardian;
+using static school_admin_api.Model.User;
 
 namespace school_admin_api.Database;
 
-public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
+public class GuardianRepository : RepositoryBase<Guardian>, IGuardianRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public GuardianDAL(ApplicationDbContext context) : base(context)
+    public GuardianRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
@@ -28,6 +30,12 @@ public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
         await FindByCondition(sg => sg.Id == id, trackChanges)
                 .Include(p => p.User)
                 .FirstOrDefaultAsync(a => a.Id == id);
+
+    public async Task<Guardian?> RetrieveByUserId(Guid userId, bool trackChanges = false) =>
+        await FindByCondition(guardian => guardian.StateId == (byte)GUARDIAN_STATES.ACTIVE, trackChanges)
+                .Include(p => p.User)
+                .Where(guardian => guardian.User.Id == userId && guardian.User.StateId == (byte)USER_STATES.ACTIVE)
+                .FirstOrDefaultAsync();
 
     public async Task<Guardian?> RetrieveForMainTable(Guid id) =>
         await FindByCondition(a => a.Id == id, trackChanges: false)
@@ -64,5 +72,13 @@ public class GuardianDAL : RepositoryBase<Guardian>, IGuardianDAL
                         EF.Functions.Like(t.User.LastName.ToLower(), $"%{text}%".ToLower())
                     ))
                 .Include(t => t.User)
+                .ToListAsync();
+
+    public async Task<List<Guid>> GetStudentIds(Guid guardianId) =>
+        await FindByCondition(guardian => guardian.Id == guardianId, false)
+                .Include(guardian => guardian.Students)
+                .SelectMany(guardian => 
+                    guardian.Students.Select(student => student.Id)
+                )
                 .ToListAsync();
 }

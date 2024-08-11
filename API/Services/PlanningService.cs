@@ -10,30 +10,33 @@ namespace school_admin_api.Services;
 public class PlanningService : IPlanningService
 {
     private readonly ILoggerService _logger;
-    private readonly IPlanningDAL _planningDAL;
+    private readonly IPlanningRepository _planningRepository;
     private readonly ITimeBlockDAL _timeBlockDAL;
     private readonly IPlanningTimeBlockDAL _planningTimeBlockDAL;
+    private readonly IGuardianService _guardianService;
     private readonly IMapper _mapper;
 
     public PlanningService(
         ILoggerService logger,
-        IPlanningDAL planningDAL,
+        IPlanningRepository planningDAL,
         ITimeBlockDAL timeBlockDAL,
         IPlanningTimeBlockDAL planningTimeBlockDAL,
+        IGuardianService guardianService,
         IMapper mapper
         )
     {
         _logger = logger;
-        _planningDAL = planningDAL;
+        _planningRepository = planningDAL;
         _timeBlockDAL = timeBlockDAL;
         _planningTimeBlockDAL = planningTimeBlockDAL;
+        _guardianService = guardianService;
         _mapper = mapper;
     }
 
     public async Task<PlanningTableRowDTO> Create(PlanningForCreationDTO planningDTO)
     {
         Planning planning = _mapper.Map<Planning>(planningDTO);
-        await _planningDAL.Create(planning);
+        await _planningRepository.Create(planning);
         return await RetrieveForTable(planning.Id);
     }
 
@@ -41,7 +44,7 @@ public class PlanningService : IPlanningService
     {
         Planning planning = await GetRecordAndCheckExistence(id);
         _mapper.Map(planningDTO, planning);
-        await _planningDAL.Update(planning);
+        await _planningRepository.Update(planning);
         return await RetrieveForTable(planning.Id);
     }
 
@@ -50,7 +53,7 @@ public class PlanningService : IPlanningService
         Planning planning = null;
         planning = await GetRecordWithTimeBlocksAndCheckExistence(id);
         _mapper.Map(planningDTO as PlanningForUpdateDTO, planning);
-        await _planningDAL.Update(planning);
+        await _planningRepository.Update(planning);
 
         var timeBlockPlanning = (await _planningTimeBlockDAL.GetPlanningTimeBlocks(timeBlockId: planningDTO.TimeBlockId, date: planningDTO.Date.Date)).FirstOrDefault();
 
@@ -77,7 +80,7 @@ public class PlanningService : IPlanningService
             }
         }
 
-        await _planningDAL.Update(planning);
+        await _planningRepository.Update(planning);
         return await RetrieveForTable(planning.Id);
     }
 
@@ -85,25 +88,35 @@ public class PlanningService : IPlanningService
     public async Task Delete(Guid id)
     {
         Planning planning = await GetRecordAndCheckExistence(id);
-        await _planningDAL.Delete(planning);
+        await _planningRepository.Delete(planning);
     }
 
-    public async Task<PlanningDTO?> Retrieve(Guid id) => _mapper.Map<PlanningDTO>(await _planningDAL.Retrieve(id));
+    public async Task<PlanningDTO?> Retrieve(Guid id) => _mapper.Map<PlanningDTO>(await _planningRepository.Retrieve(id));
 
-    public async Task<List<PlanningTableRowDTO>> RetrieveAll(Guid teacherId) => _mapper.Map<List<PlanningTableRowDTO>>(await _planningDAL.RetrieveForMainTable(id: Guid.Empty, teacherId: teacherId));
+    public async Task<List<PlanningTableRowDTO>> RetrieveAll(Guid teacherId) => _mapper.Map<List<PlanningTableRowDTO>>(await _planningRepository.RetrieveForMainTable(id: Guid.Empty, teacherId: teacherId));
 
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId) => _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningDAL.RetrieveByGradeAndSubject(gradeId, subjectId));
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId) => _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningRepository.RetrieveByGradeAndSubjectForList(gradeId, subjectId));
+
+    public async Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId)
+    {
+        // Integrity guardianId/studentId
+        await _guardianService.CheckRelationWithStudent(guardianId, studentId);
+
+        // TODO: Validate integrity studentId/subjectId
+
+        return _mapper.Map<List<PlanningTableRowDTO>>(await _planningRepository.RetrieveForTable(subjectId));
+    }
 
     public async Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString)
     {
         DateTimeOffset date = DateTimeOffset.ParseExact(dateString, "yyyyMMdd", null);
-        var planning = await _planningDAL.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, date.Date);
+        var planning = await _planningRepository.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, date.Date);
         return _mapper.Map<PlanningDTO>(planning);
     }
 
     private async Task<Planning> GetRecordAndCheckExistence(Guid id)
     {
-        Planning planning = await _planningDAL.Retrieve(id);
+        Planning planning = await _planningRepository.Retrieve(id);
         if (planning is null)
             throw new EntityNotFoundException();
         return planning;
@@ -111,7 +124,7 @@ public class PlanningService : IPlanningService
 
     private async Task<Planning> GetRecordWithTimeBlocksAndCheckExistence(Guid id)
     {
-        Planning planning = await _planningDAL.RetrieveWithTimeBlocks(id);
+        Planning planning = await _planningRepository.RetrieveWithTimeBlocks(id);
         if (planning is null)
             throw new EntityNotFoundException();
         return planning;
@@ -120,7 +133,7 @@ public class PlanningService : IPlanningService
     private async Task<PlanningTableRowDTO?> RetrieveForTable(Guid id)
     {
         if (id == Guid.Empty) return null;
-        var rows = await _planningDAL.RetrieveForMainTable(id, Guid.Empty);
+        var rows = await _planningRepository.RetrieveForMainTable(id, Guid.Empty);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<PlanningTableRowDTO>(rows.FirstOrDefault());
     }

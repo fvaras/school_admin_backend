@@ -10,6 +10,7 @@ public interface IPlanningService
     Task Delete(Guid id);
     Task<PlanningDTO?> Retrieve(Guid id);
     Task<List<PlanningTableRowDTO>> RetrieveAll(Guid teacherId);
-    Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId);
+    Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId);
+    Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId);
     Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString);
 }

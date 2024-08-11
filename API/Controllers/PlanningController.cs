@@ -64,7 +64,18 @@ public class PlanningController : ControllerBase
     public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubject(Guid gradeId, Guid subjectId)
     {
         // int gradeId = 1; // TODO: Get from token
-        return await _planningService.RetrieveByGradeAndSubject(gradeId, subjectId);
+        return await _planningService.RetrieveByGradeAndSubjectForList(gradeId, subjectId);
+    }
+
+    [HttpGet("guardian/{studentId}/{subjectId}")]
+    public async Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid studentId, Guid subjectId)
+    {
+        Guid guardianId = _httpContextHelper.GetUserProfileId();
+        return await _planningService.RetrieveBySubjectForGuardianMainTable(
+                guardianId: guardianId,
+                studentId: studentId,
+                subjectId: subjectId
+            );
     }
 
     [HttpGet("bySubjectAndTimeBlock/{subjectId:int}/{timeBlockId:int}/{dateString}")]

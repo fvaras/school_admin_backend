@@ -9,15 +9,18 @@ namespace school_admin_api.Services;
 
 public class SubjectService : ISubjectService
 {
-    private readonly ISubjectDAL _subjectDAL;
+    private readonly ISubjectRepository _subjectRepository;
+    private readonly IStudentRepository _studentRepository;
     private readonly IMapper _mapper;
 
     public SubjectService(
-        ISubjectDAL subjectDAL,
+        ISubjectRepository subjectRepository,
+        IStudentRepository studentRepository,
         IMapper mapper
         )
     {
-        _subjectDAL = subjectDAL;
+        _subjectRepository = subjectRepository;
+        _studentRepository = studentRepository;
         _mapper = mapper;
     }
 
@@ -26,33 +29,33 @@ public class SubjectService : ISubjectService
         Subject subject = _mapper.Map<Subject>(subjectDTO);
         subject.CreatedAt = DateTimeOffset.UtcNow;
         subject.UpdatedAt = DateTimeOffset.UtcNow;
-        await _subjectDAL.Create(subject);
+        await _subjectRepository.Create(subject);
         return await RetrieveForTable(subject.Id);
     }
 
     public async Task<SubjectTableRowDTO> Update(Guid id, SubjectForUpdateDTO subjectDTO)
     {
-        Subject subject = await _subjectDAL.Retrieve(id) ?? throw new EntityNotFoundException();
+        Subject subject = await _subjectRepository.Retrieve(id) ?? throw new EntityNotFoundException();
         subject.UpdatedAt = DateTimeOffset.UtcNow;
         _mapper.Map(subjectDTO, subject);
-        await _subjectDAL.Update(subject);
+        await _subjectRepository.Update(subject);
         return await RetrieveForTable(subject.Id);
     }
 
     public async Task Delete(Guid id)
     {
-        Subject subject = await _subjectDAL.Retrieve(id) ?? throw new EntityNotFoundException();
-        await _subjectDAL.Delete(subject);
+        Subject subject = await _subjectRepository.Retrieve(id) ?? throw new EntityNotFoundException();
+        await _subjectRepository.Delete(subject);
     }
 
-    public async Task<SubjectDTO?> Retrieve(Guid id) => _mapper.Map<SubjectDTO>(await _subjectDAL.Retrieve(id));
+    public async Task<SubjectDTO?> Retrieve(Guid id) => _mapper.Map<SubjectDTO>(await _subjectRepository.Retrieve(id));
 
-    public async Task<List<SubjectTableRowDTO>> RetrieveAll() => _mapper.Map<List<SubjectTableRowDTO>>(await _subjectDAL.RetrieveAllForTable(Guid.Empty));
+    public async Task<List<SubjectTableRowDTO>> RetrieveAll() => _mapper.Map<List<SubjectTableRowDTO>>(await _subjectRepository.RetrieveAllForTable(Guid.Empty));
 
     private async Task<SubjectTableRowDTO?> RetrieveForTable(Guid id)
     {
         if (id == Guid.Empty) return null;
-        var rows = await _subjectDAL.RetrieveAllForTable(id);
+        var rows = await _subjectRepository.RetrieveAllForTable(id);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<SubjectTableRowDTO>(rows.FirstOrDefault());
     }
@@ -60,6 +63,21 @@ public class SubjectService : ISubjectService
     // public async Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId) =>
     //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
 
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndTeacher(Guid gradeId, Guid teacherId) =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId));
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGradeAndTeacher(Guid gradeId, Guid teacherId) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveForListByGradeAndTeacherForList(gradeId, teacherId));
+
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent(Guid guardianId, Guid studentId)
+    {
+        Student student = await _studentRepository.RetrieveWithGuardians(studentId, false);
+        if (student is null)
+            throw new EntityNotFoundException();
+
+        if (!student.Guardians.Any(guardian => guardian.Id == guardianId))
+            throw new InconsistentDataException("Records not related");
+
+        if (student.GradeId == null)
+            return [];
+
+        return _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveByGrade((Guid)student.GradeId));
+    }
 }

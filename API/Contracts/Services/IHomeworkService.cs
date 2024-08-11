@@ -8,5 +8,5 @@ public interface IHomeworkService
     Task<HomeworkTableRowDTO> Update(Guid id, HomeworkForUpdateDTO homeworkDTO);
     Task Delete(Guid id);
     Task<HomeworkDTO?> Retrieve(Guid id);
-    Task<List<HomeworkTableRowDTO>> RetrieveAll();
+    Task<List<HomeworkTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId);
 }

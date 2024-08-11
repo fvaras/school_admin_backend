@@ -12,23 +12,23 @@ public class StudentService : IStudentService
 {
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
-    private readonly IStudentDAL _studentDAL;
-    private readonly IGuardianDAL _guardianDAL;
+    private readonly IStudentRepository _studentRepository;
+    private readonly IGuardianRepository _guardianDAL;
     private readonly IProfileDAL _profileDAL;
     private readonly IMapper _mapper;
 
     public StudentService(
         ILoggerService logger,
         IUserService userService,
-        IStudentDAL studentDAL,
-        IGuardianDAL guardianDAL,
+        IStudentRepository studentDAL,
+        IGuardianRepository guardianDAL,
         IProfileDAL profileDAL,
         IMapper mapper
         )
     {
         _logger = logger;
         _userService = userService;
-        _studentDAL = studentDAL;
+        _studentRepository = studentDAL;
         _guardianDAL = guardianDAL;
         _profileDAL = profileDAL;
         _mapper = mapper;
@@ -82,15 +82,15 @@ public class StudentService : IStudentService
             student.Guardians.Add(await _guardianDAL.Retrieve(guardianId, trackChanges: true));
         /********* GUARDIANS *********/
 
-        await _studentDAL.Create(student);
+        await _studentRepository.Create(student);
 
-        var studentForMainTable = await _studentDAL.RetrieveForMainTable(student.Id);
+        var studentForMainTable = await _studentRepository.RetrieveForMainTable(student.Id);
         return _mapper.Map<StudentTableRowDTO>(studentForMainTable);
     }
 
     public async Task<StudentTableRowDTO> Update(Guid id, StudentForUpdateDTO studentDTO)
     {
-        Student student = await _studentDAL.RetrieveWithGuardians(id);
+        Student student = await _studentRepository.RetrieveWithGuardians(id);
         _mapper.Map(studentDTO, student);
         student.UpdatedAt = DateTimeOffset.UtcNow;
 
@@ -102,7 +102,7 @@ public class StudentService : IStudentService
             guardiansIds.Add((Guid)studentDTO.Guardian2Id);
 
         // Retrieve current guardian associations for comparison
-        List<Guid> currentGuardianIds = await _studentDAL.RetrieveGuardiansId(id);
+        List<Guid> currentGuardianIds = await _studentRepository.RetrieveGuardiansId(id);
 
         // Determine guardians to remove
         var guardiansIdsToRemove = currentGuardianIds.Except(guardiansIds).ToList();
@@ -127,14 +127,14 @@ public class StudentService : IStudentService
         if (studentDTO.GradeId == Guid.Empty)
             student.GradeId = null;
 
-        await _studentDAL.Update(student);
-        student = await _studentDAL.RetrieveForMainTable(id);
+        await _studentRepository.Update(student);
+        student = await _studentRepository.RetrieveForMainTable(id);
         return _mapper.Map<StudentTableRowDTO>(student);
     }
 
     public async Task Delete(Guid id)
     {
-        Student student = await _studentDAL.RetrieveWithUserAndProfiles(id);
+        Student student = await _studentRepository.RetrieveWithUserAndProfiles(id);
         if (student == null)
             throw new EntityNotFoundException();
 
@@ -147,18 +147,21 @@ public class StudentService : IStudentService
 
         student.Guardians = null;
 
-        await _studentDAL.Delete(student);
+        await _studentRepository.Delete(student);
     }
 
-    public async Task<StudentDTO?> Retrieve(Guid id) => _mapper.Map<StudentDTO>(await _studentDAL.Retrieve(id));
+    public async Task<StudentDTO?> Retrieve(Guid id) => _mapper.Map<StudentDTO>(await _studentRepository.Retrieve(id));
 
-    public async Task<List<StudentTableRowDTO>> RetrieveAll() => _mapper.Map<List<StudentTableRowDTO>>(await _studentDAL.RetrieveAll());
+    public async Task<List<StudentTableRowDTO>> RetrieveAll() => _mapper.Map<List<StudentTableRowDTO>>(await _studentRepository.RetrieveAll());
 
     private async Task<Student> GetRecordAndCheckExistence(Guid id)
     {
-        Student student = await _studentDAL.Retrieve(id);
+        Student student = await _studentRepository.Retrieve(id);
         if (student is null)
             throw new EntityNotFoundException();
         return student;
     }
+
+    public async Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId) => 
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _studentRepository.GetByGuardianForList(guardianId));
 }

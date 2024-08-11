@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
+using static school_admin_api.Model.Subject;
 
 namespace school_admin_api.Database;
 
@@ -24,13 +25,16 @@ public class HomeworkRepository : RepositoryBase<Homework>, IHomeworkRepository
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 
-    public async Task<List<Homework>> RetrieveAll() => await FindAll().ToListAsync();
+    // public async Task<List<Homework>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<List<HomeworkTableRowDbDTO>> RetrieveForMainTable(Guid id = default(Guid)) =>
+    public async Task<List<HomeworkTableRowDbDTO>> RetrieveBySubjectForMainTable(Guid subjectId) =>
         await FindAll(trackChanges: false)
-            .Where(t => t.Id == id || id == default(Guid))
             .Include(t => t.Subject)
                 .ThenInclude(s => s.Grade)
+            .Where(homework => homework.SubjectId == subjectId && 
+                homework.Subject.StateId == (byte)SUBJECT_STATES.ACTIVE &&
+                homework.Subject.Grade.Active
+            )
             .Select(t => new HomeworkTableRowDbDTO()
             {
                 Id = t.Id,

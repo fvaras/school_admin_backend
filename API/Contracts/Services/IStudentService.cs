@@ -9,4 +9,6 @@ public interface IStudentService
     Task Delete(Guid id);
     Task<StudentDTO?> Retrieve(Guid id);
     Task<List<StudentTableRowDTO>> RetrieveAll();
+
+    Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId);
 }

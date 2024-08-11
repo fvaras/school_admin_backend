@@ -8,8 +8,11 @@ public interface IGuardianService
     Task<GuardianTableRowDTO> Update(Guid id, GuardianForUpdateDTO guardianDTO);
     Task Delete(Guid id);
     Task<GuardianDTO?> Retrieve(Guid id);
+    Task<GuardianDTO?> RetrieveByUserId(Guid userId);
     Task<List<GuardianTableRowDTO>> RetrieveAll();
     Task<List<LabelValueDTO<Guid>>> RetrieveForList(string? text);
     Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text);
+
+    Task CheckRelationWithStudent(Guid guardianId, Guid studentId);
 
 }

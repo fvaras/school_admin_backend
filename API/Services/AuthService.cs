@@ -9,19 +9,21 @@ public class AuthService : IAuthService
 {
     private readonly IUserService _userService;
     private readonly ITeacherService _teacherService;
-    // private readonly IUserService _userService;
+    private readonly IGuardianService _guardianService;
     // private readonly IUserService _userService;
     private readonly IJWTService _jwtService;
 
     public AuthService(
         IUserService userService,
         IJWTService jwtService,
-        ITeacherService teacherService
+        ITeacherService teacherService,
+        IGuardianService guardianService
         )
     {
         _userService = userService;
         _jwtService = jwtService;
         _teacherService = teacherService;
+        _guardianService = guardianService;
     }
 
     public async Task<AuthInfoDTO?> ValidateUser(string username, string password, Guid profileId)
@@ -36,6 +38,14 @@ public class AuthService : IAuthService
         {
             userProfileId = (await _teacherService.RetrieveIdByUser(userId)).FirstOrDefault();
         }
+        else if (profileId == Profile.GUARDIAN)
+        {
+            userProfileId = (await _guardianService.RetrieveByUserId(userId)).Id;
+        }
+
+        // TODO: Remove it. Was written just for test
+        userProfileId = (await _guardianService.RetrieveByUserId(userId)).Id;
+
 
         TokenInfoDTO tokenInfo = new TokenInfoDTO()
         {

@@ -1,14 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.Database;
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
+using static school_admin_api.Model.Student;
+using static school_admin_api.Model.User;
 
 namespace school_admin_api.Database;
 
-public class StudentDAL : RepositoryBase<Student>, IStudentDAL
+public class StudentRepository : RepositoryBase<Student>, IStudentRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public StudentDAL(ApplicationDbContext context) : base(context)
+    public StudentRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
@@ -56,5 +59,23 @@ public class StudentDAL : RepositoryBase<Student>, IStudentDAL
         await FindByCondition(c => c.Id == id, trackChanges: false)
                 .SelectMany(p => p.Guardians)
                 .Select(p => p.Id)
+                .ToListAsync();
+
+    public async Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId) =>
+        await FindByCondition(student => student.StateId == (byte)STUDENT_STATES.ACTIVE, false)
+                .Include(student => student.User)
+                .Include(student => student.Grade)
+                .Include(student => student.Guardians)
+                    .ThenInclude(guardian => guardian.User)
+                .Where(student =>
+                        student.Guardians.Any(guardian => guardian.StateId == (byte)USER_STATES.ACTIVE) &&
+                        student.User.StateId == (byte)USER_STATES.ACTIVE &&
+                        student.Grade.Active == true
+                )
+                .Select(student => new LabelValueFromDB<Guid>()
+                {
+                    Value = student.Id,
+                    Label = $"{student.User.FirstName} {student.User.LastName} | {student.Grade.Name}",
+                })
                 .ToListAsync();
 }

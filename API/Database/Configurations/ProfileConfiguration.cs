@@ -12,7 +12,7 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
             new Profile() { Id = Profile.ADMINISTRATOR, Name = "Administrator" },
             new Profile() { Id = Profile.TEACHER, Name = "Teacher" },
             new Profile() { Id = Profile.STUDENT, Name = "Student" },
-            new Profile() { Id = Profile.STUDENT_GUARDIAN, Name = "Guardian" }
+            new Profile() { Id = Profile.GUARDIAN, Name = "Guardian" }
         );
     }
 }

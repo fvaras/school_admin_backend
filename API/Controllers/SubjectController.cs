@@ -64,6 +64,16 @@ public class SubjectController : ControllerBase
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher([FromRoute] Guid gradeId)
     {
         Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _subjectService.RetrieveByGradeAndTeacher(gradeId, teacherId);
+        return await _subjectService.RetrieveForListByGradeAndTeacher(gradeId, teacherId);
+    }
+
+    [HttpGet("guardian/{studentId}/list")]
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent([FromRoute] Guid studentId)
+    {
+        Guid guardianId = _httpContextHelper.GetUserProfileId();
+        return await _subjectService.RetrieveForListByGuardianAndStudent(
+            guardianId: guardianId,
+            studentId: studentId
+            );
     }
 }

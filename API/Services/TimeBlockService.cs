@@ -11,13 +11,13 @@ public class TimeBlockService : ITimeBlockService
 {
     private readonly ILoggerService _logger;
     private readonly ITimeBlockDAL _timeBlockDAL;
-    private readonly ISubjectDAL _subjectDAL;
+    private readonly ISubjectRepository _subjectDAL;
     private readonly IMapper _mapper;
 
     public TimeBlockService(
         ILoggerService logger,
         ITimeBlockDAL timeBlockDAL,
-        ISubjectDAL subjectDAL,
+        ISubjectRepository subjectDAL,
         IMapper mapper
         )
     {

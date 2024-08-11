@@ -1,8 +1,9 @@
+using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api.Contracts.Database;
 
-public interface IStudentDAL
+public interface IStudentRepository
 {
     Task<Guid> Create(Student student);
     Task Update(Student student);
@@ -13,4 +14,6 @@ public interface IStudentDAL
     Task<Student?> RetrieveForMainTable(Guid id);
     Task<List<Student>> RetrieveAll();
     Task<List<Guid>> RetrieveGuardiansId(Guid id);
+
+    Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId);
 }

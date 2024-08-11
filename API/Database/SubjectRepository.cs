@@ -5,11 +5,11 @@ using school_admin_api.Model;
 
 namespace school_admin_api.Database;
 
-public class SubjectDAL : RepositoryBase<Subject>, ISubjectDAL
+public class SubjectRepository : RepositoryBase<Subject>, ISubjectRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public SubjectDAL(ApplicationDbContext context) : base(context)
+    public SubjectRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
@@ -47,10 +47,20 @@ public class SubjectDAL : RepositoryBase<Subject>, ISubjectDAL
             })
             .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndTeacherForList(Guid gradeId, Guid teacherId) =>
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveForListByGradeAndTeacherForList(Guid gradeId, Guid teacherId) =>
         await FindByCondition(t => t.StateId == 1, false)
                 .Where(subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.GradeId == gradeId
                     && (subject.TeacherId == teacherId || teacherId == Guid.Empty))
+                .Select(subject => new LabelValueFromDB<Guid>()
+                {
+                    Value = subject.Id,
+                    Label = $"{subject.Name}"
+                })
+                .ToListAsync();
+
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByGrade(Guid gradeId) =>
+        await FindByCondition(t => t.StateId == 1, false)
+                .Where(subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.GradeId == gradeId)
                 .Select(subject => new LabelValueFromDB<Guid>()
                 {
                     Value = subject.Id,
