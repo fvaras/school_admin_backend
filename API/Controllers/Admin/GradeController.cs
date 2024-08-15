@@ -4,7 +4,7 @@ using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Helpers;
 
-namespace school_admin_api.Controllers;
+namespace school_admin_api.Controllers.Admin;
 
 [ApiController]
 [Authorize]
@@ -61,14 +61,8 @@ public class GradeController : ControllerBase
 
     [HttpGet("forList")]
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForList()
-    {
+    {   
         return await _gradeService.RetrieveForList();
     }
 
-    [HttpGet("forListByTeacher")]
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher()
-    {
-        Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _gradeService.RetrieveForListByTeacher(teacherId);
-    }
 }

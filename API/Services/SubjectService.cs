@@ -63,8 +63,8 @@ public class SubjectService : ISubjectService
     // public async Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId) =>
     //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectDAL.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
 
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGradeAndTeacher(Guid gradeId, Guid teacherId) =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveForListByGradeAndTeacherForList(gradeId, teacherId));
+    public async Task<List<PKFKPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId) =>
+        _mapper.Map<List<PKFKPair<Guid, Guid>>>(await _subjectRepository.RetrieveWithGradeByTeacherForList(teacherId));
 
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent(Guid guardianId, Guid studentId)
     {

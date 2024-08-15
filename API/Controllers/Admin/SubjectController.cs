@@ -4,7 +4,7 @@ using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Helpers;
 
-namespace school_admin_api.Controllers;
+namespace school_admin_api.Controllers.Admin;
 
 [ApiController]
 [Authorize]
@@ -59,13 +59,6 @@ public class SubjectController : ControllerBase
     //     int gradeId = 1; // TODO: Get from tkn or session
     //     return await _subjectService.RetrieveByGrade(gradeId);
     // }
-
-    [HttpGet("byGradeAndTeacherForList/{gradeId}")]
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher([FromRoute] Guid gradeId)
-    {
-        Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _subjectService.RetrieveForListByGradeAndTeacher(gradeId, teacherId);
-    }
 
     [HttpGet("guardian/{studentId}/list")]
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent([FromRoute] Guid studentId)

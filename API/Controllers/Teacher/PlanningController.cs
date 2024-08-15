@@ -4,11 +4,11 @@ using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Helpers;
 
-namespace school_admin_api.Controllers;
+namespace school_admin_api.Controllers.Teacher;
 
 [ApiController]
 [Authorize]
-[Route("api/planning")]
+[Route("api/teacher/planning")]
 public class PlanningController : ControllerBase
 {
     private readonly IPlanningService _planningService;
@@ -24,7 +24,7 @@ public class PlanningController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<PlanningTableRowDTO> Create([FromBody] PlanningForCreationDTO planningDTO)
+    public async Task<Guid> Create([FromBody] PlanningForCreationDTO planningDTO)
     {
         return await _planningService.Create(planningDTO);
     }
@@ -53,11 +53,14 @@ public class PlanningController : ControllerBase
         return await _planningService.Retrieve(id);
     }
 
-    [HttpGet]
-    public async Task<List<PlanningTableRowDTO>> RetrieveAll()
+    [HttpGet("bySubject/{subjectId}")]
+    public async Task<List<PlanningTableRowDTO>> RetrieveAllByTeacherAndSubject(Guid subjectId)
     {
         Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _planningService.RetrieveAll(teacherId);
+        return await _planningService.RetrieveAllByTeacherAndSubject(
+            teacherId: teacherId,
+            subjectId: subjectId
+        );
     }
 
     [HttpGet("byGradeAndSubject/{gradeId:int}/{subjectId:int}")]

@@ -5,11 +5,11 @@ using school_admin_api.Model;
 
 namespace school_admin_api.Database;
 
-public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
+public class GradeRepository : RepositoryBase<Grade>, IGradeRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public GradeDAL(ApplicationDbContext context) : base(context)
+    public GradeRepository(ApplicationDbContext context) : base(context)
     {
         _context = context;
     }
@@ -56,25 +56,27 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
                 })
                 .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<Guid>>> RetrieveForListByTeacher(Guid teacherId) =>
-        await _context.Subject
-                .Include(s => s.Grade)
-                .Include(s => s.Teacher)
-                    .ThenInclude(t => t.User)
-                .Where(s =>
-                        s.TeacherId == teacherId
-                        && s.StateId == (int)Subject.SUBJECT_STATES.ACTIVE
-                        && s.Teacher.StateId == (int)Teacher.TEACHER_STATES.ACTIVE
-                        && s.Teacher.User.StateId == (int)User.USER_STATES.ACTIVE
-                )
-                .AsNoTracking()
-                .Select(s => new LabelValueFromDB<Guid>()
-                {
-                    Value = s.Grade.Id,
-                    Label = $"{s.Grade.Name}"
-                })
-                .Distinct()
-                .ToListAsync();
+
+    /********* TEACHER *********/
+    // public async Task<List<LabelValueFromDB<Guid>>> RetrieveForListByTeacher(Guid teacherId, Guid subjectId) =>
+    //     await _context.Subject
+    //             .Include(s => s.Grade)
+    //             .Include(s => s.Teacher)
+    //                 .ThenInclude(t => t.User)
+    //             .Where(s =>
+    //                     s.TeacherId == teacherId
+    //                     && s.StateId == (int)Subject.SUBJECT_STATES.ACTIVE
+    //                     && s.Teacher.StateId == (int)Teacher.TEACHER_STATES.ACTIVE
+    //                     && s.Teacher.User.StateId == (int)User.USER_STATES.ACTIVE
+    //             )
+    //             .AsNoTracking()
+    //             .Select(s => new LabelValueFromDB<Guid>()
+    //             {
+    //                 Value = s.Grade.Id,
+    //                 Label = $"{s.Grade.Name}"
+    //             })
+    //             .Distinct()
+    //             .ToListAsync();
     // public async Task<List<LabelValueFromDB<Guid>>> RetrieveForListByTeacher(Guid teacherId) =>
     //     await FindByCondition(g => g.Active == true, false)
     //             .Include(g => g.Teachers)
@@ -85,6 +87,9 @@ public class GradeDAL : RepositoryBase<Grade>, IGradeDAL
     //                 Label = $"{g.Name} ${String.Join(",", g.Teachers.Select(t => t.Id))}"
     //             })
     //             .ToListAsync();
+
+    /********* TEACHER *********/
+
 
     public async Task<List<Guid>> RetrieveTeachersId(Guid id)
     {

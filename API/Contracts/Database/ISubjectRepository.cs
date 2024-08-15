@@ -11,6 +11,9 @@ public interface ISubjectRepository
     Task<Subject?> Retrieve(Guid id, bool trackChanges = false);
     Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(Guid id);
 
-    Task<List<LabelValueFromDB<Guid>>> RetrieveForListByGradeAndTeacherForList(Guid gradeId, Guid teacherId);
+    /********* TEACHER *********/
+    Task<List<PKFKFromDBPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId);
+    /********* TEACHER *********/
+    
     Task<List<LabelValueFromDB<Guid>>> RetrieveByGrade(Guid gradeId);
 }

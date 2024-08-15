@@ -39,4 +39,6 @@ public class Grade
     // public ICollection<Student> Students { get; set; } = new List<Student>();
     // public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
     public ICollection<GradeTeacher> GradeTeachers { get; set; } = new List<GradeTeacher>();
+
+    public ICollection<Subject> Subjects { get; set; } = [];
 }

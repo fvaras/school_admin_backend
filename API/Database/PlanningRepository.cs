@@ -32,11 +32,11 @@ public class PlanningRepository : RepositoryBase<Planning>, IPlanningRepository
 
     public async Task<List<Planning>> RetrieveAll() => await FindAll().ToListAsync();
 
-    public async Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(Guid id, Guid teacherId) =>
+    public async Task<List<PlanningTableRowDbDTO>> RetrieveByTeacherAndSubjectForMainTable(Guid teacherId, Guid subjectId) =>
         await FindAll(trackChanges: false)
             .Include(p => p.Subject)
                 .ThenInclude(s => s.Grade)
-            .Where(p => (p.Id == id || id == Guid.Empty) && (p.Subject.TeacherId == teacherId || teacherId == Guid.Empty))
+            .Where(p => p.SubjectId == subjectId && (p.Subject.TeacherId == teacherId || teacherId == Guid.Empty))
             .Select(p => new PlanningTableRowDbDTO()
             {
                 Id = p.Id,

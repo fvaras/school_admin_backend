@@ -33,11 +33,11 @@ public class PlanningService : IPlanningService
         _mapper = mapper;
     }
 
-    public async Task<PlanningTableRowDTO> Create(PlanningForCreationDTO planningDTO)
+    public async Task<Guid> Create(PlanningForCreationDTO planningDTO)
     {
         Planning planning = _mapper.Map<Planning>(planningDTO);
         await _planningRepository.Create(planning);
-        return await RetrieveForTable(planning.Id);
+        return planning.Id;
     }
 
     public async Task<PlanningTableRowDTO> Update(Guid id, PlanningForUpdateDTO planningDTO)
@@ -93,7 +93,10 @@ public class PlanningService : IPlanningService
 
     public async Task<PlanningDTO?> Retrieve(Guid id) => _mapper.Map<PlanningDTO>(await _planningRepository.Retrieve(id));
 
-    public async Task<List<PlanningTableRowDTO>> RetrieveAll(Guid teacherId) => _mapper.Map<List<PlanningTableRowDTO>>(await _planningRepository.RetrieveForMainTable(id: Guid.Empty, teacherId: teacherId));
+    public async Task<List<PlanningTableRowDTO>> RetrieveAllByTeacherAndSubject(Guid teacherId, Guid subjectId) =>
+        _mapper.Map<List<PlanningTableRowDTO>>(
+            await _planningRepository.RetrieveByTeacherAndSubjectForMainTable(teacherId: teacherId, subjectId: subjectId)
+        );
 
     public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId) => _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningRepository.RetrieveByGradeAndSubjectForList(gradeId, subjectId));
 
@@ -133,7 +136,7 @@ public class PlanningService : IPlanningService
     private async Task<PlanningTableRowDTO?> RetrieveForTable(Guid id)
     {
         if (id == Guid.Empty) return null;
-        var rows = await _planningRepository.RetrieveForMainTable(id, Guid.Empty);
+        var rows = await _planningRepository.RetrieveByTeacherAndSubjectForMainTable(id, Guid.Empty);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<PlanningTableRowDTO>(rows.FirstOrDefault());
     }

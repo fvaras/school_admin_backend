@@ -47,14 +47,23 @@ public class SubjectRepository : RepositoryBase<Subject>, ISubjectRepository
             })
             .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<Guid>>> RetrieveForListByGradeAndTeacherForList(Guid gradeId, Guid teacherId) =>
-        await FindByCondition(t => t.StateId == 1, false)
-                .Where(subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.GradeId == gradeId
-                    && (subject.TeacherId == teacherId || teacherId == Guid.Empty))
-                .Select(subject => new LabelValueFromDB<Guid>()
+    public async Task<List<PKFKFromDBPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId) =>
+        await FindByCondition(
+                    subject => subject.StateId == (int)Subject.SUBJECT_STATES.ACTIVE && subject.TeacherId == teacherId
+                    , false)
+                .Include(subject => subject.Grade)
+                .Select(subject => new PKFKFromDBPair<Guid, Guid>()
                 {
-                    Value = subject.Id,
-                    Label = $"{subject.Name}"
+                    LabelValuePK = new()
+                    {
+                        Value = subject.Id,
+                        Label = $"{subject.Name}"
+                    },
+                    LabelValueFK = new()
+                    {
+                        Value = subject.Grade.Id,
+                        Label = $"{subject.Grade.Name}"
+                    },
                 })
                 .ToListAsync();
 

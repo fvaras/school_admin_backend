@@ -81,6 +81,7 @@ public class MappingProfile : AutoMapper.Profile
             .ForPath(t => t.StateId, opt => opt.MapFrom(x => x.StateId));
 
         CreateMap(typeof(LabelValueFromDB<>), typeof(LabelValueDTO<>));
+        CreateMap(typeof(PKFKFromDBPair<,>), typeof(PKFKPair<,>));
 
         CreateMap(typeof(UserDerivedEntityDbDataForLists<>), typeof(UserDerivedEntityDataForLists<>));
         // .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.EntityId));

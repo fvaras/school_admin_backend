@@ -10,14 +10,14 @@ namespace school_admin_api.Services;
 public class GradeService : IGradeService
 {
     private readonly ILoggerService _logger;
-    private readonly IGradeDAL _gradeDAL;
+    private readonly IGradeRepository _gradeDAL;
     private readonly ITeacherDAL _teacherDAL;
     private readonly IGradeTeachersRepository _gradeTeachersRepository;
     private readonly IMapper _mapper;
 
     public GradeService(
         ILoggerService logger,
-        IGradeDAL gradeDAL,
+        IGradeRepository gradeDAL,
         ITeacherDAL teacherDAL,
         IGradeTeachersRepository gradeTeachersRepository,
         IMapper mapper)
@@ -107,8 +107,8 @@ public class GradeService : IGradeService
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForList() =>
         _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForList());
 
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher(Guid teacherId) =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId));
+    // public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher(Guid teacherId, Guid subjectId) =>
+    //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId, subjectId));
 
     private async Task<Grade> GetRecordAndCheckExistence(Guid id, bool includeTeachers = false)
     {

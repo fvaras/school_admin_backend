@@ -11,7 +11,7 @@ public interface IPlanningRepository
     Task<Planning?> Retrieve(Guid id, bool trackChanges = false);
     Task<Planning?> RetrieveWithTimeBlocks(Guid id, bool trackChanges = false);
     Task<List<Planning>> RetrieveAll();
-    Task<List<PlanningTableRowDbDTO>> RetrieveForMainTable(Guid id, Guid teacherId);
+    Task<List<PlanningTableRowDbDTO>> RetrieveByTeacherAndSubjectForMainTable(Guid teacherId, Guid subjectId);
     Task<List<LabelValueFromDB<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId);
     Task<List<PlanningTableRowDbDTO>> RetrieveForTable(Guid subjectId);
     Task<Planning?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, DateTimeOffset date);

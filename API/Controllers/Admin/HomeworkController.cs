@@ -4,7 +4,7 @@ using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Helpers;
 
-namespace school_admin_api.Controllers;
+namespace school_admin_api.Controllers.Admin;
 
 [Authorize]
 [ApiController]

@@ -8,8 +8,8 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var indxSession = (string)context.HttpContext.Items["username"];
-        if (indxSession == null)
+        var username = (string)context.HttpContext.Items["username"];
+        if (username == null)
         {
             context.Result = new UnauthorizedResult();
         }
