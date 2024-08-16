@@ -11,5 +11,8 @@ public interface IStudentService
     Task<StudentDTO?> RetrieveByUserId(Guid userId);
     Task<List<StudentTableRowDTO>> RetrieveAll();
 
+
+    /********* GUARDIAN *********/
     Task<List<LabelValueDTO<Guid>>> GetByGuardianForList(Guid guardianId);
+    /********* GUARDIAN *********/
 }

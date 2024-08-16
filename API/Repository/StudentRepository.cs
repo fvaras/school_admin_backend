@@ -67,7 +67,8 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
                 .Select(p => p.Id)
                 .ToListAsync();
 
-    public async Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId) =>
+    /********* GUARDIAN *********/
+    public async Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId, Guid studentId) =>
         await FindByCondition(student => student.StateId == (byte)STUDENT_STATES.ACTIVE, false)
                 .Include(student => student.User)
                 .Include(student => student.Grade)
@@ -76,7 +77,8 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
                 .Where(student =>
                         student.Guardians.Any(guardian => guardian.Id == guardianId && guardian.StateId == (byte)USER_STATES.ACTIVE)
                         && student.User.StateId == (byte)USER_STATES.ACTIVE
-                        // && student.Grade.Active == true
+                        && (studentId == Guid.Empty || student.Id == studentId)
+                // && student.Grade.Active == true
                 )
                 .Select(student => new LabelValueFromDB<Guid>()
                 {
@@ -84,4 +86,5 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
                     Label = $"{student.User.FirstName} {student.User.LastName} | {student.Grade.Name}",
                 })
                 .ToListAsync();
+    /********* GUARDIAN *********/
 }

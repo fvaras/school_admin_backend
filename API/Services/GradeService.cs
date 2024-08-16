@@ -13,6 +13,7 @@ public class GradeService : IGradeService
     private readonly IGradeRepository _gradeRepository;
     private readonly ITeacherRepository _teacherRepository;
     private readonly IGradeTeachersRepository _gradeTeachersRepository;
+    private readonly IGuardianService _guardianService;
     private readonly IMapper _mapper;
 
     public GradeService(
@@ -20,12 +21,14 @@ public class GradeService : IGradeService
         IGradeRepository gradeRepository,
         ITeacherRepository teacherRepository,
         IGradeTeachersRepository gradeTeachersRepository,
+        IGuardianService guardianService,
         IMapper mapper)
     {
         _logger = logger;
         _gradeRepository = gradeRepository;
         _teacherRepository = teacherRepository;
         _gradeTeachersRepository = gradeTeachersRepository;
+        _guardianService = guardianService;
         _mapper = mapper;
     }
 

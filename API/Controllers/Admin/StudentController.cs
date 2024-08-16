@@ -53,10 +53,10 @@ public class StudentController : ControllerBase
         return await _studentService.RetrieveAll();
     }
 
-    [HttpGet("byGuardianForList")]
-    public async Task<List<LabelValueDTO<Guid>>> GetStudentsByGuardianForList()
-    {
-        Guid guardianId = _httpContextHelper.GetUserProfileId();
-        return await _studentService.GetByGuardianForList(guardianId);
-    }
+    // [HttpGet("byGuardianForList")]
+    // public async Task<List<LabelValueDTO<Guid>>> GetStudentsByGuardianForList()
+    // {
+    //     Guid guardianId = _httpContextHelper.GetUserProfileId();
+    //     return await _studentService.GetByGuardianForList(guardianId);
+    // }
 }

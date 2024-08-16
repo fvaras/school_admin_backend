@@ -76,7 +76,6 @@ public class GradeRepository : RepositoryBase<Grade>, IGradeRepository
                 .ToListAsync();
     /********* TEACHER *********/
 
-
     public async Task<List<Guid>> RetrieveTeachersId(Guid id)
     {
         return await FindByCondition(c => c.Id == id, trackChanges: false)

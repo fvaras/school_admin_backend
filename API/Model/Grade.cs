@@ -36,7 +36,7 @@ public class Grade
 
     public DateTimeOffset? UpdatedAt { get; set; }
 
-    // public ICollection<Student> Students { get; set; } = new List<Student>();
+    public ICollection<Student> Students { get; set; } = new List<Student>();
     // public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
     public ICollection<GradeTeacher> GradeTeachers { get; set; } = new List<GradeTeacher>();
 

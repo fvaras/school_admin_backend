@@ -16,5 +16,8 @@ public interface IStudentRepository
     Task<List<Student>> RetrieveAll();
     Task<List<Guid>> RetrieveGuardiansId(Guid id);
 
-    Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId);
+
+    /********* GUARDIAN *********/
+    Task<List<LabelValueFromDB<Guid>>> GetByGuardianForList(Guid guardianId, Guid studentId);
+    /********* GUARDIAN *********/
 }

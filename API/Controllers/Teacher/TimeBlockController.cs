@@ -4,7 +4,7 @@ using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Helpers;
 
-namespace school_admin_api.Controllers.Admin;
+namespace school_admin_api.Controllers.Teacher;
 
 [Authorize]
 [ApiController]
@@ -53,7 +53,7 @@ public class TimeBlockController : ControllerBase
     public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(Guid gradeId)
     {
         Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _timeBlockService.RetrieveAll(gradeId, teacherId);
+        return await _timeBlockService.RetrieveAllByGradeAndTeacher(gradeId, teacherId);
     }
 
     [HttpPost("weeklyBlocksBase")]

@@ -12,23 +12,31 @@ public class TimeBlockService : ITimeBlockService
     private readonly ILoggerService _logger;
     private readonly ITimeBlockRepository _timeBlockRepository;
     private readonly ISubjectRepository _subjectRepository;
+    private readonly IStudentRepository _studentRepository;
+    private readonly IGuardianService _guardianService;
     private readonly IMapper _mapper;
 
     public TimeBlockService(
         ILoggerService logger,
         ITimeBlockRepository timeBlockRepository,
         ISubjectRepository subjectRepository,
+        IStudentRepository studentRepository,
+        IGuardianService guardianService,
         IMapper mapper
         )
     {
         _logger = logger;
         _timeBlockRepository = timeBlockRepository;
         _subjectRepository = subjectRepository;
+        _studentRepository = studentRepository;
+        _guardianService = guardianService;
         _mapper = mapper;
     }
 
     public async Task<TimeBlockTableRowDTO> Create(TimeBlockForCreationDTO timeBlockDTO)
     {
+        // TODO: Validate integrity Grade/Teacher
+
         if (timeBlockDTO.SubjectId == Guid.Empty) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = _mapper.Map<TimeBlock>(timeBlockDTO);
         await _timeBlockRepository.Create(timeBlock);
@@ -37,6 +45,8 @@ public class TimeBlockService : ITimeBlockService
 
     public async Task<TimeBlockTableRowDTO> Update(Guid id, TimeBlockForUpdateDTO timeBlockDTO)
     {
+        // TODO: Validate integrity Grade/Teacher
+
         if (timeBlockDTO.SubjectId == Guid.Empty) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
 
@@ -54,14 +64,35 @@ public class TimeBlockService : ITimeBlockService
 
     public async Task Delete(Guid id)
     {
+        // TODO: Validate integrity Grade/Teacher
+
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
         await _timeBlockRepository.Delete(timeBlock);
     }
 
     public async Task<TimeBlockDTO?> Retrieve(Guid id) => _mapper.Map<TimeBlockDTO>(await _timeBlockRepository.Retrieve(id));
 
-    public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(Guid gradeId, Guid teacherId) =>
-        _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockRepository.RetrieveAll(gradeId, teacherId));
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAllByGradeAndTeacher(Guid gradeId, Guid teacherId)
+    {
+        // TODO: Validate integrity Grade/Teacher
+
+        return _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockRepository.RetrieveAll(gradeId));
+    }
+
+    /********* GUARDIAN *********/
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAllByStudentAndGuardian(Guid studentId, Guid guardianId)
+    {
+        // Validate integrity Guardian/Student
+        await _guardianService.ValidateIntegrityWithStudent(guardianId: guardianId, studentId: studentId);
+
+        var student = await _studentRepository.Retrieve(studentId, false);
+
+        if (student == null || student.GradeId == null)
+            throw new EntityNotFoundException();
+
+        return _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockRepository.RetrieveAll((Guid)student.GradeId));
+    }
+    /********* GUARDIAN *********/
 
     private async Task<TimeBlock> GetRecordAndCheckExistence(Guid id)
     {
