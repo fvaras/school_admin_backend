@@ -93,21 +93,31 @@ public class PlanningService : IPlanningService
 
     public async Task<PlanningDTO?> Retrieve(Guid id) => _mapper.Map<PlanningDTO>(await _planningRepository.Retrieve(id));
 
-    public async Task<List<PlanningTableRowDTO>> RetrieveAllByTeacherAndSubject(Guid teacherId, Guid subjectId) =>
-        _mapper.Map<List<PlanningTableRowDTO>>(
-            await _planningRepository.RetrieveByTeacherAndSubjectForMainTable(teacherId: teacherId, subjectId: subjectId)
-        );
+    public async Task<List<PlanningTableRowDTO>> RetrieveAllByTeacherAndSubject(Guid teacherId, Guid subjectId)
+    {
+        // TODO: Validate integrity teacher/Subject
 
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId) => _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningRepository.RetrieveByGradeAndSubjectForList(gradeId, subjectId));
+        return _mapper.Map<List<PlanningTableRowDTO>>(
+               await _planningRepository.RetrieveForMainTable(subjectId)
+           );
+    }
 
-    public async Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId)
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId)
+    {
+        // TODO: Validate integrity gradeId/subjectId
+        return _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningRepository.RetrieveForMainTable(subjectId));
+    }
+
+    public async Task<List<PlanningTableRowDTO>> RetrieveAllByGuardianAndSubject(Guid guardianId, Guid studentId, Guid subjectId)
     {
         // Integrity guardianId/studentId
         await _guardianService.ValidateIntegrityWithStudent(guardianId: guardianId, studentId: studentId);
 
         // TODO: Validate integrity studentId/subjectId
 
-        return _mapper.Map<List<PlanningTableRowDTO>>(await _planningRepository.RetrieveForTable(subjectId));
+        return _mapper.Map<List<PlanningTableRowDTO>>(
+               await _planningRepository.RetrieveForMainTable(subjectId)
+           );
     }
 
     public async Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString)
@@ -136,7 +146,7 @@ public class PlanningService : IPlanningService
     private async Task<PlanningTableRowDTO?> RetrieveForTable(Guid id)
     {
         if (id == Guid.Empty) return null;
-        var rows = await _planningRepository.RetrieveByTeacherAndSubjectForMainTable(id, Guid.Empty);
+        var rows = await _planningRepository.RetrieveForMainTable(id);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<PlanningTableRowDTO>(rows.FirstOrDefault());
     }

@@ -11,6 +11,6 @@ public interface IPlanningService
     Task<PlanningDTO?> Retrieve(Guid id);
     Task<List<PlanningTableRowDTO>> RetrieveAllByTeacherAndSubject(Guid teacherId, Guid subjectId);
     Task<List<LabelValueDTO<Guid>>> RetrieveByGradeAndSubjectForList(Guid gradeId, Guid subjectId);
-    Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId);
+    Task<List<PlanningTableRowDTO>> RetrieveAllByGuardianAndSubject(Guid guardianId, Guid studentId, Guid subjectId);
     Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString);
 }

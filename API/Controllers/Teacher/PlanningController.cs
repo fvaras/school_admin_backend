@@ -70,20 +70,9 @@ public class PlanningController : ControllerBase
         return await _planningService.RetrieveByGradeAndSubjectForList(gradeId, subjectId);
     }
 
-    [HttpGet("guardian/{studentId}/{subjectId}")]
-    public async Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid studentId, Guid subjectId)
-    {
-        Guid guardianId = _httpContextHelper.GetUserProfileId();
-        return await _planningService.RetrieveBySubjectForGuardianMainTable(
-                guardianId: guardianId,
-                studentId: studentId,
-                subjectId: subjectId
-            );
-    }
-
-    [HttpGet("bySubjectAndTimeBlock/{subjectId:int}/{timeBlockId:int}/{dateString}")]
-    public async Task<PlanningDTO> RetrievePlanningBySubjectAndTimeBlock(Guid subjectId, Guid timeBlockId, string dateString)
-    {
-        return await _planningService.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, dateString);
-    }
+    // [HttpGet("bySubjectAndTimeBlock/{subjectId:int}/{timeBlockId:int}/{dateString}")]
+    // public async Task<PlanningDTO> RetrievePlanningBySubjectAndTimeBlock(Guid subjectId, Guid timeBlockId, string dateString)
+    // {
+    //     return await _planningService.RetrieveBySubjectTimeBlockAndDate(subjectId, timeBlockId, dateString);
+    // }
 }
