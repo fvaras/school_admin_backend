@@ -10,21 +10,21 @@ namespace school_admin_api.Services;
 public class GradeService : IGradeService
 {
     private readonly ILoggerService _logger;
-    private readonly IGradeRepository _gradeDAL;
-    private readonly ITeacherDAL _teacherDAL;
+    private readonly IGradeRepository _gradeRepository;
+    private readonly ITeacherDAL _teacherRepository;
     private readonly IGradeTeachersRepository _gradeTeachersRepository;
     private readonly IMapper _mapper;
 
     public GradeService(
         ILoggerService logger,
-        IGradeRepository gradeDAL,
-        ITeacherDAL teacherDAL,
+        IGradeRepository gradeRepository,
+        ITeacherDAL teacherRepository,
         IGradeTeachersRepository gradeTeachersRepository,
         IMapper mapper)
     {
         _logger = logger;
-        _gradeDAL = gradeDAL;
-        _teacherDAL = teacherDAL;
+        _gradeRepository = gradeRepository;
+        _teacherRepository = teacherRepository;
         _gradeTeachersRepository = gradeTeachersRepository;
         _mapper = mapper;
     }
@@ -39,10 +39,10 @@ public class GradeService : IGradeService
             grade.GradeTeachers.Add(new()
             {
                 Grade = grade,
-                Teacher = await _teacherDAL.Retrieve(teacherId, trackChanges: true)
+                Teacher = await _teacherRepository.Retrieve(teacherId, trackChanges: true)
             });
 
-        await _gradeDAL.Create(grade);
+        await _gradeRepository.Create(grade);
         return _mapper.Map<GradeDTO>(grade);
     }
 
@@ -76,7 +76,7 @@ public class GradeService : IGradeService
         var newTeacherIds = gradeDTO.TeachersId.Except(currentTeacherIds).ToList();
         foreach (var newTeacherId in newTeacherIds)
         {
-            var teacherToAdd = await _teacherDAL.Retrieve(newTeacherId, trackChanges: true);
+            var teacherToAdd = await _teacherRepository.Retrieve(newTeacherId, trackChanges: true);
             if (teacherToAdd != null)
                 grade.GradeTeachers.Add(new()
                 {
@@ -86,7 +86,7 @@ public class GradeService : IGradeService
         }
 
         // Persist changes
-        await _gradeDAL.Update(grade);
+        await _gradeRepository.Update(grade);
         return _mapper.Map<GradeDTO>(grade);
     }
 
@@ -95,33 +95,35 @@ public class GradeService : IGradeService
         Grade grade = await GetRecordAndCheckExistence(id);
 
         // TODO: Delete relations Grades/Teachers
-        await _gradeDAL.Delete(grade);
+        await _gradeRepository.Delete(grade);
     }
 
     public async Task<GradeDTO?> Retrieve(Guid id) =>
-        _mapper.Map<GradeDTO>(await _gradeDAL.Retrieve(id));
+        _mapper.Map<GradeDTO>(await _gradeRepository.Retrieve(id));
 
     public async Task<List<GradeDTO>> RetrieveAll() =>
-        _mapper.Map<List<GradeDTO>>(await _gradeDAL.RetrieveAll());
+        _mapper.Map<List<GradeDTO>>(await _gradeRepository.RetrieveAll());
 
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForList() =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForList());
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveForList());
 
-    // public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByTeacher(Guid teacherId, Guid subjectId) =>
-    //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeDAL.RetrieveForListByTeacher(teacherId, subjectId));
+    /********* TEACHER *********/
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByTeacherForList(Guid teacherId) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveByTeacherForList(teacherId));
+    /********* TEACHER *********/
 
     private async Task<Grade> GetRecordAndCheckExistence(Guid id, bool includeTeachers = false)
     {
         Grade grade = null;
         if (includeTeachers)
-            grade = await _gradeDAL.RetrieveWithTeachers(id);
+            grade = await _gradeRepository.RetrieveWithTeachers(id);
         else
-            grade = await _gradeDAL.Retrieve(id);
+            grade = await _gradeRepository.Retrieve(id);
 
         if (grade == null)
             throw new EntityNotFoundException();
         return grade;
     }
 
-    public async Task<List<Guid>> RetrieveTeachersId(Guid id) => await _gradeDAL.RetrieveTeachersId(id);
+    public async Task<List<Guid>> RetrieveTeachersId(Guid id) => await _gradeRepository.RetrieveTeachersId(id);
 }

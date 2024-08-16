@@ -15,7 +15,7 @@ public interface IGradeRepository
     Task<List<LabelValueFromDB<Guid>>> RetrieveForList();
 
     /********* TEACHER *********/
-    // Task<List<LabelValueFromDB<Guid>>> RetrieveForListByTeacher(Guid teacherId, Guid subjectId);
+    Task<List<LabelValueFromDB<Guid>>> RetrieveByTeacherForList(Guid teacherId);
     /********* TEACHER *********/
 
     Task<List<Guid>> RetrieveTeachersId(Guid id);
