@@ -1,10 +1,10 @@
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.Services;
-using school_admin_api.Database;
-using school_admin_api.Database.Helpers;
 using school_admin_api.Services;
 using Microsoft.EntityFrameworkCore;
 using school_admin_api.Contracts.ConfigSettings;
+using school_admin_api.Repository;
+using school_admin_api.Repository.Helpers;
+using school_admin_api.Contracts.Repository;
 
 namespace school_admin_api.Extensions;
 
@@ -46,19 +46,19 @@ public static class ServiceExtensions
 
         // Repository
         services.AddTransient<ConnectionsHelper>();
-        services.AddScoped<IUserDAL, UserDAL>();
-        services.AddScoped<IProfileDAL, ProfileDAL>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IGradeRepository, GradeRepository>();
-        services.AddScoped<ITeacherDAL, TeacherDAL>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IGradeTeachersRepository, GradeTeachersRepository>();
         services.AddScoped<IGuardianRepository, GuardianRepository>();
-        services.AddScoped<ICalendarDAL, CalendarDAL>();
-        services.AddScoped<ICalendarEventDAL, CalendarEventDAL>();
+        services.AddScoped<ICalendarRepository, CalendarRepository>();
+        services.AddScoped<ICalendarEventRepository, CalendarEventRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<IPlanningRepository, PlanningRepository>();
-        services.AddScoped<ITimeBlockDAL, TimeBlockDAL>();
-        services.AddScoped<IPlanningTimeBlockDAL, PlanningTimeBlockDAL>();
+        services.AddScoped<ITimeBlockRepository, TimeBlockRepository>();
+        services.AddScoped<IPlanningTimeBlockRepository, PlanningTimeBlockRepository>();
         services.AddScoped<IHomeworkRepository, HomeworkRepository>();
 
         // Services

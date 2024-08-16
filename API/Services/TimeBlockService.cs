@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 
@@ -10,20 +10,20 @@ namespace school_admin_api.Services;
 public class TimeBlockService : ITimeBlockService
 {
     private readonly ILoggerService _logger;
-    private readonly ITimeBlockDAL _timeBlockDAL;
-    private readonly ISubjectRepository _subjectDAL;
+    private readonly ITimeBlockRepository _timeBlockRepository;
+    private readonly ISubjectRepository _subjectRepository;
     private readonly IMapper _mapper;
 
     public TimeBlockService(
         ILoggerService logger,
-        ITimeBlockDAL timeBlockDAL,
-        ISubjectRepository subjectDAL,
+        ITimeBlockRepository timeBlockRepository,
+        ISubjectRepository subjectRepository,
         IMapper mapper
         )
     {
         _logger = logger;
-        _timeBlockDAL = timeBlockDAL;
-        _subjectDAL = subjectDAL;
+        _timeBlockRepository = timeBlockRepository;
+        _subjectRepository = subjectRepository;
         _mapper = mapper;
     }
 
@@ -31,7 +31,7 @@ public class TimeBlockService : ITimeBlockService
     {
         if (timeBlockDTO.SubjectId == Guid.Empty) timeBlockDTO.SubjectId = null;
         TimeBlock timeBlock = _mapper.Map<TimeBlock>(timeBlockDTO);
-        await _timeBlockDAL.Create(timeBlock);
+        await _timeBlockRepository.Create(timeBlock);
         return await RetrieveForTable(timeBlock.Id);
     }
 
@@ -43,29 +43,29 @@ public class TimeBlockService : ITimeBlockService
         // Update blockName with Subject name
         if (timeBlockDTO.SubjectId != null)
         {
-            Subject subject = await _subjectDAL.Retrieve((Guid)timeBlockDTO.SubjectId, trackChanges: false);
+            Subject subject = await _subjectRepository.Retrieve((Guid)timeBlockDTO.SubjectId, trackChanges: false);
             timeBlockDTO.BlockName = subject.Name;
         }
 
         _mapper.Map(timeBlockDTO, timeBlock);
-        await _timeBlockDAL.Update(timeBlock);
+        await _timeBlockRepository.Update(timeBlock);
         return await RetrieveForTable(timeBlock.Id);
     }
 
     public async Task Delete(Guid id)
     {
         TimeBlock timeBlock = await GetRecordAndCheckExistence(id);
-        await _timeBlockDAL.Delete(timeBlock);
+        await _timeBlockRepository.Delete(timeBlock);
     }
 
-    public async Task<TimeBlockDTO?> Retrieve(Guid id) => _mapper.Map<TimeBlockDTO>(await _timeBlockDAL.Retrieve(id));
+    public async Task<TimeBlockDTO?> Retrieve(Guid id) => _mapper.Map<TimeBlockDTO>(await _timeBlockRepository.Retrieve(id));
 
     public async Task<List<TimeBlockTableRowDTO>> RetrieveAll(Guid gradeId, Guid teacherId) =>
-        _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockDAL.RetrieveAll(gradeId, teacherId));
+        _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockRepository.RetrieveAll(gradeId, teacherId));
 
     private async Task<TimeBlock> GetRecordAndCheckExistence(Guid id)
     {
-        TimeBlock timeBlock = await _timeBlockDAL.Retrieve(id);
+        TimeBlock timeBlock = await _timeBlockRepository.Retrieve(id);
         if (timeBlock is null)
             throw new EntityNotFoundException();
         return timeBlock;
@@ -74,7 +74,7 @@ public class TimeBlockService : ITimeBlockService
     private async Task<TimeBlockTableRowDTO?> RetrieveForTable(Guid id)
     {
         if (id == Guid.Empty) return null;
-        var rows = await _timeBlockDAL.RetrieveForMainTable(id);
+        var rows = await _timeBlockRepository.RetrieveForMainTable(id);
         if (rows == null || rows.Count == 0) return null;
         return _mapper.Map<TimeBlockTableRowDTO>(rows.FirstOrDefault());
     }
@@ -112,7 +112,7 @@ public class TimeBlockService : ITimeBlockService
             foreach (var block in timeBlockDayList)
             {
                 block.Day = day;
-                await _timeBlockDAL.Create(new TimeBlock()
+                await _timeBlockRepository.Create(new TimeBlock()
                 {
                     GradeId = gradeId,
                     Year = block.Year,

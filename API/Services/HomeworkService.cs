@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 

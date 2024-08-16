@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 
@@ -11,14 +11,14 @@ public class GradeService : IGradeService
 {
     private readonly ILoggerService _logger;
     private readonly IGradeRepository _gradeRepository;
-    private readonly ITeacherDAL _teacherRepository;
+    private readonly ITeacherRepository _teacherRepository;
     private readonly IGradeTeachersRepository _gradeTeachersRepository;
     private readonly IMapper _mapper;
 
     public GradeService(
         ILoggerService logger,
         IGradeRepository gradeRepository,
-        ITeacherDAL teacherRepository,
+        ITeacherRepository teacherRepository,
         IGradeTeachersRepository gradeTeachersRepository,
         IMapper mapper)
     {
@@ -67,8 +67,8 @@ public class GradeService : IGradeService
         //         if (teacherToRemove != null)
         //             grade.GradeTeachers.Remove(teacherToRemove);
         //     }
-        //     // await _gradeDAL.ClearTeacherAssociations(id);
-        //     await _gradeDAL.Update(grade); // TODO: The relation isn't deleted. Maybe creating a new table for the relation and include a column for order as well (1st teacher, 2dn teacher, and son on)
+        //     // await _gradeRepository.ClearTeacherAssociations(id);
+        //     await _gradeRepository.Update(grade); // TODO: The relation isn't deleted. Maybe creating a new table for the relation and include a column for order as well (1st teacher, 2dn teacher, and son on)
         // }
         await _gradeTeachersRepository.ClearTeacherAssociations(gradeId: id, saveChanges: false);
 

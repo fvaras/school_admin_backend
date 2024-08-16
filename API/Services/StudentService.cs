@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 using Profile = school_admin_api.Model.Profile;
@@ -13,24 +13,24 @@ public class StudentService : IStudentService
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
     private readonly IStudentRepository _studentRepository;
-    private readonly IGuardianRepository _guardianDAL;
-    private readonly IProfileDAL _profileDAL;
+    private readonly IGuardianRepository _guardianRepository;
+    private readonly IProfileRepository _profileRepository;
     private readonly IMapper _mapper;
 
     public StudentService(
         ILoggerService logger,
         IUserService userService,
-        IStudentRepository studentDAL,
-        IGuardianRepository guardianDAL,
-        IProfileDAL profileDAL,
+        IStudentRepository studentRepository,
+        IGuardianRepository guardianRepository,
+        IProfileRepository profileRepository,
         IMapper mapper
         )
     {
         _logger = logger;
         _userService = userService;
-        _studentRepository = studentDAL;
-        _guardianDAL = guardianDAL;
-        _profileDAL = profileDAL;
+        _studentRepository = studentRepository;
+        _guardianRepository = guardianRepository;
+        _profileRepository = profileRepository;
         _mapper = mapper;
     }
 
@@ -57,7 +57,7 @@ public class StudentService : IStudentService
         }
 
         // Get Student Profile
-        Profile studentProfile = await _profileDAL.Retrieve(Profile.STUDENT, trackChanges: true);
+        Profile studentProfile = await _profileRepository.Retrieve(Profile.STUDENT, trackChanges: true);
 
         // Check if the user already has the student profile associated
         if (!user.UserProfiles.Any(p => p.ProfileId == studentProfile.Id))
@@ -79,7 +79,7 @@ public class StudentService : IStudentService
         if (studentDTO.Guardian2Id != Guid.Empty && studentDTO.Guardian2Id != null && !guardiansIds.Contains((Guid)studentDTO.Guardian2Id))
             guardiansIds.Add((Guid)studentDTO.Guardian2Id);
         foreach (Guid guardianId in guardiansIds)
-            student.Guardians.Add(await _guardianDAL.Retrieve(guardianId, trackChanges: true));
+            student.Guardians.Add(await _guardianRepository.Retrieve(guardianId, trackChanges: true));
         /********* GUARDIANS *********/
 
         await _studentRepository.Create(student);
@@ -117,7 +117,7 @@ public class StudentService : IStudentService
         var newGuardiansIds = guardiansIds.Except(currentGuardianIds).ToList();
         foreach (var newGuardianId in newGuardiansIds)
         {
-            var guardianToAdd = await _guardianDAL.Retrieve(newGuardianId, trackChanges: true);
+            var guardianToAdd = await _guardianRepository.Retrieve(newGuardianId, trackChanges: true);
             if (guardianToAdd != null)
                 student.Guardians.Add(guardianToAdd);
         }

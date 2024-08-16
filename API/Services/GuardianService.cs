@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 using Profile = school_admin_api.Model.Profile;
@@ -13,20 +13,20 @@ public class GuardianService : IGuardianService
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
     private readonly IGuardianRepository _guardianRepository;
-    private readonly IProfileDAL _profileDAL;
+    private readonly IProfileRepository _profileRepository;
     private readonly IMapper _mapper;
 
     public GuardianService(
         ILoggerService logger,
         IUserService userService,
-        IGuardianRepository guardianDAL,
-        IProfileDAL profileDAL,
+        IGuardianRepository guardianRepository,
+        IProfileRepository profileRepository,
         IMapper mapper)
     {
         _logger = logger;
         _userService = userService;
-        _guardianRepository = guardianDAL;
-        _profileDAL = profileDAL;
+        _guardianRepository = guardianRepository;
+        _profileRepository = profileRepository;
         _mapper = mapper;
     }
 
@@ -50,7 +50,7 @@ public class GuardianService : IGuardianService
         }
 
         // Get Guardian Profile
-        Profile guardianProfile = await _profileDAL.Retrieve(Profile.GUARDIAN, trackChanges: true);
+        Profile guardianProfile = await _profileRepository.Retrieve(Profile.GUARDIAN, trackChanges: true);
 
         // Check if the user already has the guardian profile associated
         if (!user.UserProfiles.Any(p => p.ProfileId == guardianProfile.Id))

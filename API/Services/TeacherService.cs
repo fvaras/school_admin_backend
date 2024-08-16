@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 using Profile = school_admin_api.Model.Profile;
@@ -13,23 +13,23 @@ public class TeacherService : ITeacherService
     private readonly ILoggerService _logger;
     private readonly IUserService _userService;
     private readonly IProfileService _profileService;
-    private readonly ITeacherDAL _teacherDAL;
-    private readonly IProfileDAL _profileDAL;
+    private readonly ITeacherRepository _teacherRepository;
+    private readonly IProfileRepository _profileRepository;
     private readonly IMapper _mapper;
 
     public TeacherService(
         ILoggerService logger,
         IUserService userService,
         IProfileService profileService,
-        ITeacherDAL teacherDAL,
-        IProfileDAL profileDAL,
+        ITeacherRepository teacherRepository,
+        IProfileRepository profileRepository,
         IMapper mapper)
     {
         _logger = logger;
         _userService = userService;
         _profileService = profileService;
-        _teacherDAL = teacherDAL;
-        _profileDAL = profileDAL;
+        _teacherRepository = teacherRepository;
+        _profileRepository = profileRepository;
         _mapper = mapper;
     }
 
@@ -54,7 +54,7 @@ public class TeacherService : ITeacherService
         }
 
         // Get Teacher Profile
-        Profile teacherProfile = await _profileDAL.Retrieve(Profile.TEACHER, trackChanges: true);
+        Profile teacherProfile = await _profileRepository.Retrieve(Profile.TEACHER, trackChanges: true);
         // Profile teacherProfile = await _profileService.Retrieve(Profile.TEACHER);
 
         // Check if the user already has the teacher profile associated
@@ -69,7 +69,7 @@ public class TeacherService : ITeacherService
         teacher.User = user;
         teacher.CreatedAt = DateTimeOffset.UtcNow;
         teacher.UpdatedAt = DateTimeOffset.UtcNow;
-        await _teacherDAL.Create(teacher);
+        await _teacherRepository.Create(teacher);
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
@@ -78,14 +78,14 @@ public class TeacherService : ITeacherService
         Teacher teacher = await GetRecordAndCheckExistence(id);
         _mapper.Map(teacherDTO, teacher);
         teacher.UpdatedAt = DateTimeOffset.UtcNow;
-        await _teacherDAL.Update(teacher);
-        teacher = await _teacherDAL.RetrieveForMainTable(id);
+        await _teacherRepository.Update(teacher);
+        teacher = await _teacherRepository.RetrieveForMainTable(id);
         return _mapper.Map<TeacherTableRowDTO>(teacher);
     }
 
     public async Task Delete(Guid id)
     {
-        Teacher teacher = await _teacherDAL.RetrieveWithUserAndProfiles(id);
+        Teacher teacher = await _teacherRepository.RetrieveWithUserAndProfiles(id);
         if (teacher == null)
             throw new EntityNotFoundException();
 
@@ -96,26 +96,26 @@ public class TeacherService : ITeacherService
                 teacher.User.UserProfiles.Remove(teacherProfile);
         }
 
-        await _teacherDAL.Delete(teacher);
+        await _teacherRepository.Delete(teacher);
     }
 
-    public async Task<TeacherDTO?> Retrieve(Guid id) => _mapper.Map<TeacherDTO>(await _teacherDAL.Retrieve(id));
+    public async Task<TeacherDTO?> Retrieve(Guid id) => _mapper.Map<TeacherDTO>(await _teacherRepository.Retrieve(id));
 
-    public async Task<List<Guid>> RetrieveIdByUser(Guid userId) => await _teacherDAL.RetrieveIdByUser(userId);
+    public async Task<List<Guid>> RetrieveIdByUser(Guid userId) => await _teacherRepository.RetrieveIdByUser(userId);
 
 
     public async Task<List<TeacherTableRowDTO>> RetrieveAll() =>
-        _mapper.Map<List<TeacherTableRowDTO>>(await _teacherDAL.RetrieveAll());
+        _mapper.Map<List<TeacherTableRowDTO>>(await _teacherRepository.RetrieveAll());
 
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForList() =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _teacherDAL.RetrieveForList());
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _teacherRepository.RetrieveForList());
 
     public async Task<List<UserDerivedEntityDataForLists<int>>> RetrieveByNamesOrRut(string text) =>
-        _mapper.Map<List<UserDerivedEntityDataForLists<int>>>(await _teacherDAL.RetrieveByNamesOrRut(text.Trim()));
+        _mapper.Map<List<UserDerivedEntityDataForLists<int>>>(await _teacherRepository.RetrieveByNamesOrRut(text.Trim()));
 
     private async Task<Teacher> GetRecordAndCheckExistence(Guid id)
     {
-        Teacher teacher = await _teacherDAL.Retrieve(id);
+        Teacher teacher = await _teacherRepository.Retrieve(id);
         if (teacher == null)
             throw new EntityNotFoundException();
         return teacher;

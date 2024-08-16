@@ -1,9 +1,9 @@
 using System.ComponentModel;
 using System.Reflection;
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 using static school_admin_api.Model.CalendarEvent;
@@ -13,28 +13,28 @@ namespace school_admin_api.Services;
 public class CalendarEventService : ICalendarEventService
 {
     private readonly ILoggerService _logger;
-    private readonly ICalendarEventDAL _calendarEventDAL;
-    private readonly ICalendarDAL _calendarDAL;
+    private readonly ICalendarEventRepository _calendarEventRepository;
+    private readonly ICalendarRepository _calendarRepository;
     private readonly IMapper _mapper;
 
     public CalendarEventService(
         ILoggerService logger,
-        ICalendarEventDAL calendarEventDAL,
-        ICalendarDAL calendarDAL,
+        ICalendarEventRepository calendarEventRepository,
+        ICalendarRepository calendarRepository,
         IMapper mapper)
     {
         _logger = logger;
-        _calendarEventDAL = calendarEventDAL;
-        _calendarDAL = calendarDAL;
+        _calendarEventRepository = calendarEventRepository;
+        _calendarRepository = calendarRepository;
         _mapper = mapper;
     }
 
     public async Task<CalendarEventDTO> Create(CalendarEventForCreationDTO calendarEventDTO)
     {
         var calendarEvent = _mapper.Map<CalendarEvent>(calendarEventDTO);
-        // var calendar = await _calendarDAL.Retrieve(calendarEventDTO.CalendarId);
+        // var calendar = await _calendarRepository.Retrieve(calendarEventDTO.CalendarId);
         // calendarEvent.Calendar = calendar;
-        await _calendarEventDAL.Create(calendarEvent);
+        await _calendarEventRepository.Create(calendarEvent);
         return _mapper.Map<CalendarEventDTO>(calendarEvent);
     }
 
@@ -42,25 +42,25 @@ public class CalendarEventService : ICalendarEventService
     {
         var calendarEvent = await GetRecordAndCheckExistence(idCalendarEvent);
         _mapper.Map(calendarEventDTO, calendarEvent);
-        await _calendarEventDAL.Update(calendarEvent);
+        await _calendarEventRepository.Update(calendarEvent);
         return _mapper.Map<CalendarEventDTO>(calendarEvent);
     }
 
     public async Task Delete(Guid idCalendarEvent)
     {
         var calendarEvent = await GetRecordAndCheckExistence(idCalendarEvent);
-        await _calendarEventDAL.Delete(calendarEvent);
+        await _calendarEventRepository.Delete(calendarEvent);
     }
 
     public async Task<CalendarEventDTO?> Retrieve(Guid idCalendarEvent) =>
-        _mapper.Map<CalendarEventDTO>(await _calendarEventDAL.Retrieve(idCalendarEvent));
+        _mapper.Map<CalendarEventDTO>(await _calendarEventRepository.Retrieve(idCalendarEvent));
 
     public async Task<List<CalendarEventDTO>> RetrieveAll() =>
-        _mapper.Map<List<CalendarEventDTO>>(await _calendarEventDAL.RetrieveAll());
+        _mapper.Map<List<CalendarEventDTO>>(await _calendarEventRepository.RetrieveAll());
 
     private async Task<CalendarEvent> GetRecordAndCheckExistence(Guid idCalendarEvent)
     {
-        var calendarEvent = await _calendarEventDAL.Retrieve(idCalendarEvent);
+        var calendarEvent = await _calendarEventRepository.Retrieve(idCalendarEvent);
         if (calendarEvent is null)
             throw new EntityNotFoundException("Calendar event not found.");
         return calendarEvent;

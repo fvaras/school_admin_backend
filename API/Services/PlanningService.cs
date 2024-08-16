@@ -1,7 +1,7 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database;
 using school_admin_api.Contracts.DTO;
 using school_admin_api.Contracts.Exceptions;
+using school_admin_api.Contracts.Repository;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Model;
 
@@ -11,24 +11,24 @@ public class PlanningService : IPlanningService
 {
     private readonly ILoggerService _logger;
     private readonly IPlanningRepository _planningRepository;
-    private readonly ITimeBlockDAL _timeBlockDAL;
-    private readonly IPlanningTimeBlockDAL _planningTimeBlockDAL;
+    private readonly ITimeBlockRepository _timeBlockRepository;
+    private readonly IPlanningTimeBlockRepository _planningTimeBlockRepository;
     private readonly IGuardianService _guardianService;
     private readonly IMapper _mapper;
 
     public PlanningService(
         ILoggerService logger,
-        IPlanningRepository planningDAL,
-        ITimeBlockDAL timeBlockDAL,
-        IPlanningTimeBlockDAL planningTimeBlockDAL,
+        IPlanningRepository planningRepository,
+        ITimeBlockRepository timeBlockRepository,
+        IPlanningTimeBlockRepository planningTimeBlockRepository,
         IGuardianService guardianService,
         IMapper mapper
         )
     {
         _logger = logger;
-        _planningRepository = planningDAL;
-        _timeBlockDAL = timeBlockDAL;
-        _planningTimeBlockDAL = planningTimeBlockDAL;
+        _planningRepository = planningRepository;
+        _timeBlockRepository = timeBlockRepository;
+        _planningTimeBlockRepository = planningTimeBlockRepository;
         _guardianService = guardianService;
         _mapper = mapper;
     }
@@ -55,7 +55,7 @@ public class PlanningService : IPlanningService
         _mapper.Map(planningDTO as PlanningForUpdateDTO, planning);
         await _planningRepository.Update(planning);
 
-        var timeBlockPlanning = (await _planningTimeBlockDAL.GetPlanningTimeBlocks(timeBlockId: planningDTO.TimeBlockId, date: planningDTO.Date.Date)).FirstOrDefault();
+        var timeBlockPlanning = (await _planningTimeBlockRepository.GetPlanningTimeBlocks(timeBlockId: planningDTO.TimeBlockId, date: planningDTO.Date.Date)).FirstOrDefault();
 
         if (timeBlockPlanning != null)
         {
@@ -67,7 +67,7 @@ public class PlanningService : IPlanningService
         else if (planningDTO.Id != Guid.Empty)
         {
             // Add timeblock
-            var timeBlock = await _timeBlockDAL.Retrieve(planningDTO.TimeBlockId);
+            var timeBlock = await _timeBlockRepository.Retrieve(planningDTO.TimeBlockId);
             if (timeBlock != null)
             {
                 var newTimeBlock = new PlanningTimeBlock()

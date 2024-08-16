@@ -1,6 +1,6 @@
 using AutoMapper;
-using school_admin_api.Contracts.Database.DTO;
 using school_admin_api.Contracts.DTO;
+using school_admin_api.Contracts.Repository.DTO;
 using school_admin_api.Model;
 
 namespace school_admin_api;
