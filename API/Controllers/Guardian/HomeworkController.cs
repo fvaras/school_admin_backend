@@ -23,7 +23,7 @@ public class HomeworkController : ControllerBase
         _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
-    [HttpGet("guardian/{studentId}/{subjectId}")]
+    [HttpGet("byStudentSubject/{studentId}/{subjectId}")]
     public async Task<List<HomeworkTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid studentId, Guid subjectId)
     {
         Guid guardianId = _httpContextHelper.GetUserProfileId();

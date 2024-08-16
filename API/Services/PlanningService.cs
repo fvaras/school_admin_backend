@@ -103,7 +103,7 @@ public class PlanningService : IPlanningService
     public async Task<List<PlanningTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId)
     {
         // Integrity guardianId/studentId
-        await _guardianService.CheckRelationWithStudent(guardianId, studentId);
+        await _guardianService.ValidateIntegrityWithStudent(guardianId: guardianId, studentId: studentId);
 
         // TODO: Validate integrity studentId/subjectId
 

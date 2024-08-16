@@ -111,10 +111,12 @@ public class GuardianService : IGuardianService
     public async Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text) =>
         _mapper.Map<List<GuardianTableRowDTO>>(await _guardianRepository.RetrieveByNamesOrRut(text.Trim()));
 
-    public async Task CheckRelationWithStudent(Guid guardianId, Guid studentId)
+    public async Task ValidateIntegrityWithStudent(Guid guardianId, Guid studentId)
     {
-        List<Guid> studentIdList = await _guardianRepository.GetStudentIds(guardianId);
-        if (!studentIdList.Any(id => id == studentId))
+        var studentDbId = await _guardianRepository.RetrieveIdByIdAndGuardian(
+            studentId: studentId,
+            guardianId: guardianId);
+        if (studentDbId == null)
             throw new InconsistentDataException();
     }
 

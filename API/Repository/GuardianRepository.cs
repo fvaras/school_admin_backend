@@ -74,11 +74,12 @@ public class GuardianRepository : RepositoryBase<Guardian>, IGuardianRepository
                 .Include(t => t.User)
                 .ToListAsync();
 
-    public async Task<List<Guid>> GetStudentIds(Guid guardianId) =>
+    public async Task<Guid> RetrieveIdByIdAndGuardian(Guid studentId, Guid guardianId) =>
         await FindByCondition(guardian => guardian.Id == guardianId, false)
                 .Include(guardian => guardian.Students)
+                .Where(guardian => guardian.Students.Any(student => student.Id == studentId))
                 .SelectMany(guardian =>
                     guardian.Students.Select(student => student.Id)
                 )
-                .ToListAsync();
+                .FirstOrDefaultAsync();
 }

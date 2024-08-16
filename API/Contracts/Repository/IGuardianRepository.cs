@@ -17,5 +17,5 @@ public interface IGuardianRepository
 
     Task<List<Guardian>> RetrieveByNamesOrRut(string text);
 
-    Task<List<Guid>> GetStudentIds(Guid guardianId);
+    Task<Guid> RetrieveIdByIdAndGuardian(Guid studentId, Guid guardianId);
 }

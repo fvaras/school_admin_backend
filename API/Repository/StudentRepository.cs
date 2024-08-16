@@ -74,9 +74,9 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
                 .Include(student => student.Guardians)
                     .ThenInclude(guardian => guardian.User)
                 .Where(student =>
-                        student.Guardians.Any(guardian => guardian.StateId == (byte)USER_STATES.ACTIVE) &&
-                        student.User.StateId == (byte)USER_STATES.ACTIVE &&
-                        student.Grade.Active == true
+                        student.Guardians.Any(guardian => guardian.Id == guardianId && guardian.StateId == (byte)USER_STATES.ACTIVE)
+                        && student.User.StateId == (byte)USER_STATES.ACTIVE
+                        // && student.Grade.Active == true
                 )
                 .Select(student => new LabelValueFromDB<Guid>()
                 {

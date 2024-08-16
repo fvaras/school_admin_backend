@@ -13,6 +13,6 @@ public interface IGuardianService
     Task<List<LabelValueDTO<Guid>>> RetrieveForList(string? text);
     Task<List<GuardianTableRowDTO>> RetrieveByNamesOrRut(string text);
 
-    Task CheckRelationWithStudent(Guid guardianId, Guid studentId);
+    Task ValidateIntegrityWithStudent(Guid guardianId, Guid studentId);
 
 }

@@ -58,15 +58,5 @@ public class SubjectController : ControllerBase
     // {
     //     int gradeId = 1; // TODO: Get from tkn or session
     //     return await _subjectService.RetrieveByGrade(gradeId);
-    // }
-
-    [HttpGet("guardian/{studentId}/list")]
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent([FromRoute] Guid studentId)
-    {
-        Guid guardianId = _httpContextHelper.GetUserProfileId();
-        return await _subjectService.RetrieveForListByGuardianAndStudent(
-            guardianId: guardianId,
-            studentId: studentId
-            );
-    }
+    // }    
 }
