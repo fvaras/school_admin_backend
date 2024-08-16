@@ -27,6 +27,11 @@ public class SubjectRepository : RepositoryBase<Subject>, ISubjectRepository
         await FindByCondition(p => p.Id == id, trackChanges)
                 .FirstOrDefaultAsync();
 
+    public async Task<Guid> RetrieveIdByIdAndTeacher(Guid subjectId, Guid teacherId) =>
+        await FindByCondition(subject => subject.Id == subjectId && subject.TeacherId == teacherId, trackChanges: false)
+                .Select(subject => subject.Id)
+                .FirstOrDefaultAsync();
+
     public async Task<List<SubjectTableRowDbDTO>> RetrieveAllForTable(Guid id) =>
         await FindAll(trackChanges: false)
             .Where(t => t.Id == id || id == Guid.Empty)

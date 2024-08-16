@@ -31,7 +31,7 @@ public class HomeworkRepository : RepositoryBase<Homework>, IHomeworkRepository
         await FindAll(trackChanges: false)
             .Include(t => t.Subject)
                 .ThenInclude(s => s.Grade)
-            .Where(homework => homework.SubjectId == subjectId && 
+            .Where(homework => homework.SubjectId == subjectId &&
                 homework.Subject.StateId == (byte)SUBJECT_STATES.ACTIVE &&
                 homework.Subject.Grade.Active
             )

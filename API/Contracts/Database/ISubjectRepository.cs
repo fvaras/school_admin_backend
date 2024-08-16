@@ -13,7 +13,8 @@ public interface ISubjectRepository
 
     /********* TEACHER *********/
     Task<List<PKFKFromDBPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId);
+    Task<Guid> RetrieveIdByIdAndTeacher(Guid subjectId, Guid teacherId);
     /********* TEACHER *********/
-    
+
     Task<List<LabelValueFromDB<Guid>>> RetrieveByGrade(Guid gradeId);
 }
