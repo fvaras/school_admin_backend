@@ -14,5 +14,9 @@ public interface ITimeBlockService
     Task<List<TimeBlockTableRowDTO>> RetrieveAllByStudentAndGuardian(Guid studentId, Guid guardianId);
     /********* GUARDIAN *********/
 
+    /********* STUDENT *********/
+    Task<List<TimeBlockTableRowDTO>> RetrieveAllByStudent(Guid studentId);
+    /********* STUDENT *********/
+
     Task CreateAllWeekTimeBlocksBase(Guid gradeId);
 }

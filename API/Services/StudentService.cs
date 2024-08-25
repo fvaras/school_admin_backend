@@ -150,7 +150,20 @@ public class StudentService : IStudentService
         await _studentRepository.Delete(student);
     }
 
-    public async Task<StudentDTO?> Retrieve(Guid id) => _mapper.Map<StudentDTO>(await _studentRepository.Retrieve(id));
+    public async Task<StudentDTO?> Retrieve(Guid id) =>
+        _mapper.Map<StudentDTO>(await _studentRepository.Retrieve(id));
+
+    public async Task<StudentDTO?> RetrieveWithGuardians(Guid id)
+    {
+        var student = await _studentRepository.RetrieveWithGuardians(id);
+        var studentDTO = _mapper.Map<StudentDTO>(student);
+        if (student.Guardians != null)
+        {
+            if (student.Guardians.Count > 0) studentDTO.Guardian1Id = student.Guardians.ToList()[0].Id;
+            if (student.Guardians.Count > 1) studentDTO.Guardian2Id = student.Guardians.ToList()[1].Id;
+        }
+        return studentDTO;
+    }
 
     public async Task<StudentDTO?> RetrieveByUserId(Guid userId) =>
         _mapper.Map<StudentDTO>(await _studentRepository.RetrieveByUserId(userId));

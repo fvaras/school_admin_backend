@@ -94,6 +94,18 @@ public class TimeBlockService : ITimeBlockService
     }
     /********* GUARDIAN *********/
 
+    /********* STUDENT *********/
+    public async Task<List<TimeBlockTableRowDTO>> RetrieveAllByStudent(Guid studentId)
+    {
+        var student = await _studentRepository.Retrieve(studentId, false);
+
+        if (student == null || student.GradeId == null)
+            throw new EntityNotFoundException();
+
+        return _mapper.Map<List<TimeBlockTableRowDTO>>(await _timeBlockRepository.RetrieveAll((Guid)student.GradeId));
+    }
+    /********* STUDENT *********/
+
     private async Task<TimeBlock> GetRecordAndCheckExistence(Guid id)
     {
         TimeBlock timeBlock = await _timeBlockRepository.Retrieve(id);

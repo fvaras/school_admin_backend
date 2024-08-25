@@ -13,13 +13,15 @@ public class HomeworkService : IHomeworkService
     private readonly IHomeworkRepository _homeworkRepository;
     private readonly ISubjectRepository _subjectRepository;
     private readonly IGuardianService _guardianService;
+    private readonly IStudentService _studentService;
     private readonly IMapper _mapper;
 
     public HomeworkService(
         ILoggerService logger,
         IHomeworkRepository homeworkRepository,
-        IGuardianService guardianService,
         ISubjectRepository subjectRepository,
+        IGuardianService guardianService,
+        IStudentService studentService,
         IMapper mapper
         )
     {
@@ -27,6 +29,7 @@ public class HomeworkService : IHomeworkService
         _homeworkRepository = homeworkRepository;
         _subjectRepository = subjectRepository;
         _guardianService = guardianService;
+        _studentService = studentService;
         _mapper = mapper;
     }
 
@@ -73,6 +76,7 @@ public class HomeworkService : IHomeworkService
         return _mapper.Map<List<HomeworkTableRowDTO>>(await _homeworkRepository.RetrieveBySubjectForMainTable(subjectId));
     }
 
+    /********* Guardian *********/
     public async Task<List<HomeworkTableRowDTO>> RetrieveBySubjectForGuardianMainTable(Guid guardianId, Guid studentId, Guid subjectId)
     {
         // Integrity guardianId/studentId
@@ -82,6 +86,18 @@ public class HomeworkService : IHomeworkService
 
         return _mapper.Map<List<HomeworkTableRowDTO>>(await _homeworkRepository.RetrieveBySubjectForMainTable(subjectId));
     }
+    /********* Guardian *********/
+
+    /********* Student *********/
+    public async Task<List<HomeworkTableRowDTO>> RetrieveBySubjectForStudentMainTable(Guid studentId, Guid subjectId)
+    {
+        // // TODO: Validate integrity studentId/subjectId
+        // var student = await _studentService.Retrieve(studentId);
+
+        return _mapper.Map<List<HomeworkTableRowDTO>>(await _homeworkRepository.RetrieveBySubjectForMainTable(subjectId));
+    }
+    /********* Student *********/
+
 
     private async Task ValidateIntegrity(Guid subjectId, Guid teacherId)
     {

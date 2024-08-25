@@ -108,6 +108,7 @@ public class PlanningService : IPlanningService
         return _mapper.Map<List<LabelValueDTO<Guid>>>(await _planningRepository.RetrieveForMainTable(subjectId));
     }
 
+    /********* GUARDIAN *********/
     public async Task<List<PlanningTableRowDTO>> RetrieveAllByGuardianAndSubject(Guid guardianId, Guid studentId, Guid subjectId)
     {
         // Integrity guardianId/studentId
@@ -119,6 +120,18 @@ public class PlanningService : IPlanningService
                await _planningRepository.RetrieveForMainTable(subjectId)
            );
     }
+    /********* GUARDIAN *********/
+
+    /********* STUDENT *********/
+    public async Task<List<PlanningTableRowDTO>> RetrieveAllByStudentAndSubject(Guid studentId, Guid subjectId)
+    {
+        // TODO: Validate integrity studentId/subjectId
+
+        return _mapper.Map<List<PlanningTableRowDTO>>(
+               await _planningRepository.RetrieveForMainTable(subjectId)
+           );
+    }
+    /********* STUDENT *********/
 
     public async Task<PlanningDTO?> RetrieveBySubjectTimeBlockAndDate(Guid subjectId, Guid timeBlockId, string dateString)
     {

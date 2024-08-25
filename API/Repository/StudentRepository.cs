@@ -45,6 +45,7 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
 
     public async Task<Student?> RetrieveWithGuardians(Guid id, bool trackChanges = true) =>
         await FindByCondition(a => a.Id == id, trackChanges)
+                .Include(t => t.User)
                 .Include(t => t.Guardians)
                 .FirstOrDefaultAsync();
 

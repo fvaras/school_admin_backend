@@ -10,6 +10,16 @@ public interface ISubjectService
     Task<SubjectDTO?> Retrieve(Guid id);
     Task<List<SubjectTableRowDTO>> RetrieveAll();
     // Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId);
+
+    /********* Teacher *********/
     Task<List<PKFKPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId);
+    /********* Teacher *********/
+
+    /********* Guardian *********/
     Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent(Guid guardianId, Guid studentId);
+    /********* Guardian *********/
+
+    /********* Student *********/
+    Task<List<LabelValueDTO<Guid>>> RetrieveForListByStudent(Guid studentId);
+    /********* Student *********/
 }

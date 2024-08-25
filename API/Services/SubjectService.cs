@@ -63,9 +63,12 @@ public class SubjectService : ISubjectService
     // public async Task<List<LabelValueDTO<Guid>>> RetrieveByGrade(Guid gradeId) =>
     //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveByGradeAndTeacherForList(gradeId, teacherId: 0));
 
+    /********* Teacher *********/
     public async Task<List<PKFKPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId) =>
         _mapper.Map<List<PKFKPair<Guid, Guid>>>(await _subjectRepository.RetrieveWithGradeByTeacherForList(teacherId));
+    /********* Teacher *********/
 
+    /********* Guardian *********/
     public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByGuardianAndStudent(Guid guardianId, Guid studentId)
     {
         Student student = await _studentRepository.RetrieveWithGuardians(studentId, false);
@@ -80,4 +83,16 @@ public class SubjectService : ISubjectService
 
         return _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveByGrade((Guid)student.GradeId));
     }
+    /********* Guardian *********/
+
+    /********* Student *********/
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveForListByStudent(Guid studentId)
+    {
+        Student student = await _studentRepository.Retrieve(studentId, false);
+        if (student is null)
+            throw new EntityNotFoundException();
+
+        return _mapper.Map<List<LabelValueDTO<Guid>>>(await _subjectRepository.RetrieveByGrade((Guid)student.GradeId));
+    }
+    /********* Student *********/
 }

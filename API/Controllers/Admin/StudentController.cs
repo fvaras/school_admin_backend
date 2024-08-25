@@ -44,7 +44,7 @@ public class StudentController : ControllerBase
     [HttpGet("{id:Guid}")]
     public async Task<StudentDTO> Retrieve(Guid id)
     {
-        return await _studentService.Retrieve(id);
+        return await _studentService.RetrieveWithGuardians(id);
     }
 
     [HttpGet]
