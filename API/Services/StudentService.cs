@@ -170,6 +170,8 @@ public class StudentService : IStudentService
 
     public async Task<List<StudentTableRowDTO>> RetrieveAll() => _mapper.Map<List<StudentTableRowDTO>>(await _studentRepository.RetrieveAll());
 
+    public async Task<List<StudentTableRowDTO>> RetrieveAllByGrade(Guid gradeId) => _mapper.Map<List<StudentTableRowDTO>>(await _studentRepository.RetrieveAllByGrade(gradeId));
+
     private async Task<Student> GetRecordAndCheckExistence(Guid id)
     {
         Student student = await _studentRepository.Retrieve(id);

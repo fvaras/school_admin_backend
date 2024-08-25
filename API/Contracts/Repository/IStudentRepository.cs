@@ -14,6 +14,7 @@ public interface IStudentRepository
     Task<Student?> RetrieveWithGuardians(Guid id, bool trackChanges = true);
     Task<Student?> RetrieveForMainTable(Guid id);
     Task<List<Student>> RetrieveAll();
+    Task<List<Student>> RetrieveAllByGrade(Guid gradeId);
     Task<List<Guid>> RetrieveGuardiansId(Guid id);
 
 

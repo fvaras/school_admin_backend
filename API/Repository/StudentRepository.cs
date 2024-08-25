@@ -57,9 +57,19 @@ public class StudentRepository : RepositoryBase<Student>, IStudentRepository
 
     public async Task<List<Student>> RetrieveAll() =>
         await FindAll()
-                .Where(t => t.User.StateId == (int)User.USER_STATES.ACTIVE)
+                .Where(t => t.User.StateId == (int)USER_STATES.ACTIVE)
                 .Include(t => t.User)
                 .Include(t => t.Grade)
+                .ToListAsync();
+
+    public async Task<List<Student>> RetrieveAllByGrade(Guid gradeId) =>
+        await FindAll()
+                .Include(student => student.User)
+                .Include(student => student.Grade)
+                .Where(student =>
+                        student.User.StateId == (int)USER_STATES.ACTIVE
+                        && student.StateId == (byte)STUDENT_STATES.ACTIVE
+                        && student.GradeId == gradeId)
                 .ToListAsync();
 
     public async Task<List<Guid>> RetrieveGuardiansId(Guid id) =>

@@ -53,6 +53,12 @@ public class StudentController : ControllerBase
         return await _studentService.RetrieveAll();
     }
 
+    [HttpGet("byGrade/{gradeId:Guid}")]
+    public async Task<List<StudentTableRowDTO>> RetrieveAllByGrade(Guid gradeId)
+    {
+        return await _studentService.RetrieveAllByGrade(gradeId);
+    }
+
     // [HttpGet("byGuardianForList")]
     // public async Task<List<LabelValueDTO<Guid>>> GetStudentsByGuardianForList()
     // {

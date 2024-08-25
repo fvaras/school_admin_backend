@@ -11,6 +11,7 @@ public interface IStudentService
     Task<StudentDTO?> RetrieveWithGuardians(Guid id);
     Task<StudentDTO?> RetrieveByUserId(Guid userId);
     Task<List<StudentTableRowDTO>> RetrieveAll();
+    Task<List<StudentTableRowDTO>> RetrieveAllByGrade(Guid gradeId);
 
 
     /********* GUARDIAN *********/
