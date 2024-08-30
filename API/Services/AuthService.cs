@@ -72,9 +72,19 @@ public class AuthService : IAuthService
         return authInfoDTO;
     }
 
-    public async Task<TokenInfoDTO?> ValidateToken(string token)
+    public async Task<AuthInfoDTO?> ValidateToken(string token)
     {
         TokenInfoDTO authInfo = _jwtService.Decode<TokenInfoDTO>(token);
-        return authInfo;
+        UserInfoDTO? userInfo = await _userService.RetrieveByUserName(authInfo.Username);
+
+        // TODO: Get from DB and validate consistency
+        userInfo.ProfileId = authInfo.ProfileId;
+
+        AuthInfoDTO authInfoDTO = new AuthInfoDTO()
+        {
+            User = userInfo,
+            Token = token
+        };
+        return authInfoDTO;
     }
 }

@@ -12,3 +12,8 @@ public record TokenInfoDTO
     public Guid ProfileId { get; set; }
     public Guid UserProfileId { get; set; }
 }
+
+public record RevalidateTokenReqDTO
+{
+    public string Token { get; set; }
+}

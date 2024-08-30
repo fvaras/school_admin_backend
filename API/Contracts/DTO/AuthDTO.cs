@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace school_admin_api.Contracts.DTO;
 
 public record ValidateUserDTO

@@ -31,6 +31,10 @@ public class UserRepository : RepositoryBase<User>, IUserRepository
         await FindByCondition(u => u.Rut == rut, trackChanges)
                 .FirstOrDefaultAsync();
 
+    public async Task<User?> RetrieveByUserName(string userName, bool trackChanges = false) =>
+        await FindByCondition(u => u.UserName == userName, trackChanges)
+                .FirstOrDefaultAsync();
+
     public async Task<User?> RetrieveByDNIWithProfiles(string rut, bool trackChanges = false) =>
         await FindByCondition(u => u.Rut == rut, trackChanges)
                 .Include(u => u.UserProfiles)

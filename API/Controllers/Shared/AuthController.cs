@@ -22,4 +22,10 @@ public class AuthController : ControllerBase
     {
         return _authService.ValidateUser(req.Username, req.Password, req.ProfileId);
     }
+
+    [HttpPost("revalidatetkn")]
+    public Task<AuthInfoDTO?> RevalidateToken(RevalidateTokenReqDTO revalidateTokenReqDTO)
+    {
+        return _authService.ValidateToken(revalidateTokenReqDTO.Token);
+    }
 }

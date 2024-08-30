@@ -78,4 +78,12 @@ public class UserService : IUserService
             userId: user.Id
         );
     }
+
+    public async Task<UserInfoDTO?> RetrieveByUserName(string username)
+    {
+        User? user = await _userRepository.RetrieveByUserName(username.ToLower());
+        if (user is null)
+            return null;
+        return _mapper.Map<UserInfoDTO?>(user);
+    }
 }

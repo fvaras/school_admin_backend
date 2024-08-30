@@ -13,4 +13,5 @@ public interface IUserService
     Task<User?> RetrieveByRut(string rut, bool trackChanges = false);
     Task<User?> RetrieveByRutWithProfiles(string rut, bool trackChanges = false);
     Task<(UserInfoDTO? userInfo, Guid userId)> Validate(string username, string password, Guid profileId);
+    Task<UserInfoDTO?> RetrieveByUserName(string username);
 }
