@@ -23,10 +23,17 @@ public class GradeController : ControllerBase
         _httpContextHelper = new HttpContextHelper(httpContextAccessor.HttpContext);
     }
 
-    [HttpGet("forList")]
-    public async Task<List<LabelValueDTO<Guid>>> getGradesByTeacherForList()
+    // [HttpGet("list")]
+    // public async Task<List<LabelValueDTO<Guid>>> getGradesByTeacherForList()
+    // {
+    //     Guid teacherId = _httpContextHelper.GetUserProfileId();
+    //     return await _gradeService.RetrieveByTeacherForList(teacherId);
+    // }
+
+    [HttpGet("byMain/list")]
+    public async Task<List<LabelValueDTO<Guid>>> getGradesByMainTeacherForList()
     {
         Guid teacherId = _httpContextHelper.GetUserProfileId();
-        return await _gradeService.RetrieveByTeacherForList(teacherId);
+        return await _gradeService.RetrieveByMainTeacherForList(teacherId);
     }
 }

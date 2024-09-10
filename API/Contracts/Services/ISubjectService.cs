@@ -13,6 +13,7 @@ public interface ISubjectService
 
     /********* Teacher *********/
     Task<List<PKFKPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId);
+    Task<List<LabelValueDTO<Guid>>> RetrieveByMainTeacherForList(Guid teacherId, Guid gradeId);
     /********* Teacher *********/
 
     /********* Guardian *********/

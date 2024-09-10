@@ -143,6 +143,7 @@ public class MappingProfile : AutoMapper.Profile
     private TimeSpan ParseTimeSpanFromString(string time, string format)
     {
         if (string.IsNullOrWhiteSpace(time)) return TimeSpan.MinValue;
+        if (time.Length == 8) time = time.Substring(0, 5);
         return DateTimeOffset.ParseExact(time, format, null).TimeOfDay;
     }
     private string? ParseTimeSpanToString(TimeSpan? time, string format)

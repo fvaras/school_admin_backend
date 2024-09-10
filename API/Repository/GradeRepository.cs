@@ -58,20 +58,33 @@ public class GradeRepository : RepositoryBase<Grade>, IGradeRepository
 
 
     /********* TEACHER *********/
-    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByTeacherForList(Guid teacherId) =>
+    // public async Task<List<LabelValueFromDB<Guid>>> RetrieveByTeacherForList(Guid teacherId) =>
+    //     await FindByCondition(grade => grade.Active == true, false)
+    //             .Include(grade => grade.GradeTeachers)
+    //                 .ThenInclude(gradeTeachers => gradeTeachers.Teacher)
+    //             .Where(grade => grade.Active
+    //                 && grade.GradeTeachers.Any(gradeTeacher => gradeTeacher.TeacherId == teacherId)
+    //             )
+    //             .SelectMany(grade => grade.GradeTeachers
+    //                 .Where(gradeTeacher => gradeTeacher.TeacherId == teacherId)
+    //                 .Select(gradeTeacher => new LabelValueFromDB<Guid>
+    //                 {
+    //                     Value = grade.Id,
+    //                     Label = grade.Name
+    //                 }))
+    //             .Distinct()
+    //             .ToListAsync();
+
+    public async Task<List<LabelValueFromDB<Guid>>> RetrieveByMainTeacherForList(Guid teacherId) =>
         await FindByCondition(grade => grade.Active == true, false)
                 .Include(grade => grade.GradeTeachers)
-                    .ThenInclude(gradeTeachers => gradeTeachers.Teacher)
-                .Where(grade => grade.Active
-                    && grade.GradeTeachers.Any(gradeTeacher => gradeTeacher.TeacherId == teacherId)
+                .Where(grade => grade.GradeTeachers.Any(gradeTeacher => gradeTeacher.TeacherId == teacherId)
                 )
-                .SelectMany(grade => grade.GradeTeachers
-                    .Where(gradeTeacher => gradeTeacher.TeacherId == teacherId)
-                    .Select(gradeTeacher => new LabelValueFromDB<Guid>
-                    {
-                        Value = grade.Id,
-                        Label = grade.Name
-                    }))
+                .Select(grade => new LabelValueFromDB<Guid>
+                {
+                    Value = grade.Id,
+                    Label = grade.Name
+                })
                 .Distinct()
                 .ToListAsync();
     /********* TEACHER *********/

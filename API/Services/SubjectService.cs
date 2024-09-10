@@ -11,16 +11,19 @@ public class SubjectService : ISubjectService
 {
     private readonly ISubjectRepository _subjectRepository;
     private readonly IStudentRepository _studentRepository;
+    private readonly IGradeRepository _gradeRepository;
     private readonly IMapper _mapper;
 
     public SubjectService(
         ISubjectRepository subjectRepository,
         IStudentRepository studentRepository,
+        IGradeRepository gradeRepository,
         IMapper mapper
         )
     {
         _subjectRepository = subjectRepository;
         _studentRepository = studentRepository;
+        _gradeRepository = gradeRepository;
         _mapper = mapper;
     }
 
@@ -66,6 +69,17 @@ public class SubjectService : ISubjectService
     /********* Teacher *********/
     public async Task<List<PKFKPair<Guid, Guid>>> RetrieveWithGradeByTeacherForList(Guid teacherId) =>
         _mapper.Map<List<PKFKPair<Guid, Guid>>>(await _subjectRepository.RetrieveWithGradeByTeacherForList(teacherId));
+
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByMainTeacherForList(Guid teacherId, Guid gradeId)
+    {
+        // Get Grade by Teacher
+        var grade = await _gradeRepository.RetrieveWithTeachers(gradeId);//RetrieveByTeacherForList
+        if (!grade.GradeTeachers.Any(teacher => teacher.TeacherId == teacherId))
+            throw new InconsistentDataException("Current teacher isn't the main teacher");
+
+        var list = await _subjectRepository.RetrieveByGrade(grade.Id);
+        return _mapper.Map<List<LabelValueDTO<Guid>>>(list);
+    }
     /********* Teacher *********/
 
     /********* Guardian *********/

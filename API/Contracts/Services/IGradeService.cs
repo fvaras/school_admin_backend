@@ -12,7 +12,8 @@ public interface IGradeService
     Task<List<LabelValueDTO<Guid>>> RetrieveForList();
 
     /********* TEACHER *********/
-    Task<List<LabelValueDTO<Guid>>> RetrieveByTeacherForList(Guid teacherId);
+    // Task<List<LabelValueDTO<Guid>>> RetrieveByTeacherForList(Guid teacherId);
+    Task<List<LabelValueDTO<Guid>>> RetrieveByMainTeacherForList(Guid teacherId);
     /********* TEACHER *********/
 
     Task<List<Guid>> RetrieveTeachersId(Guid id);

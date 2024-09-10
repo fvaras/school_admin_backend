@@ -29,4 +29,11 @@ public class SubjectController : ControllerBase
         Guid teacherId = _httpContextHelper.GetUserProfileId();
         return await _subjectService.RetrieveWithGradeByTeacherForList(teacherId);
     }
+
+    [HttpGet("grade/{gradeId}/list")]
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByMainTeacherForList(Guid gradeId)
+    {
+        Guid teacherId = _httpContextHelper.GetUserProfileId();
+        return await _subjectService.RetrieveByMainTeacherForList(teacherId, gradeId: gradeId);
+    }
 }

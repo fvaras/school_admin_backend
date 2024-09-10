@@ -111,8 +111,11 @@ public class GradeService : IGradeService
         _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveForList());
 
     /********* TEACHER *********/
-    public async Task<List<LabelValueDTO<Guid>>> RetrieveByTeacherForList(Guid teacherId) =>
-        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveByTeacherForList(teacherId));
+    // public async Task<List<LabelValueDTO<Guid>>> RetrieveByTeacherForList(Guid teacherId) =>
+    //     _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveByTeacherForList(teacherId));
+
+    public async Task<List<LabelValueDTO<Guid>>> RetrieveByMainTeacherForList(Guid teacherId) =>
+        _mapper.Map<List<LabelValueDTO<Guid>>>(await _gradeRepository.RetrieveByMainTeacherForList(teacherId));
     /********* TEACHER *********/
 
     private async Task<Grade> GetRecordAndCheckExistence(Guid id, bool includeTeachers = false)
