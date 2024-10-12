@@ -1,3 +1,5 @@
+using Amazon.CloudWatchLogs;
+using Amazon.Extensions.NETCore.Setup;
 using school_admin_api.Contracts.Services;
 using school_admin_api.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,36 @@ public static class ServiceExtensions
 
     public static void ConfigureLoggerService(this IServiceCollection services) =>
             services.AddSingleton<ILoggerService, LoggerService>();
+
+    public static IServiceCollection ConfigureLoggerServiceCloudWatch(this IServiceCollection services, IConfiguration configuration)
+    {
+        // Retrieve AWS region from environment variables or configuration
+        var region = Environment.GetEnvironmentVariable("SCHOOL_ADMIN_AWS_REGION");
+
+        if (string.IsNullOrEmpty(region))
+        {
+            throw new Exception("AWS region must be set in environment variables or configuration.");
+        }
+
+        var awsOptions = new AWSOptions
+        {
+            Region = Amazon.RegionEndpoint.GetBySystemName(region)
+        };
+
+        // When not explicitly setting credentials, the SDK will use the IAM role associated with the service (e.g., EC2, Lambda)
+        services.AddDefaultAWSOptions(awsOptions);
+        services.AddAWSService<IAmazonCloudWatchLogs>();
+
+        // Add the logging service
+        services.AddSingleton<ILoggerService>(provider =>
+            new LoggerServiceCloudWatch(
+                provider.GetRequiredService<IAmazonCloudWatchLogs>(),
+                "demo-libreria-log-group",
+                provider.GetRequiredService<ILogger<LoggerServiceCloudWatch>>()
+            ));
+
+        return services;
+    }
 
     public static void ConfigureCors(this IServiceCollection services) =>
         services.AddCors(options =>
@@ -45,7 +77,7 @@ public static class ServiceExtensions
         services.AddHttpContextAccessor();
 
         // Repository
-        services.AddTransient<ConnectionsHelper>();
+        // services.AddTransient<ConnectionsHelper>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IProfileRepository, ProfileRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();

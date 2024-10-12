@@ -13,7 +13,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/API/bin/Debug/net8.0/school-admin-api.dll",
+            "program": "${workspaceFolder}/API/bin/Debug/net8.0/school_admin_api.dll",
             "args": [],
             "cwd": "${workspaceFolder}/API",
             "stopAtEntry": false,

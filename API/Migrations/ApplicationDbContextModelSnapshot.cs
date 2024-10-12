@@ -17,7 +17,7 @@ namespace school_admin_api.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.28")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -569,8 +569,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = new Guid("845900f3-b438-4461-9ef0-3aa846085000"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9270), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9273), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3091), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3095), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -579,15 +579,15 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9274), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3096), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "admin"
                         },
                         new
                         {
                             Id = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(1983, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9307), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9373), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(1983, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3147), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3219), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "Fernando",
                             Gender = (byte)0,
@@ -596,7 +596,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "15111222K",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 7, 21, 20, 33, 28, 316, DateTimeKind.Unspecified).AddTicks(9374), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3220), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "fvaras"
                         });
                 });
@@ -733,7 +733,7 @@ namespace school_admin_api.Migrations
             modelBuilder.Entity("school_admin_api.Model.Student", b =>
                 {
                     b.HasOne("school_admin_api.Model.Grade", "Grade")
-                        .WithMany()
+                        .WithMany("Students")
                         .HasForeignKey("GradeId");
 
                     b.HasOne("school_admin_api.Model.User", "User")
@@ -750,7 +750,7 @@ namespace school_admin_api.Migrations
             modelBuilder.Entity("school_admin_api.Model.Subject", b =>
                 {
                     b.HasOne("school_admin_api.Model.Grade", "Grade")
-                        .WithMany()
+                        .WithMany("Subjects")
                         .HasForeignKey("GradeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -821,6 +821,10 @@ namespace school_admin_api.Migrations
             modelBuilder.Entity("school_admin_api.Model.Grade", b =>
                 {
                     b.Navigation("GradeTeachers");
+
+                    b.Navigation("Students");
+
+                    b.Navigation("Subjects");
                 });
 
             modelBuilder.Entity("school_admin_api.Model.Planning", b =>

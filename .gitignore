@@ -6,6 +6,9 @@
 # dotenv files
 .env
 
+# Lambda instructions
+aws-lambda-instructions.md
+
 # User-specific files
 *.rsuser
 *.suo

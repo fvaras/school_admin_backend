@@ -6,21 +6,24 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
     <RootNamespace>school_admin_api</RootNamespace>
+    <AssemblyName>school_admin_api</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer.Hosting" Version="1.7.1" />
     <PackageReference Include="AutoMapper" Version="13.0.0" />
+    <PackageReference Include="AWSSDK.CloudWatchLogs" Version="3.7.403.5" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
     <PackageReference Include="Dapper" Version="2.1.28" />
     <PackageReference Include="JWT" Version="10.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.28">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
-    <PackageReference Include="Npgsql" Version="6.0.10" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.22" />
+    <PackageReference Include="Npgsql" Version="8.0.4" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
   </ItemGroup>
 
 </Project>

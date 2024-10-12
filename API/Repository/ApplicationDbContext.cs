@@ -32,7 +32,8 @@ public class ApplicationDbContext : DbContext
     {
         // Optional: Configure schema details using Fluent API
 
-        base.OnModelCreating(modelBuilder);
+        // base.OnModelCreating(modelBuilder);
+        modelBuilder.UseSerialColumns();
 
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ProfileConfiguration());

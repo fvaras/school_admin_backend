@@ -9,8 +9,11 @@ Currently, the project is in the design phase. However, I have made it public so
 
 ## Tech stack
 - C#
+- AWS Lambda
+- AWS S3
+- AWS CLI
 - Web API
-- .NET Core 6.0
+- .NET Core 8.0
 - EF Core (PSQL). I used to work with Dapper, but for this project I'm making experiments with EF
 - Dapper
 - AutoMapper

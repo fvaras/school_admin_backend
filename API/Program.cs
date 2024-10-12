@@ -4,9 +4,16 @@ using school_admin_api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Logger Service
+// // // Logger Service
+// // LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+// // builder.Services.ConfigureLoggerService();
+// // Configure Log Manager
+// #if DEBUG
 LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 builder.Services.ConfigureLoggerService();
+// #else
+// builder.Services.ConfigureLoggerServiceCloudWatch(builder.Configuration);
+// #endif
 
 // CORS
 builder.Services.ConfigureCors();
@@ -30,6 +37,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
 var app = builder.Build();
 

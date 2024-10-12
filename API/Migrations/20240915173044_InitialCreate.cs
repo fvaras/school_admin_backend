@@ -3,10 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace school_admin_api.Migrations
 {
-    public partial class initial_migration : Migration
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -74,10 +78,10 @@ namespace school_admin_api.Migrations
                     Phone = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     Gender = table.Column<byte>(type: "smallint", nullable: false),
-                    BirthDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    BirthDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     StateId = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,8 +95,8 @@ namespace school_admin_api.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Title = table.Column<string>(type: "text", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     EventType = table.Column<int>(type: "integer", nullable: false),
                     Details = table.Column<string>(type: "text", nullable: false),
                     StateId = table.Column<byte>(type: "smallint", nullable: false),
@@ -118,8 +122,8 @@ namespace school_admin_api.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Relation = table.Column<string>(type: "text", nullable: false),
                     StateId = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -142,10 +146,10 @@ namespace school_admin_api.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     BloodGroup = table.Column<string>(type: "text", nullable: false),
                     Allergies = table.Column<string>(type: "text", nullable: false),
-                    JoiningDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    JoiningDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     StateId = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     GradeId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
@@ -177,8 +181,8 @@ namespace school_admin_api.Migrations
                     ContactPhone = table.Column<string>(type: "text", nullable: false),
                     Education = table.Column<string>(type: "text", nullable: false),
                     StateId = table.Column<byte>(type: "smallint", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
@@ -247,6 +251,34 @@ namespace school_admin_api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GradeTeachers",
+                schema: "public",
+                columns: table => new
+                {
+                    GradeId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TeacherId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Order = table.Column<byte>(type: "smallint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GradeTeachers", x => new { x.GradeId, x.TeacherId });
+                    table.ForeignKey(
+                        name: "FK_GradeTeachers_Grades_GradeId",
+                        column: x => x.GradeId,
+                        principalSchema: "public",
+                        principalTable: "Grades",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GradeTeachers_Teachers_TeacherId",
+                        column: x => x.TeacherId,
+                        principalSchema: "public",
+                        principalTable: "Teachers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Subjects",
                 schema: "public",
                 columns: table => new
@@ -255,8 +287,8 @@ namespace school_admin_api.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Color = table.Column<string>(type: "text", nullable: true),
                     StateId = table.Column<int>(type: "integer", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     GradeId = table.Column<Guid>(type: "uuid", nullable: false),
                     TeacherId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -273,33 +305,6 @@ namespace school_admin_api.Migrations
                     table.ForeignKey(
                         name: "FK_Subjects_Teachers_TeacherId",
                         column: x => x.TeacherId,
-                        principalSchema: "public",
-                        principalTable: "Teachers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TeacherGrades",
-                schema: "public",
-                columns: table => new
-                {
-                    GradesId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TeachersId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TeacherGrades", x => new { x.GradesId, x.TeachersId });
-                    table.ForeignKey(
-                        name: "FK_TeacherGrades_Grades_GradesId",
-                        column: x => x.GradesId,
-                        principalSchema: "public",
-                        principalTable: "Grades",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_TeacherGrades_Teachers_TeachersId",
-                        column: x => x.TeachersId,
                         principalSchema: "public",
                         principalTable: "Teachers",
                         principalColumn: "Id",
@@ -347,10 +352,10 @@ namespace school_admin_api.Migrations
                     Resources = table.Column<string>(type: "text", nullable: true),
                     EvaluationPlan = table.Column<string>(type: "text", nullable: true),
                     EstimatedDuration = table.Column<TimeSpan>(type: "interval", nullable: true),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    CreateAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    StartDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    EndDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    CreateAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     LastUpdatedBy = table.Column<Guid>(type: "uuid", nullable: false),
                     StateId = table.Column<byte>(type: "smallint", nullable: false)
@@ -408,7 +413,7 @@ namespace school_admin_api.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     PlanningId = table.Column<Guid>(type: "uuid", nullable: false),
                     TimeBlockId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Date = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -447,8 +452,8 @@ namespace school_admin_api.Migrations
                 columns: new[] { "Id", "Address", "BirthDate", "CreatedAt", "Email", "FirstName", "Gender", "LastName", "Password", "Phone", "Rut", "StateId", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("845900f3-b438-4461-9ef0-3aa846085000"), "", new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8514), new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8559), "fdovarasc@gmail.com", "admin", (byte)0, "", "admin", "", "19", (byte)1, new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8561), "admin" },
-                    { new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"), "", new DateTime(1983, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8596), new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8603), "fdovarasc@gmail.com", "Fernando", (byte)0, "Varas", "fvaras", "", "15111222K", (byte)1, new DateTime(2024, 7, 20, 0, 15, 13, 453, DateTimeKind.Local).AddTicks(8605), "fvaras" }
+                    { new Guid("845900f3-b438-4461-9ef0-3aa846085000"), "", new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3091), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3095), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "admin", (byte)0, "", "admin", "", "19", (byte)1, new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3096), new TimeSpan(0, 0, 0, 0, 0)), "admin" },
+                    { new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"), "", new DateTimeOffset(new DateTime(1983, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3147), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3219), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "Fernando", (byte)0, "Varas", "fvaras", "", "15111222K", (byte)1, new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3220), new TimeSpan(0, 0, 0, 0, 0)), "fvaras" }
                 });
 
             migrationBuilder.InsertData(
@@ -466,6 +471,12 @@ namespace school_admin_api.Migrations
                 schema: "public",
                 table: "CalendarEvents",
                 column: "CalendarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GradeTeachers_TeacherId",
+                schema: "public",
+                table: "GradeTeachers",
+                column: "TeacherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuardianStudent_StudentsId",
@@ -527,12 +538,6 @@ namespace school_admin_api.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TeacherGrades_TeachersId",
-                schema: "public",
-                table: "TeacherGrades",
-                column: "TeachersId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Teachers_UserId",
                 schema: "public",
                 table: "Teachers",
@@ -556,10 +561,15 @@ namespace school_admin_api.Migrations
                 column: "ProfileId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "CalendarEvents",
+                schema: "public");
+
+            migrationBuilder.DropTable(
+                name: "GradeTeachers",
                 schema: "public");
 
             migrationBuilder.DropTable(
@@ -572,10 +582,6 @@ namespace school_admin_api.Migrations
 
             migrationBuilder.DropTable(
                 name: "PlanningTimeBlock");
-
-            migrationBuilder.DropTable(
-                name: "TeacherGrades",
-                schema: "public");
 
             migrationBuilder.DropTable(
                 name: "UserProfiles");
