@@ -12,8 +12,8 @@ using school_admin_api.Repository;
 namespace school_admin_api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240915173044_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241013003511_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,7 +23,7 @@ namespace school_admin_api.Migrations
                 .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
 
             modelBuilder.Entity("GuardianStudent", b =>
                 {
@@ -572,8 +572,8 @@ namespace school_admin_api.Migrations
                         {
                             Id = new Guid("845900f3-b438-4461-9ef0-3aa846085000"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3091), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3095), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(429), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(435), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "admin",
                             Gender = (byte)0,
@@ -582,15 +582,15 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "19",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3096), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(435), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "admin"
                         },
                         new
                         {
                             Id = new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"),
                             Address = "",
-                            BirthDate = new DateTimeOffset(new DateTime(1983, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3147), new TimeSpan(0, 0, 0, 0, 0)),
-                            CreatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3219), new TimeSpan(0, 0, 0, 0, 0)),
+                            BirthDate = new DateTimeOffset(new DateTime(1983, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(472), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(524), new TimeSpan(0, 0, 0, 0, 0)),
                             Email = "fdovarasc@gmail.com",
                             FirstName = "Fernando",
                             Gender = (byte)0,
@@ -599,7 +599,7 @@ namespace school_admin_api.Migrations
                             Phone = "",
                             Rut = "15111222K",
                             StateId = (byte)1,
-                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3220), new TimeSpan(0, 0, 0, 0, 0)),
+                            UpdatedAt = new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(525), new TimeSpan(0, 0, 0, 0, 0)),
                             UserName = "fvaras"
                         });
                 });

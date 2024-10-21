@@ -6,6 +6,7 @@ For the scaffolding of interfaces, services, data access layer, DTOs and mapping
 
 ## Important
 Currently, the project is in the design phase. However, I have made it public so that you can view my work and progress.
+The database I choose was Supabase, so you could experiment some delay in the responses from the API
 
 ## Tech stack
 - C#
@@ -22,12 +23,28 @@ Currently, the project is in the design phase. However, I have made it public so
 
 # Test
 ## API
-For demostrative purposes you can find the [API Swagger UI](http://3.85.201.107/schooladm/swagger) in http://3.85.201.107/schooladm/swagger
+For demostrative purposes you can find the [API Swagger UI](https://p3epxit74fbyp7e4wihwvf3xbq0xhcmc.lambda-url.us-east-1.on.aws/swagger) (https://p3epxit74fbyp7e4wihwvf3xbq0xhcmc.lambda-url.us-east-1.on.aws/swagger)
 
 ## Frontend
-You can test the API from this frontend system [SchoolAdmin](http://3.85.201.107/schooladmin) (http://3.85.201.107/schooladmin)
+You can test the API from this frontend system [SchoolAdmin](http://school-admin.s3-website-us-east-1.amazonaws.com) (http://school-admin.s3-website-us-east-1.amazonaws.com)
 
 ## Credentials
-user: admin
+ADMINISTRATOR Profile:
 
-pass: admin
+    user 'admin'
+    pass 'admin'
+
+TEACHER Profile:
+
+    user 'jpteacher'
+    pass 'jpteacher'
+
+STUDENT Profile:
+
+    user 'lupita'
+    pass 'lupita'
+
+GUARDIAN Profile:
+
+    user 'mdancer'
+    pass 'mdancer'

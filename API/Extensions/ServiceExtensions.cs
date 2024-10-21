@@ -40,7 +40,7 @@ public static class ServiceExtensions
         services.AddSingleton<ILoggerService>(provider =>
             new LoggerServiceCloudWatch(
                 provider.GetRequiredService<IAmazonCloudWatchLogs>(),
-                "demo-libreria-log-group",
+                "school-admin-log-group",
                 provider.GetRequiredService<ILogger<LoggerServiceCloudWatch>>()
             ));
 
@@ -63,9 +63,10 @@ public static class ServiceExtensions
     {
         services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
         {
-            string connectionString = configuration.GetConnectionString("school_db");
-            // string connectionString = Environment.GetEnvironmentVariable("SchoolAdm_DB_ConnString");
+            // string connectionString = configuration.GetConnectionString("school_db");
+            string connectionString = Environment.GetEnvironmentVariable("SCHOOL_ADMIN_DB_ConnString");
             options.UseNpgsql(connectionString);
+
         });
 
         AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

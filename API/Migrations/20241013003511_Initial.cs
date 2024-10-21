@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace school_admin_api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -452,8 +452,8 @@ namespace school_admin_api.Migrations
                 columns: new[] { "Id", "Address", "BirthDate", "CreatedAt", "Email", "FirstName", "Gender", "LastName", "Password", "Phone", "Rut", "StateId", "UpdatedAt", "UserName" },
                 values: new object[,]
                 {
-                    { new Guid("845900f3-b438-4461-9ef0-3aa846085000"), "", new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3091), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3095), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "admin", (byte)0, "", "admin", "", "19", (byte)1, new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3096), new TimeSpan(0, 0, 0, 0, 0)), "admin" },
-                    { new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"), "", new DateTimeOffset(new DateTime(1983, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3147), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3219), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "Fernando", (byte)0, "Varas", "fvaras", "", "15111222K", (byte)1, new DateTimeOffset(new DateTime(2024, 9, 15, 17, 30, 43, 84, DateTimeKind.Unspecified).AddTicks(3220), new TimeSpan(0, 0, 0, 0, 0)), "fvaras" }
+                    { new Guid("845900f3-b438-4461-9ef0-3aa846085000"), "", new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(429), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(435), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "admin", (byte)0, "", "admin", "", "19", (byte)1, new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(435), new TimeSpan(0, 0, 0, 0, 0)), "admin" },
+                    { new Guid("ea8108dc-3e1d-42ab-a932-9016b22e717e"), "", new DateTimeOffset(new DateTime(1983, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(472), new TimeSpan(0, 0, 0, 0, 0)), new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(524), new TimeSpan(0, 0, 0, 0, 0)), "fdovarasc@gmail.com", "Fernando", (byte)0, "Varas", "fvaras", "", "15111222K", (byte)1, new DateTimeOffset(new DateTime(2024, 10, 13, 0, 35, 10, 872, DateTimeKind.Unspecified).AddTicks(525), new TimeSpan(0, 0, 0, 0, 0)), "fvaras" }
                 });
 
             migrationBuilder.InsertData(
